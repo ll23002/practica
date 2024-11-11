@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: alexander
+  Date: 23/10/24
+  Time: 21:30
+-->
+<ui:component
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:h="jakarta.faces.html"
+        xmlns:p="primefaces">
+
+    <cc:interface>
+        <cc:attribute name="frm"
+                      type="sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf.FrmAbstractPersistence"
+                      required="true"
+                      displayName="Formulario"
+                      shortDescription="Formulario sobre el que se opera"/>
+        <cc:attribute name="actualizar"
+                      default=":pnlDetalle :frmTabla"
+                      required="false"
+                      displayName="Componentes a actualizar"
+                      shortDescription="Define el area a refrescar por el componente"
+        />
+    </cc:interface>
+
+    <cc:implementation>
+        <p:growl life="5000"/>
+        <h:panelGrid columns="#{cc.attrs.frm.estado!='NONE'?'2':'1'}">
+            <p:commandButton ajax="true"
+                             actionListener="#{cc.attrs.frm.btnGuardar}"
+                             value="#{abstractpffprm['abstractpffprm.create']} #{cc.attrs.frm.tituloPagina}"
+                             process="@this" update="#{cc.attrs.actualizar}"
+                             rendered="#{cc.attrs.frm.estado == 'CREATE'}"/>
+            <p:commandButton ajax="true"
+                             actionListener="#{cc.attrs.frm.btnEditar}"
+                             value="#{abstractpffprm['abstractpffprm.update']} #{cc.attrs.frm.tituloPagina}"
+                             process="@this" update="#{cc.attrs.actualizar}"
+                             rendered="#{cc.attrs.frm.estado != 'UPDATE'}"/>
+            <p:commandButton ajax="true"
+                             actionListener="#{cc.attrs.frm.btnEliminar}"
+                             value="#{abstractpffprm['abstractpffprm.delete']} #{cc.attrs.frm.tituloPagina}"
+                             process="@this" update="#{cc.attrs.actualizar}"
+                             rendered="#{cc.attrs.frm.estado == 'UPDATE'}"/>
+        </h:panelGrid>
+    </cc:implementation>
+
+</ui:component>

@@ -17,6 +17,9 @@
         <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name/>
+    </servlet>
     <servlet-mapping>
         <servlet-name>FacesServlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>

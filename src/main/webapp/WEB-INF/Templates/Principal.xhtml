@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="primefaces"
+      xmlns:f="jakarta.faces.facelets"
+      xmlns:c="jakarta.faces.core"
+      >
+<h:head>
+    <f:insert name="titulo">
+
+    </f:insert>
+    <h:outputStylesheet library="styles" name="basico_templates.css" />
+</h:head>
+
+<h:body>
+    <div class="ui-g"> <!-- no estoy seguro-->
+        <p:growl id="msgs" showDetail="true" showSummary="true" life="3000"/><!-- no lo hizo completo-->
+        <div class="ui-g-12 ui-md-2"><!-- no estoy seguro-->
+            <h:form id="menuPrincipal">
+                <p:menu model="#{frmMenu.model}" appendTo="body" toggleable="true"/>
+            </h:form>
+        </div>
+        <div class="ui-g-12 ui-md-10 ui-g-nopad"><!--falta ver lo de los espacios-->
+            <div class="ui-g-12" id="sesion">
+                <p:toolbar>
+                    <p:toolbarGroup align="right">
+                        <h:form id="frmIdioma">
+                          <p:selectOneMenu value="#{sesionUsuario.idiomaSeleccionado}"
+                       valueChangeListener="#{sesionUsuario.cambiarIdioma}">
+                              <c:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel="Idioma"/>
+                              <c:selectItems value="#{sesionUsuario.idiomas.entrySet()}" var="Idioma"
+                                     itemLabel="#{idioma.Key}"
+                                             itemValue="#{idioma.Key}"/>
+                              <c:ajax execute="@form"  render="@all"/>
+                           </p:selectOneMenu>
+                             <p:growl id="seleccionado" showDetail="true" showSummary="true" life="3000"/>
+                           <p:commandButton type="button" icon="pi pi-user" styleClass="mr-2"/>
+                        </h:form>
+                    </p:toolbarGroup>
+                </p:toolbar>
+            </div>
+
+            <div class="ui-g-12">
+                <h1>
+                    <f:insert name="Titulo">
+                        Titulo de la pagina
+                    </f:insert>
+                </h1>
+            </div>
+            <div class="ui-g-12 ui-g-nopad"><!--falta ver lo de los espacios-->
+               <div class="ui-g">
+                    <f:insert name="Cuerpo">
+                        Cuerpo de la pagina
+                    </f:insert>
+               </div>
+            </div>
+        </div>
+        <div class="ui-g-12 leyenda-empresa">
+            Leyenda de la empresa, derechos reservados
+        </div>
+    </div>
+    <f:insert name="no visuales"> </f:insert><!--por si hay cosas que no se deben mostrar-->
+</h:body>
+
+</html>

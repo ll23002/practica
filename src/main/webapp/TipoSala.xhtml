@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<html xmlns="http://www.w3.org/1999/xhtml"
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="primefaces"
-      xmlns:h="jakarta.faces.html" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="jakarta.faces.html"
+      xmlns:crud="jakarta.faces.composite/crud"
+      xmlns:f="jakarta.faces.facelets"
+      template="WEB-INF/Templates/Principal.xhtml">
 
-<h:head>
-    <title>TipoSala</title>
-</h:head>
+<f:define name="titulo">
+    #{frmTipoSala.tituloPagina}
+</f:define>
 
-<h:body>
+<f:define name="Cuerpo">
 
     <h:panelGrid>
         <h:panelGroup id="pnlTabla">
             <h:form id="frmTabla">
                 <h:panelGrid>
-                    <p:dataTable
+                    <p:dataTable id="tblTipoSala"
                             rows="10"
                             paginator="true"
                             value="#{frmTipoSala.modelo}"
                             var="r"
                             lazy="true"
                             selectionMode="single"
+                                 rendered="#{frmTipoSala.estado == 'NONE'}"
                             selection="#{frmTipoSala.registro}">
                         <p:ajax event="rowSelect" update=":pnlDetalle :frmTabla" process="@this" listener="#{frmTipoSala.onRowSelect}"/>
                         <p:column headerText="ID">
@@ -40,8 +44,7 @@
                         </p:column>
                     </p:dataTable>
                     <h:panelGrid>
-                        <p:commandButton value="Nuevo" actionListener="#{frmTipoSala.btnNuevo}" update=":pnlDetalle :frmTabla" rendered="#{frmTipoSala.estado == 'NONE'}"/>
-                        <p:commandButton value="Cancelar" actionListener="#{frmTipoSala.btnCancelar}" update=":pnlDetalle :frmTabla" rendered="#{frmTipoSala.estado != 'NONE'}"/>
+                        <crud:BotonesTop frm="#{frmTipoSala}"/>
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>
@@ -75,9 +78,7 @@
                                          requiredMessage="La descripcion es requerida"/>
                         </h:panelGrid>
                         <h:panelGrid>
-                            <p:commandButton value="Guardar" actionListener="#{frmTipoSala.btnGuardar}" update=":frmTabla :pnlDetalle" rendered="#{frmTipoSala.estado == 'CREATE'}"/>
-                            <p:commandButton value="Eliminar" actionListener="#{frmTipoSala.btnEliminar}" update=":frmTabla :pnlDetalle" rendered="#{frmTipoSala.estado == 'UPDATE'}"/>
-                            <p:commandButton value="Actualizar" actionListener="#{frmTipoSala.btnEditar}" update=":frmTabla :pnlDetalle" rendered="#{frmTipoSala.estado == 'UPDATE'}"/>
+                            <crud:BotonesCRUD frm="#{frmTipoSala}"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>
@@ -85,6 +86,6 @@
         </h:panelGroup>
 
     </h:panelGrid>
-</h:body>
+</f:define>
 
-</html>
+</f:composition>

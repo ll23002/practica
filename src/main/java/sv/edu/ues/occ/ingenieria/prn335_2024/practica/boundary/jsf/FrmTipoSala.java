@@ -62,7 +62,7 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
 
     @Override
     public String getTituloPagina() {
-        return null;
+        return "Gestión de Tipos de Sala";
     }
 
     @Override
