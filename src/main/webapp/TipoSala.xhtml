@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="primefaces"
+      xmlns:h="jakarta.faces.html" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>TipoSala</title>
+</h:head>
+
+<h:body>
+
+    <h:panelGrid>
+        <h:panelGroup id="pnlTabla">
+            <h:form id="frmTabla">
+                <h:panelGrid>
+                    <p:dataTable
+                            rows="10"
+                            paginator="true"
+                            value="#{frmTipoSala.modelo}"
+                            var="r"
+                            lazy="true"
+                            selectionMode="single"
+                            selection="#{frmTipoSala.registro}">
+                        <p:ajax event="rowSelect" update=":pnlDetalle :frmTabla" process="@this" listener="#{frmTipoSala.onRowSelect}"/>
+                        <p:column headerText="ID">
+                            <h:outputText value="#{r.idTipoSala}"/>
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{r.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{r.activo}"/>
+                        </p:column>
+                        <p:column headerText="Comentarios">
+                            <h:outputText value="#{r.comentarios}"/>
+                        </p:column>
+                        <p:column headerText="Expresion Regular">
+                            <h:outputText value="#{r.expresionRegular}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <h:panelGrid>
+                        <p:commandButton value="Nuevo" actionListener="#{frmTipoSala.btnNuevo}" update=":pnlDetalle :frmTabla" rendered="#{frmTipoSala.estado == 'NONE'}"/>
+                        <p:commandButton value="Cancelar" actionListener="#{frmTipoSala.btnCancelar}" update=":pnlDetalle :frmTabla" rendered="#{frmTipoSala.estado != 'NONE'}"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup id="pnlDetalle">
+            <h:panelGrid>
+                <h:form id="frmDetalle" rendered="#{frmTipoSala.estado != 'NONE' and not empty frmTipoSala.registro}">
+                    <h:panelGrid>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="ID:" for="txtId"/>
+                            <h:inputText id="txtId"
+                                         value="#{frmTipoSala.registro.idTipoSala}"
+                                         readonly="true"
+                                         disabled="true"/>
+                            <p:outputLabel value="Nombre:" for="txtNombre"/>
+                            <h:inputText id="txtNombre"
+                                         value="#{frmTipoSala.registro.nombre}"
+                                         required="true"
+                                         requiredMessage="El nombre es requerido"/>
+                            <p:outputLabel value="Estado:" for="txtEstado"/>
+                            <p:selectBooleanCheckbox id="txtEstado" value="#{frmTipoSala.registro.activo}"/>
+                            <p:outputLabel value="Expresion Regular:" for="txtExpresionRegular"/>
+                            <h:inputText id="txtExpresionRegular"
+                                         value="#{frmTipoSala.registro.expresionRegular}"
+                                         required="true"
+                                         requiredMessage="La expresion regular es requerida"/>
+                            <p:outputLabel value="Comentarios:" for="txtComentarios"/>
+                            <h:inputText id="txtComentarios"
+                                         value="#{frmTipoSala.registro.comentarios}"
+                                         required="true"
+                                         requiredMessage="La descripcion es requerida"/>
+                        </h:panelGrid>
+                        <h:panelGrid>
+                            <p:commandButton value="Guardar" actionListener="#{frmTipoSala.btnGuardar}" update=":frmTabla :pnlDetalle" rendered="#{frmTipoSala.estado == 'CREATE'}"/>
+                            <p:commandButton value="Eliminar" actionListener="#{frmTipoSala.btnEliminar}" update=":frmTabla :pnlDetalle" rendered="#{frmTipoSala.estado == 'UPDATE'}"/>
+                            <p:commandButton value="Actualizar" actionListener="#{frmTipoSala.btnEditar}" update=":frmTabla :pnlDetalle" rendered="#{frmTipoSala.estado == 'UPDATE'}"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:form>
+            </h:panelGrid>
+        </h:panelGroup>
+
+    </h:panelGrid>
+</h:body>
+
+</html>
