@@ -63,6 +63,13 @@ public class FrmMenu implements Serializable {
                 .command("#{frmMenu.navegar('TipoReserva.jsf')}")
                 .build();
         tipos.getElements().add(itemReserva);
+        //items del menu value like Sucursal
+        DefaultMenuItem itemSucursal = DefaultMenuItem.builder()
+                .value("Sucursal")
+                .ajax(true)
+                .command("#{frmMenu.navegar('TipoSucursal.jsf')}")
+                .build();
+        tipos.getElements().add(itemSucursal);
         model.getElements().add(tipos);
     }
 
