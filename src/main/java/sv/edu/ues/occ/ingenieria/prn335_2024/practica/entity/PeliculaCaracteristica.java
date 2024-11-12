@@ -4,12 +4,16 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "pelicula_caracteristica", schema = "public")
+@NamedQueries({
+        @NamedQuery(name = "PeliculaCaracteristica.findByIdPelicula", query = "SELECT pc FROM PeliculaCaracteristica pc WHERE pc.idPelicula.idPelicula = :idPelicula ORDER BY pc.idTipoPelicula.nombre ASC "),
+        @NamedQuery(name = "PeliculaCaracteristica.countByIdPelicula", query = "SELECT COUNT(pc.idPeliculaCaracteristica) FROM PeliculaCaracteristica pc WHERE pc.idPelicula.idPelicula = :idPelicula")
+})
 public class PeliculaCaracteristica {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pelicula_caracteristica_id_gen")
     @SequenceGenerator(name = "pelicula_caracteristica_id_gen", sequenceName = "pelicula_caracteristica_id_pelicula_caracteristica_seq", allocationSize = 1)
     @Column(name = "id_pelicula_caracteristica", nullable = false)
-    private Long idPeliculaCaracteristica;
+    private Integer idPeliculaCaracteristica;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_pelicula")
@@ -23,11 +27,11 @@ public class PeliculaCaracteristica {
     @Column(name = "valor")
     private String valor;
 
-    public Long getIdPeliculaCaracteristica() {
+    public Integer getIdPeliculaCaracteristica() {
         return idPeliculaCaracteristica;
     }
 
-    public void setIdPeliculaCaracteristica(Long id) {
+    public void setIdPeliculaCaracteristica(Integer id) {
         this.idPeliculaCaracteristica = id;
     }
 

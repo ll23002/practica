@@ -13,7 +13,7 @@ public class Pelicula {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pelicula_id_gen")
     @SequenceGenerator(name = "pelicula_id_gen", sequenceName = "pelicula_id_pelicula_seq", allocationSize = 1)
     @Column(name = "id_pelicula", nullable = false)
-    private Long idPelicula;
+    private Integer idPelicula;//Estaba como Long, es necesario cambiarlo a Integer
 
     @Size(max = 255)
     @Column(name = "nombre")
@@ -29,11 +29,17 @@ public class Pelicula {
     @OneToMany(mappedBy = "idPelicula")
     private Set<Programacion> programacions = new LinkedHashSet<>();
 
-    public Long getIdPelicula() {
+    public Pelicula(Integer idPelicula) {//constructor improvisado
+        this.idPelicula = idPelicula;
+    }
+    public Pelicula() {//Constructor vació
+    }
+
+    public Integer getIdPelicula() {
         return idPelicula;
     }
 
-    public void setIdPelicula(Long id) {
+    public void setIdPelicula(Integer id) {
         this.idPelicula = id;
     }
 
