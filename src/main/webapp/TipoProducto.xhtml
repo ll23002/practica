@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="primefaces"
+      xmlns:h="jakarta.faces.html"
+      xmlns:crud="jakarta.faces.composite/crud"
+      xmlns:f="jakarta.faces.facelets"
+      template="WEB-INF/Templates/Principal.xhtml">
+
+<f:define name="titulo">
+    #{frmTipoProducto.tituloPagina}
+</f:define>
+
+<f:define name="Cuerpo">
+
+    <h:panelGrid>
+        <h:panelGroup id="pnlTabla">
+            <h:form id="frmTabla">
+                <h:panelGrid>
+                    <p:dataTable id="tblTipoProducto"
+                            rows="10"
+                            paginator="true"
+                            value="#{frmTipoProducto.modelo}"
+                            var="r"
+                            lazy="true"
+                            selectionMode="single"
+                            rendered="#{frmTipoProducto.estado == 'NONE'}"
+                            selection="#{frmTipoProducto.registro}">
+                        <p:ajax event="rowSelect" update=":pnlDetalle :frmTabla" process="@this" listener="#{frmTipoProducto.onRowSelect}"/>
+                        <p:column headerText="ID">
+                            <h:outputText value="#{r.idTipoProducto}"/>
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{r.nombre}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <h:outputText value="#{r.activo}"/>
+                        </p:column>
+                        <p:column headerText="Comentarios">
+                            <h:outputText value="#{r.comentarios}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <h:panelGrid>
+                        <crud:BotonesTop frm="#{frmTipoProducto}"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </h:panelGroup>
+        <h:panelGroup id="pnlDetalle">
+            <h:panelGrid>
+                <h:form id="frmDetalle" rendered="#{frmTipoProducto.estado != 'NONE' and not empty frmTipoProducto.registro}">
+                    <h:panelGrid>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="ID:" for="txtId"/>
+                            <h:inputText id="txtId"
+                                         value="#{frmTipoProducto.registro.idTipoProducto}"
+                                         readonly="true"
+                                         disabled="true"/>
+                            <p:outputLabel value="Nombre:" for="txtNombre"/>
+                            <h:inputText id="txtNombre"
+                                         value="#{frmTipoProducto.registro.nombre}"
+                                         required="true"
+                                         requiredMessage="El nombre es requerido"/>
+                            <p:outputLabel value="Estado:" for="txtEstado"/>
+                            <p:selectBooleanCheckbox id="txtEstado" value="#{frmTipoProducto.registro.activo}"/>
+                            <p:outputLabel value="Comentarios:" for="txtComentarios"/>
+                            <h:inputText id="txtComentarios"
+                                         value="#{frmTipoProducto.registro.comentarios}"
+                                         required="true"
+                                         requiredMessage="Los comentarios son requeridos"/>
+                        </h:panelGrid>
+                        <h:panelGrid>
+                            <crud:BotonesCRUD frm="#{frmTipoProducto}"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:form>
+            </h:panelGrid>
+        </h:panelGroup>
+
+    </h:panelGrid>
+</f:define>
+
+</f:composition>

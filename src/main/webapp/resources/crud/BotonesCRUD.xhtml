@@ -31,17 +31,17 @@
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnGuardar}"
                              value="#{abstractpffprm['abstractpffprm.create']} #{cc.attrs.frm.tituloPagina}"
-                             process="@this" update="#{cc.attrs.actualizar}"
+                             process="@form" update="#{cc.attrs.actualizar}"
                              rendered="#{cc.attrs.frm.estado == 'CREATE'}"/>
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnEditar}"
                              value="#{abstractpffprm['abstractpffprm.update']} #{cc.attrs.frm.tituloPagina}"
-                             process="@this" update="#{cc.attrs.actualizar}"
+                             process="@form" update="#{cc.attrs.actualizar}"
                              rendered="#{cc.attrs.frm.estado != 'UPDATE'}"/>
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnEliminar}"
                              value="#{abstractpffprm['abstractpffprm.delete']} #{cc.attrs.frm.tituloPagina}"
-                             process="@this" update="#{cc.attrs.actualizar}"
+                             process="@form" update="#{cc.attrs.actualizar}"
                              rendered="#{cc.attrs.frm.estado == 'UPDATE'}"/>
         </h:panelGrid>
     </cc:implementation>

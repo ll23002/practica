@@ -1,6 +1,7 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.event.ActionEvent;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
@@ -100,47 +101,55 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
             e.printStackTrace();
         }
     }
-    public void btnGuardar(ActionEvent event, F registro) {//Método que se encarga de guardar un registro en la base de datos.
+    public void btnGuardar(ActionEvent event, F registro) {
         try {
-            estado = ESTADO_CRUD.NONE;//Se cambia el estado a CREATE.
-           getDataBean().create(registro);
+            estado = ESTADO_CRUD.NONE;
+            getDataBean().create(registro);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro guardado", "El registro ha sido guardado exitosamente."));
+            registro = null;
             System.out.println("Registro guardado");
             System.out.println("Estado: " + estado);
-            registro = null;//Se limpia el registro.
-            System.out.println("Registro: " + registro);
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo guardar el registro."));
             e.printStackTrace();
         }
     }
-    public void btnCancelar(ActionEvent event, F registro) {//Método que se encarga de cancelar la operación.
+
+    public void btnCancelar(ActionEvent event, F registro) {
         try {
-            estado = ESTADO_CRUD.NONE;//Se cambia el estado a NONE.
-            registro = null;//Se limpia el registro.
+            estado = ESTADO_CRUD.NONE;
+            registro = null;
             System.out.println("Operación cancelada");
             System.out.println("Estado: " + estado);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Operación cancelada", "La operación ha sido cancelada."));
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo cancelar la operación."));
             e.printStackTrace();
         }
     }
 
-    public void btnEditar(ActionEvent event, F registro) {//Método que se encarga de editar un registro en la base de datos.
+    public void btnEditar(ActionEvent event, F registro) {
         try {
-            estado = ESTADO_CRUD.NONE;//Se cambia el estado a UPDATE.
-            getDataBean().update(registro);//Se edita el registro en la base de datos.
+            estado = ESTADO_CRUD.NONE;
+            getDataBean().update(registro);
             System.out.println("Registro editado");
             System.out.println("Estado: " + estado);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro editado", "El registro ha sido editado exitosamente."));
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo editar el registro."));
             e.printStackTrace();
         }
     }
 
-    public void btnEliminar (ActionEvent event,F registro) {//Método que se encarga de eliminar un registro en la base de datos.
+    public void btnEliminar(ActionEvent event, F registro) {
         try {
-            estado = ESTADO_CRUD.NONE;//Se cambia el estado a DELETE.
-            getDataBean().delete(registro);//Se elimina el registro en la base de datos.
+            estado = ESTADO_CRUD.NONE;
+            getDataBean().delete(registro);
             System.out.println("Registro eliminado");
             System.out.println("Estado: " + estado);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", "El registro ha sido eliminado exitosamente."));
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar el registro."));
             e.printStackTrace();
         }
     }
