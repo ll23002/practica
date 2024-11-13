@@ -39,6 +39,14 @@ public class Sala {
     @OneToMany(mappedBy = "idSala")
     private Set<SalaCaracteristica> salaCaracteristicas = new LinkedHashSet<>();
 
+
+    public Sala(Integer idSala) {
+        this.idSala = idSala;
+    }
+
+    public Sala() {//agregar un constructor vacio, necesario en FrmSala
+
+    }
     public Integer getIdSala() {
         return idSala;
     }
