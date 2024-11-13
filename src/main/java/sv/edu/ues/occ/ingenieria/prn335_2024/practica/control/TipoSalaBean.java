@@ -2,7 +2,6 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.control;
 
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoSala;
@@ -39,7 +38,8 @@ public class TipoSalaBean extends AbstractDataPersistence<TipoSala> implements S
             e.printStackTrace();
             return null;
         }
-
     }
 
+    @Override
+    public TipoSala findById(Object id) {return super.findById(id);}
 }
