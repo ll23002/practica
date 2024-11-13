@@ -3,6 +3,8 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIInput;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
@@ -20,6 +22,8 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoPelicula;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Named
 @Dependent
@@ -221,5 +225,20 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
     public void onRowSelect() {
         super.onRowSelect();
         System.out.println("Registro seleccionado en onRowSelect en FrmPeliculaCaracteristica: " + estado);
+    }
+    public void validarValor(FacesContext fc, UIComponent component, Object valor) {
+        UIInput input = (UIInput) component;
+        if (registro != null && this.registro.getIdTipoPelicula() != null) {
+            String nuevo = valor.toString();
+            Pattern patron = Pattern.compile(this.registro.getIdTipoPelicula().getExpresionRegular());
+            Matcher validador = patron.matcher(nuevo);
+            if (validador.find()){
+                input.setValid(true);
+                return;
+            }
+        }
+        input.setValid(false);
+
+
     }
 }

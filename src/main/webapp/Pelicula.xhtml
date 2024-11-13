@@ -128,11 +128,13 @@
                                                             var="tp"
                                                             itemLabel="#{tp.nombre}"
                                                             itemValue="#{tp.idTipoPelicula}"/>
+                                                    <f2:ajax execute="@this" render="txtValor"/>
                                                 </h:selectOneMenu>
 
                                                 <p:outputLabel value="Valor" for="txtValor"/>
                                                 <h:inputTextarea id="txtValor"
                                                                  value="#{frmPelicula.frmPeliculaCaracteristica.registro.valor}"
+                                                                 validator="#{frmPelicula.frmPeliculaCaracteristica.validarValor}"
                                                                  rows="3" cols="70"/>
                                             </h:panelGrid>
                                             <crud:BotonesCRUD frm="#{frmPelicula.frmPeliculaCaracteristica}"
