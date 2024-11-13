@@ -7,7 +7,9 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.PeliculaCaracteristicaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoPeliculaBean;
@@ -17,6 +19,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoPelicula;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Named
 @Dependent
@@ -44,6 +47,31 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public List<PeliculaCaracteristica> load(int firstResult, int maxResults, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {//sortMeta y filterMeta no se usan.
+         try {
+            if (this.idPelicula != null && PCB != null) {
+                return PCB.findByIdPelicula(idPelicula, firstResult, maxResults);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return List.of();
+    }
+
+    @Override
+    public int count(Map<String, FilterMeta> filterMeta) {//filterMeta no se usa.
+         try {
+            if (this.idPelicula != null && PCB != null) {
+                return PCB.countByIdPelicula(idPelicula);//countPelicula()???
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     @Override

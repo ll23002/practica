@@ -53,6 +53,7 @@
             <h:panelGroup id="pnlDetalle">
                 <p:tabView id="tabDetalle" cache="false" dynamic="true"
                            rendered="#{frmPelicula.estado != 'NONE' and not empty frmPelicula.registro}">
+                    <p:ajax process="@this" event="tabChange" listener="#{frmPelicula.cambiarTab}"/>
                     <p:tab title="Generalidades" closable="false">
                         <h:panelGrid>
                             <h:form id="frmDetalle">
@@ -93,6 +94,12 @@
                                                     listener="#{frmPelicula.frmPeliculaCaracteristica.onRowSelect}"/>
                                             <p:column headerText="ID">
                                                 <h:outputText value="#{rc.idPeliculaCaracteristica}"/>
+                                            </p:column>
+                                            <p:column headerText="Tipo de Pelicula">
+                                                <h:outputText value="#{rc.idTipoPelicula.nombre}"/>
+                                            </p:column>
+                                            <p:column headerText="Valor">
+                                                <h:outputText value="#{rc.valor}"/>
                                             </p:column>
                                         </p:dataTable>
                                         <h:panelGrid>
