@@ -52,7 +52,7 @@
             </h:panelGroup>
             <h:panelGroup id="pnlDetalle">
                 <p:tabView id="tabDetalle" cache="false" dynamic="true"
-                           rendered="#{frmPelicula.estado != 'NONE' and not empty frmPelicula.registro}">
+                           rendered="#{frmPelicula.estado != 'NONE'}">
                     <p:ajax process="@this" event="tabChange" listener="#{frmPelicula.cambiarTab}"/>
                     <p:tab title="Generalidades" closable="false">
                         <h:panelGrid>
@@ -103,7 +103,7 @@
                                             </p:column>
                                         </p:dataTable>
                                         <h:panelGrid>
-                                            <crud:BotonesTop frm="#{frmPelicula}"
+                                            <crud:BotonesTop frm="#{frmPelicula.frmPeliculaCaracteristica}"
                                                              actualizar=":tabDetalle:pnlDetalleC :tabDetalle:pnlTablaC"/>
                                         </h:panelGrid>
                                     </h:panelGrid>
@@ -111,7 +111,7 @@
                             </h:panelGroup>
                             <h:panelGroup id="pnlDetalleC">
                                 <h:panelGrid
-                                        rendered="#{frmPelicula.frmPeliculaCaracteristica.estado != 'NONE' and not empty frmPelicula.registro}">
+                                        rendered="#{frmPelicula.frmPeliculaCaracteristica.estado != 'NONE'}">
                                     <h:form id="frmDetalleC">
                                         <h:panelGrid>
                                             <h:panelGrid columns="2">

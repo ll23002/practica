@@ -32,7 +32,7 @@
                              actionListener="#{cc.attrs.frm.btnNuevo}"
                              value="#{abstractpffprm['abstractpffprm.new']} #{cc.attrs.frm.tituloPagina}"
                              process="@this" update="#{cc.attrs.actualizar}"
-                             rendered="#{cc.attrs.frm.estado == 'NONE'}"/>
+                             rendered="#{cc.attrs.frm.estado == 'NONE' or cc.attrs.frm.estado == 'UPDATE' or cc.attrs.frm.estado == 'CREATE'}"/>
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnCancelar}"
                              value="#{abstractpffprm['abstractpffprm.cancel']} #{cc.attrs.frm.tituloPagina}"

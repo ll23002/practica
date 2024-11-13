@@ -88,15 +88,12 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
 
     public void onRowSelect() {//Método que se encarga de cambiar el estado cuando se selecciona un registro.
         estado = ESTADO_CRUD.UPDATE;//Se cambia el estado a UPDATE.
-        System.out.println("Estado: " + estado);
     }
 
     public void btnNuevo(ActionEvent event, F registro) {//Método que se encarga de crear un registro en la base de datos.
         try {
             estado = ESTADO_CRUD.CREATE;//Se cambia el estado a CREATE.
             registro = createNewInstance();//Se crea una nueva instancia de la entidad.
-            System.out.println("Nuevo registro");
-            System.out.println("Estado: " + estado);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,8 +104,6 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
             getDataBean().create(registro);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro guardado", "El registro ha sido guardado exitosamente."));
             registro = null;
-            System.out.println("Registro guardado");
-            System.out.println("Estado: " + estado);
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo guardar el registro."));
             e.printStackTrace();
@@ -119,8 +114,6 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
         try {
             estado = ESTADO_CRUD.NONE;
             registro = null;
-            System.out.println("Operación cancelada");
-            System.out.println("Estado: " + estado);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Operación cancelada", "La operación ha sido cancelada."));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo cancelar la operación."));
@@ -132,8 +125,6 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
         try {
             estado = ESTADO_CRUD.NONE;
             getDataBean().update(registro);
-            System.out.println("Registro editado");
-            System.out.println("Estado: " + estado);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro editado", "El registro ha sido editado exitosamente."));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo editar el registro."));
@@ -145,8 +136,6 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
         try {
             estado = ESTADO_CRUD.NONE;
             getDataBean().delete(registro);
-            System.out.println("Registro eliminado");
-            System.out.println("Estado: " + estado);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", "El registro ha sido eliminado exitosamente."));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar el registro."));

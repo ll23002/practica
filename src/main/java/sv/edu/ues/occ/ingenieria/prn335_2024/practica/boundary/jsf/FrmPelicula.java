@@ -34,6 +34,7 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
     }
 
      public void cambiarTab(TabChangeEvent tce){
+         System.out.println("Cambiando de tab");
         if (tce.getTab().getTitle().equals("Tipos")){
             if (this.registro != null && this.frmPeliculaCaracteristica != null){
                 this.frmPeliculaCaracteristica.setIdPelicula(this.registro.getIdPelicula());
@@ -125,6 +126,7 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event, this.registro);
+        System.out.println("Registro nuevo en FrmPelicula: " + estado);
         Integer id = dataBean.findLastId();
         try {
             if (id != null) {
@@ -139,17 +141,27 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
 
     public void btnGuardar(ActionEvent event) {
         super.btnGuardar(event, this.registro);
+        System.out.println("Registro guardado en FrmPelicula: " + estado);
     }
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
+        System.out.println("Registro cancelado en FrmPelicula: " + estado);
     }
 
     public void btnEditar(ActionEvent event) {
         super.btnEditar(event, this.registro);
+        System.out.println("Registro editado en FrmPelicula: " + estado);
     }
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
+        System.out.println("Registro eliminado en FrmPelicula: " + estado);
+    }
+
+    @Override
+    public void onRowSelect() {
+        super.onRowSelect();
+        System.out.println("Registro seleccionado en FrmPelicula: " + estado);
     }
 }

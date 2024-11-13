@@ -149,6 +149,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event, this.registro);
+        System.out.println("Registro nuevo en FrmPeliculaCaracteristica: " + estado);
         Integer id = PCB.findLastId();
         try {
             if (id != null) {
@@ -163,18 +164,22 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
 
     public void btnGuardar(ActionEvent event) {
         super.btnGuardar(event, this.registro);
+        System.out.println("Registro guardado en FrmPeliculaCaracteristica: " + estado);
     }
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
+        System.out.println("Registro cancelado en FrmPeliculaCaracteristica: " + estado);
     }
 
     public void btnEditar(ActionEvent event) {
         super.btnEditar(event, this.registro);
+        System.out.println("Registro seleccionado en btnEditar en FrmPeliculaCaracteristica: " + estado);
     }
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
+        System.out.println("Registro eliminado en FrmPeliculaCaracteristica: " + estado);
     }
 
     public PeliculaCaracteristica crearNuevo(){
@@ -210,5 +215,11 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
         if (this.registro != null && this.tipoPeliculaList != null && !this.tipoPeliculaList.isEmpty()) {
             this.registro.setIdTipoPelicula(this.tipoPeliculaList.stream().filter(tp -> tp.getIdTipoPelicula().equals(idTipoPelicula)).findFirst().orElse(null));
         }
+    }
+
+    @Override
+    public void onRowSelect() {
+        super.onRowSelect();
+        System.out.println("Registro seleccionado en onRowSelect en FrmPeliculaCaracteristica: " + estado);
     }
 }

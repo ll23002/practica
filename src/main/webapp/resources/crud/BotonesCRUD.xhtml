@@ -37,7 +37,7 @@
                              actionListener="#{cc.attrs.frm.btnEditar}"
                              value="#{abstractpffprm['abstractpffprm.update']} #{cc.attrs.frm.tituloPagina}"
                              process="@form" update="#{cc.attrs.actualizar}"
-                             rendered="#{cc.attrs.frm.estado != 'UPDATE'}"/>
+                             rendered="#{cc.attrs.frm.estado == 'UPDATE'}"/>
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnEliminar}"
                              value="#{abstractpffprm['abstractpffprm.delete']} #{cc.attrs.frm.tituloPagina}"
