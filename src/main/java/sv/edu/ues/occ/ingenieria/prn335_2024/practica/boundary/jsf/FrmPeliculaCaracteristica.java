@@ -46,11 +46,13 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
             modelo = this;
             estado = ESTADO_CRUD.NONE;
             System.out.println("Estado: " + estado);
-            this.tipoPeliculaList = TPB.findRange(0,Integer.MAX_VALUE);
+            this.tipoPeliculaList = TPB.findRange(0, Integer.MAX_VALUE);
+            if (this.tipoPeliculaList != null && !this.tipoPeliculaList.isEmpty()) {
+                this.setIdTipoPeliculaSeleccionada(this.tipoPeliculaList.get(0).getIdTipoPelicula());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -167,9 +169,13 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
     }
 
     public void btnGuardar(ActionEvent event) {
+        if (registro != null && idPelicula != null) {
+            registro.setIdPelicula(new Pelicula(idPelicula));
+        }
         super.btnGuardar(event, this.registro);
         System.out.println("Registro guardado en FrmPeliculaCaracteristica: " + estado);
     }
+
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
@@ -186,7 +192,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
         System.out.println("Registro eliminado en FrmPeliculaCaracteristica: " + estado);
     }
 
-    public PeliculaCaracteristica crearNuevo(){
+    public PeliculaCaracteristica crearNuevo() {
         PeliculaCaracteristica pc = new PeliculaCaracteristica();
         if (idPelicula != null) {
             pc.setIdPelicula(new Pelicula(idPelicula));

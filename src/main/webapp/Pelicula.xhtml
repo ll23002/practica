@@ -133,13 +133,14 @@
 
                                                 <p:outputLabel value="Valor" for="txtValor"/>
                                                 <h:inputTextarea id="txtValor"
-                                                                 value="#{frmPelicula.frmPeliculaCaracteristica.registro.valor}"
                                                                  validator="#{frmPelicula.frmPeliculaCaracteristica.validarValor}"
-                                                                 rows="3" cols="70"/>
+                                                                 value="#{frmPelicula.frmPeliculaCaracteristica.registro.valor}"
+                                                                 rows="3"
+                                                                 cols="70"/>
                                             </h:panelGrid>
-                                            <crud:BotonesCRUD frm="#{frmPelicula.frmPeliculaCaracteristica}"
-                                                              actualizar=":tabDetalle:pnlDetalleC :tabDetalle:pnlTablaC"/>
                                         </h:panelGrid>
+                                        <crud:BotonesCRUD frm="#{frmPelicula.frmPeliculaCaracteristica}"
+                                                          actualizar=":tabDetalle:pnlDetalleC :tabDetalle:pnlTablaC"/>
 
                                     </h:form>
 
