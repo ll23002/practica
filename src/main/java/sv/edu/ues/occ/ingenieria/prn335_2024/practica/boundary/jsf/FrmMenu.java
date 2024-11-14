@@ -24,6 +24,7 @@ public class FrmMenu implements Serializable {
     @PostConstruct
     public void init(){
         model = new DefaultMenuModel();
+        //primera parte del menu
         DefaultSubMenu tipos = DefaultSubMenu.builder()
                 .label("Tipos")
                 .expanded(true)
@@ -63,14 +64,48 @@ public class FrmMenu implements Serializable {
                 .command("#{frmMenu.navegar('TipoReserva.jsf')}")
                 .build();
         tipos.getElements().add(itemReserva);
-        //items del menu value like Sucursal
+        //items del menu value like Pago
+        DefaultMenuItem itemPago = DefaultMenuItem.builder()
+                .value("Pago")
+                .ajax(true)
+                .command("#{frmMenu.navegar('TipoPago.jsf')}")
+                .build();
+        tipos.getElements().add(itemPago);
+        model.getElements().add(tipos);
+
+        //segunda parte del menu
+        DefaultSubMenu cine = DefaultSubMenu.builder()
+                .label("Cine")
+                .expanded(true)
+                .build();
+
+        DefaultMenuItem itemP = DefaultMenuItem.builder()
+                .value("Pelicula")
+                .ajax(true)
+                .command("#{frmMenu.navegar('Pelicula.jsf')}")
+                .build();
+        cine.getElements().add(itemP);
+
+        DefaultMenuItem itemS = DefaultMenuItem.builder()
+                .value("Sala")
+                .ajax(true)
+                .command("#{frmMenu.navegar('Sala.jsf')}")
+                .build();
+        cine.getElements().add(itemS);
+
         DefaultMenuItem itemSucursal = DefaultMenuItem.builder()
                 .value("Sucursal")
                 .ajax(true)
                 .command("#{frmMenu.navegar('TipoSucursal.jsf')}")
                 .build();
-        tipos.getElements().add(itemSucursal);
-        model.getElements().add(tipos);
+        cine.getElements().add(itemSucursal);
+        DefaultMenuItem itemReservA = DefaultMenuItem.builder()
+                .value("Reserva")
+                .ajax(true)
+                .command("#{frmMenu.navegar('Reserva.jsf')}")
+                .build();
+        cine.getElements().add(itemReservA);
+        model.getElements().add(cine);
     }
 
     public void navegar(String formulario) throws IOException {

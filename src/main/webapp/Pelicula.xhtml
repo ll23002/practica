@@ -52,7 +52,10 @@
             </h:panelGroup>
             <h:panelGroup id="pnlDetalle">
                 <p:tabView id="tabDetalle" cache="false" dynamic="true"
-                           rendered="#{frmPelicula.estado != 'NONE'}">
+                           rendered="#{frmPelicula.estado != 'NONE'}"
+                           >
+                    <!--  rendered="#{frmPelicula.estado != 'NONE' and frmPelicula.estado != 'CREATE'}"-->
+
                     <p:ajax process="@this" event="tabChange" listener="#{frmPelicula.cambiarTab}"/>
                     <p:tab title="Generalidades" closable="false">
                         <h:panelGrid>
@@ -76,7 +79,8 @@
 
                         </h:panelGrid>
                     </p:tab>
-                    <p:tab title="Tipos" disabled="#{frmPelicula.estado != 'UPDATE'}">
+                    <!--p:tab title="Tipos" disabled="#{frmPelicula.estado != 'UPDATE'}"-->
+                    <p:tab title="Tipos" disabled="#{frmPelicula.estado == 'CREATE'}">
                         <h:panelGrid>
                             <h:panelGroup id="pnlTablaC">
                                 <h:form id="frmTablaC">
@@ -141,22 +145,13 @@
                                         </h:panelGrid>
                                         <crud:BotonesCRUD frm="#{frmPelicula.frmPeliculaCaracteristica}"
                                                           actualizar=":tabDetalle:pnlDetalleC :tabDetalle:pnlTablaC"/>
-
                                     </h:form>
-
                                 </h:panelGrid>
-
                             </h:panelGroup>
-
                         </h:panelGrid>
                     </p:tab>
-
                 </p:tabView>
-
             </h:panelGroup>
-
         </h:panelGrid>
-
     </f:define>
-
 </f:composition>

@@ -2,6 +2,7 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
@@ -39,7 +40,6 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
             if (this.registro != null && this.frmPeliculaCaracteristica != null){
                 this.frmPeliculaCaracteristica.setIdPelicula(this.registro.getIdPelicula());
             }
-
         }
     }
 
@@ -139,9 +139,18 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
         }
     }
 
-    public void btnGuardar(ActionEvent event) {
+    /*public void btnGuardar(ActionEvent event) {
         super.btnGuardar(event, this.registro);
         System.out.println("Registro guardado en FrmPelicula: " + estado);
+    }*/
+    public void btnGuardar(ActionEvent event) {
+        if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty()|| registro.getSinopsis()==null || registro.getSinopsis().isEmpty()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error,Llene el formulario", "El nombre es requerido"));
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado con éxito", "Registro guardado"));
+            super.btnGuardar(event, this.registro);
+            System.out.println("Registro guardado en FrmPelicula: " + estado);
+        }
     }
 
     public void btnCancelar(ActionEvent event) {
@@ -150,9 +159,16 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
     }
 
     public void btnEditar(ActionEvent event) {
-        super.btnEditar(event, this.registro);
-        System.out.println("Registro editado en FrmPelicula: " + estado);
+        if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty() || registro.getSinopsis()==null || registro.getSinopsis().isEmpty()  ) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", "El nombre es requerido"));
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado con éxito", "Registro editado"));
+            super.btnEditar(event, this.registro);
+            System.out.println("Registro editado en FrmPelicula: " + estado);
+        }
     }
+
+
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);

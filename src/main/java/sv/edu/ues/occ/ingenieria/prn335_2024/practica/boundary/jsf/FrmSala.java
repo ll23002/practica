@@ -2,6 +2,7 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
@@ -130,8 +131,16 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     }
 
     public void btnGuardar(ActionEvent event) {
+        /*
         super.btnGuardar(event, this.registro);
-        System.out.println("Registro guardado en FrmSala: " + estado);
+        System.out.println("Registro guardado en FrmSala: " + estado);*/
+        if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty() || registro.getActivo()== null ||registro.getObservaciones().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", "El nombre es requerido"));
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado con éxito", "Registro guardado"));
+            super.btnGuardar(event, this.registro);
+            System.out.println("Registro guardado en FrmSala: " + estado);
+        }
     }
 
     public void btnCancelar(ActionEvent event) {
@@ -140,8 +149,15 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     }
 
     public void btnEditar(ActionEvent event) {
-        super.btnEditar(event, this.registro);
-        System.out.println("Registro editado en FrmSala: " + estado);
+        /*super.btnEditar(event, this.registro);
+        System.out.println("Registro editado en FrmSala: " + estado);*/
+        if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty() || registro.getActivo()== null ||registro.getObservaciones()== null || registro.getObservaciones().isEmpty() ) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", "El nombre es requerido"));
+        }else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado con éxito:", "Registro editado"));
+            super.btnEditar(event, this.registro);
+            System.out.println("Registro editado en FrmSala: " + estado);
+        }
     }
 
     public void btnEliminar(ActionEvent event) {
