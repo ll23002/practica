@@ -80,7 +80,7 @@
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>3.10</version>
                 <configuration>
-                    <installDirectory>/usr/local/open_liberty/wlp</installDirectory>
+                    <installDirectory>C:\openliberty-jakartaee10-24.0.0.8\wlp</installDirectory>
                     <!--installDirectory>/usr/local/open_liberty/wlp</installDirectory-->
                     <serverName>prn335_2024</serverName>
 

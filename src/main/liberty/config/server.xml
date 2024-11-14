@@ -43,10 +43,10 @@
     </dataSource>
 
     <!-- Inclusión de la configuración del driver de PostgreSQL -->
-    <include location="/usr/local/open_liberty/wlp/configDropins/defaults/postgresql-driver.xml"/>
-    <!-- Inclusión de la configuración de PrimeFaces -->
-    <include location="/usr/local/open_liberty/wlp/configDropins/defaults/primefaces.xml"/>
+    <include location="C:\openliberty-jakartaee10-24.0.0.8\wlp\usr\servers\prn335_2024\configDropins\defaults\postgresql-driver.xml"/>
     <!--include location="/usr/local/open_liberty/wlp/configDropins/defaults/postgresql-driver.xml"/-->
+
     <!-- Inclusión de la configuración de PrimeFaces -->
+    <include location="C:\openliberty-jakartaee10-24.0.0.8\wlp\usr\servers\prn335_2024\configDropins\defaults\primefaces.xml"/>
     <!-- include location="/usr/local/open_liberty/wlp/configDropins/defaults/primefaces.xml"/-->
 </server>
