@@ -57,11 +57,13 @@
                                                      readonly="true"
                                                      disabled="true"/>
                                         <p:outputLabel value="Nombre" for="txtNombreGeneral"/>
-                                        <h:inputText id="txtNombreGeneral" value="#{frmSala.registro.nombre}" size="70"/>
+                                        <h:inputText id="txtNombreGeneral" value="#{frmSala.registro.nombre}"
+                                                     size="70"/>
                                         <p:outputLabel value="Activo" for="txtActivo"/>
                                         <h:inputText id="txtActivo" value="#{frmSala.registro.activo}" size="70"/>
                                         <p:outputLabel value="Observaciones" for="txtObservaciones"/>
-                                        <h:inputTextarea id="txtObservaciones" value="#{frmSala.registro.observaciones}" rows="3" cols="70"/>
+                                        <h:inputTextarea id="txtObservaciones" value="#{frmSala.registro.observaciones}"
+                                                         rows="3" cols="70"/>
                                     </h:panelGrid>
                                     <crud:BotonesCRUD frm="#{frmSala}"/>
                                 </h:panelGrid>
@@ -82,7 +84,9 @@
                                                 selectionMode="single"
                                                 rendered="#{frmSala.frmSalaCaracteristica.estado == 'NONE'}"
                                                 selection="#{frmSala.frmSalaCaracteristica.registro}">
-                                            <p:ajax event="rowSelect" update=":tabDetalle:pnlDetalleC :tabDetalle:frmTablaC" process="@this"
+                                            <p:ajax event="rowSelect"
+                                                    update=":tabDetalle:pnlDetalleC :tabDetalle:frmTablaC"
+                                                    process="@this"
                                                     listener="#{frmSala.frmSalaCaracteristica.onRowSelect}"/>
                                             <p:column headerText="ID">
                                                 <h:outputText value="#{rc.idSalaCaracteristica}"/>
@@ -151,7 +155,9 @@
                                                 selectionMode="single"
                                                 rendered="#{frmSala.frmAsiento.estado == 'NONE'}"
                                                 selection="#{frmSala.frmAsiento.registro}">
-                                            <p:ajax event="rowSelect" update=":tabDetalle:pnlDetalleA :tabDetalle:frmTablaA" process="@this"
+                                            <p:ajax event="rowSelect"
+                                                    update=":tabDetalle:pnlDetalleA :tabDetalle:frmTablaA"
+                                                    process="@this"
                                                     listener="#{frmSala.frmAsiento.onRowSelect}"/>
                                             <p:column headerText="ID">
                                                 <h:outputText value="#{ra.idAsiento}"/>
@@ -182,9 +188,11 @@
                                                              readonly="true"
                                                              disabled="true"/>
                                                 <p:outputLabel value="Nombre" for="txtNombreAsiento"/>
-                                                <h:inputText id="txtNombreAsiento" value="#{frmSala.frmAsiento.registro.nombre}" size="70"/>
+                                                <h:inputText id="txtNombreAsiento"
+                                                             value="#{frmSala.frmAsiento.registro.nombre}" size="70"/>
                                                 <p:outputLabel value="Activo" for="txtActivoAsiento"/>
-                                                <h:inputText id="txtActivoAsiento" value="#{frmSala.frmAsiento.registro.activo}" size="70"/>
+                                                <h:inputText id="txtActivoAsiento"
+                                                             value="#{frmSala.frmAsiento.registro.activo}" size="70"/>
                                             </h:panelGrid>
                                         </h:panelGrid>
                                         <crud:BotonesCRUD frm="#{frmSala.frmAsiento}"
@@ -208,7 +216,9 @@
                                                 selectionMode="single"
                                                 rendered="#{frmSala.frmProgramacion.estado == 'NONE'}"
                                                 selection="#{frmSala.frmProgramacion.registro}">
-                                            <p:ajax event="rowSelect" update=":tabDetalle:pnlDetalleP :tabDetalle:frmTablaP" process="@this"
+                                            <p:ajax event="rowSelect"
+                                                    update=":tabDetalle:pnlDetalleP :tabDetalle:frmTablaP"
+                                                    process="@this"
                                                     listener="#{frmSala.frmProgramacion.onRowSelect}"/>
                                             <p:column headerText="ID">
                                                 <h:outputText value="#{rp.idProgramacion}"/>
@@ -239,9 +249,13 @@
                                                              readonly="true"
                                                              disabled="true"/>
                                                 <p:outputLabel value="Desde" for="txtDesde"/>
-                                                <h:inputText id="txtDesde" value="#{frmSala.frmProgramacion.registro.desde}" size="70"/>
+                                                <p:calendar id="txtDesde"
+                                                            value="#{frmSala.frmProgramacion.registro.desde}"
+                                                            pattern="yyyy-MM-dd HH:mm:ss.SSSSSS Z" showTime="true"/>
                                                 <p:outputLabel value="Hasta" for="txtHasta"/>
-                                                <h:inputText id="txtHasta" value="#{frmSala.frmProgramacion.registro.hasta}" size="70"/>
+                                                <p:calendar id="txtHasta"
+                                                            value="#{frmSala.frmProgramacion.registro.hasta}"
+                                                            pattern="yyyy-MM-dd HH:mm:ss.SSSSSS Z" showTime="true"/>
                                             </h:panelGrid>
                                         </h:panelGrid>
                                         <crud:BotonesCRUD frm="#{frmSala.frmProgramacion}"
