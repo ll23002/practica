@@ -1,10 +1,258 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:p="primefaces"
+               xmlns:f="jakarta.faces.facelets"
+               xmlns:f2="jakarta.faces.core"
+               xmlns:crud="jakarta.faces.composite/crud"
+               template="WEB-INF/Templates/Principal.xhtml"
+               xmlns:h="jakarta.faces.html">
+
+    <f:define name="titulo">
+        #{frmSala.tituloPagina}
+    </f:define>
+
+    <f:define name="Cuerpo">
+        <h:panelGrid>
+            <h:panelGroup id="pnlTabla">
+                <h:form id="frmTabla">
+                    <h:panelGrid>
+                        <p:dataTable
+                                rows="10"
+                                paginator="true"
+                                value="#{frmSala.modelo}"
+                                var="r"
+                                lazy="true"
+                                selectionMode="single"
+                                rendered="#{frmSala.estado == 'NONE'}"
+                                selection="#{frmSala.registro}">
+                            <p:ajax event="rowSelect" update=":pnlDetalle :frmTabla" process="@this"
+                                    listener="#{frmSala.onRowSelect}"/>
+                            <p:column headerText="ID">
+                                <h:outputText value="#{r.idSala}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{r.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Activo">
+                                <h:outputText value="#{r.activo}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <h:panelGrid>
+                            <crud:BotonesTop frm="#{frmSala}"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:form>
+            </h:panelGroup>
+            <h:panelGroup id="pnlDetalle">
+                <p:tabView id="tabDetalle" cache="false" dynamic="true"
+                           rendered="#{frmSala.estado != 'NONE'}">
+                    <p:ajax process="@this" event="tabChange" listener="#{frmSala.cambiarTab}"/>
+                    <p:tab title="Generalidades" closable="false">
+                        <h:panelGrid>
+                            <h:form id="frmDetalle">
+                                <h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="ID:" for="txtId"/>
+                                        <h:inputText id="txtId"
+                                                     value="#{frmSala.registro.idSala}"
+                                                     readonly="true"
+                                                     disabled="true"/>
+                                        <p:outputLabel value="Nombre" for="txtNombreGeneral"/>
+                                        <h:inputText id="txtNombreGeneral" value="#{frmSala.registro.nombre}" size="70"/>
+                                        <p:outputLabel value="Activo" for="txtActivo"/>
+                                        <h:inputText id="txtActivo" value="#{frmSala.registro.activo}" size="70"/>
+                                        <p:outputLabel value="Observaciones" for="txtObservaciones"/>
+                                        <h:inputTextarea id="txtObservaciones" value="#{frmSala.registro.observaciones}" rows="3" cols="70"/>
+                                    </h:panelGrid>
+                                    <crud:BotonesCRUD frm="#{frmSala}"/>
+                                </h:panelGrid>
+                            </h:form>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Caracteristicas" disabled="#{frmSala.estado != 'UPDATE'}">
+                        <h:panelGrid>
+                            <h:panelGroup id="pnlTablaC">
+                                <h:form id="frmTablaC">
+                                    <h:panelGrid>
+                                        <p:dataTable
+                                                rows="10"
+                                                paginator="true"
+                                                value="#{frmSala.frmSalaCaracteristica.modelo}"
+                                                var="rc"
+                                                lazy="true"
+                                                selectionMode="single"
+                                                rendered="#{frmSala.frmSalaCaracteristica.estado == 'NONE'}"
+                                                selection="#{frmSala.frmSalaCaracteristica.registro}">
+                                            <p:ajax event="rowSelect" update=":tabDetalle:pnlDetalleC :tabDetalle:frmTablaC" process="@this"
+                                                    listener="#{frmSala.frmSalaCaracteristica.onRowSelect}"/>
+                                            <p:column headerText="ID">
+                                                <h:outputText value="#{rc.idSalaCaracteristica}"/>
+                                            </p:column>
+                                            <p:column headerText="Tipo de Sala">
+                                                <h:outputText value="#{rc.idTipoSala.nombre}"/>
+                                            </p:column>
+                                            <p:column headerText="Valor">
+                                                <h:outputText value="#{rc.valor}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                        <h:panelGrid>
+                                            <crud:BotonesTop frm="#{frmSala.frmSalaCaracteristica}"
+                                                             actualizar=":tabDetalle:pnlDetalleC :tabDetalle:pnlTablaC"/>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </h:form>
+                            </h:panelGroup>
+                            <h:panelGroup id="pnlDetalleC">
+                                <h:panelGrid
+                                        rendered="#{frmSala.frmSalaCaracteristica.estado != 'NONE'}">
+                                    <h:form id="frmDetalleC">
+                                        <h:panelGrid>
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="ID:" for="txtIdSalaCaracteristica"/>
+                                                <h:inputText id="txtIdSalaCaracteristica"
+                                                             value="#{frmSala.frmSalaCaracteristica.registro.idSalaCaracteristica}"
+                                                             readonly="true"
+                                                             disabled="true"/>
+                                                <p:outputLabel value="Tipo de Sala" for="lstTipoSala"/>
+                                                <h:selectOneMenu id="lstTipoSala"
+                                                                 value="#{frmSala.frmSalaCaracteristica.idTipoSalaSeleccionada}">
+                                                    <f2:selectItems
+                                                            value="#{frmSala.frmSalaCaracteristica.tipoSalaList}"
+                                                            var="ts"
+                                                            itemLabel="#{ts.nombre}"
+                                                            itemValue="#{ts.idTipoSala}"/>
+                                                    <f2:ajax execute="@this" render="txtValor"/>
+                                                </h:selectOneMenu>
+                                                <p:outputLabel value="Valor" for="txtValor"/>
+                                                <h:inputTextarea id="txtValor"
+                                                                 validator="#{frmSala.frmSalaCaracteristica.validarValor}"
+                                                                 value="#{frmSala.frmSalaCaracteristica.registro.valor}"
+                                                                 rows="3"
+                                                                 cols="70"/>
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                        <crud:BotonesCRUD frm="#{frmSala.frmSalaCaracteristica}"
+                                                          actualizar=":tabDetalle:pnlDetalleC :tabDetalle:pnlTablaC"/>
+                                    </h:form>
+                                </h:panelGrid>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Asientos" disabled="#{frmSala.estado != 'UPDATE'}">
+                        <h:panelGrid>
+                            <h:panelGroup id="pnlTablaA">
+                                <h:form id="frmTablaA">
+                                    <h:panelGrid>
+                                        <p:dataTable
+                                                rows="10"
+                                                paginator="true"
+                                                value="#{frmSala.frmAsiento.modelo}"
+                                                var="ra"
+                                                lazy="true"
+                                                selectionMode="single"
+                                                rendered="#{frmSala.frmAsiento.estado == 'NONE'}"
+                                                selection="#{frmSala.frmAsiento.registro}">
+                                            <p:ajax event="rowSelect" update=":tabDetalle:pnlDetalleA :tabDetalle:frmTablaA" process="@this"
+                                                    listener="#{frmSala.frmAsiento.onRowSelect}"/>
+                                            <p:column headerText="ID">
+                                                <h:outputText value="#{ra.idAsiento}"/>
+                                            </p:column>
+                                            <p:column headerText="Nombre">
+                                                <h:outputText value="#{ra.nombre}"/>
+                                            </p:column>
+                                            <p:column headerText="Activo">
+                                                <h:outputText value="#{ra.activo}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                        <h:panelGrid>
+                                            <crud:BotonesTop frm="#{frmSala.frmAsiento}"
+                                                             actualizar=":tabDetalle:pnlDetalleA :tabDetalle:pnlTablaA"/>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </h:form>
+                            </h:panelGroup>
+                            <h:panelGroup id="pnlDetalleA">
+                                <h:panelGrid
+                                        rendered="#{frmSala.frmAsiento.estado != 'NONE'}">
+                                    <h:form id="frmDetalleA">
+                                        <h:panelGrid>
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="ID:" for="txtIdAsiento"/>
+                                                <h:inputText id="txtIdAsiento"
+                                                             value="#{frmSala.frmAsiento.registro.idAsiento}"
+                                                             readonly="true"
+                                                             disabled="true"/>
+                                                <p:outputLabel value="Nombre" for="txtNombreAsiento"/>
+                                                <h:inputText id="txtNombreAsiento" value="#{frmSala.frmAsiento.registro.nombre}" size="70"/>
+                                                <p:outputLabel value="Activo" for="txtActivoAsiento"/>
+                                                <h:inputText id="txtActivoAsiento" value="#{frmSala.frmAsiento.registro.activo}" size="70"/>
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                        <crud:BotonesCRUD frm="#{frmSala.frmAsiento}"
+                                                          actualizar=":tabDetalle:pnlDetalleA :tabDetalle:pnlTablaA"/>
+                                    </h:form>
+                                </h:panelGrid>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab title="Programacion" disabled="#{frmSala.estado != 'UPDATE'}">
+                        <h:panelGrid>
+                            <h:panelGroup id="pnlTablaP">
+                                <h:form id="frmTablaP">
+                                    <h:panelGrid>
+                                        <p:dataTable
+                                                rows="10"
+                                                paginator="true"
+                                                value="#{frmSala.frmProgramacion.modelo}"
+                                                var="rp"
+                                                lazy="true"
+                                                selectionMode="single"
+                                                rendered="#{frmSala.frmProgramacion.estado == 'NONE'}"
+                                                selection="#{frmSala.frmProgramacion.registro}">
+                                            <p:ajax event="rowSelect" update=":tabDetalle:pnlDetalleP :tabDetalle:frmTablaP" process="@this"
+                                                    listener="#{frmSala.frmProgramacion.onRowSelect}"/>
+                                            <p:column headerText="ID">
+                                                <h:outputText value="#{rp.idProgramacion}"/>
+                                            </p:column>
+                                            <p:column headerText="Desde">
+                                                <h:outputText value="#{rp.desde}"/>
+                                            </p:column>
+                                            <p:column headerText="Hasta">
+                                                <h:outputText value="#{rp.hasta}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                        <h:panelGrid>
+                                            <crud:BotonesTop frm="#{frmSala.frmProgramacion}"
+                                                             actualizar=":tabDetalle:pnlDetalleP :tabDetalle:pnlTablaP"/>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                </h:form>
+                            </h:panelGroup>
+                            <h:panelGroup id="pnlDetalleP">
+                                <h:panelGrid
+                                        rendered="#{frmSala.frmProgramacion.estado != 'NONE'}">
+                                    <h:form id="frmDetalleP">
+                                        <h:panelGrid>
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="ID:" for="txtIdProgramacion"/>
+                                                <h:inputText id="txtIdProgramacion"
+                                                             value="#{frmSala.frmProgramacion.registro.idProgramacion}"
+                                                             readonly="true"
+                                                             disabled="true"/>
+                                                <p:outputLabel value="Desde" for="txtDesde"/>
+                                                <h:inputText id="txtDesde" value="#{frmSala.frmProgramacion.registro.desde}" size="70"/>
+                                                <p:outputLabel value="Hasta" for="txtHasta"/>
+                                                <h:inputText id="txtHasta" value="#{frmSala.frmProgramacion.registro.hasta}" size="70"/>
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                        <crud:BotonesCRUD frm="#{frmSala.frmProgramacion}"
+                                                          actualizar=":tabDetalle:pnlDetalleP :tabDetalle:pnlTablaP"/>
+                                    </h:form>
+                                </h:panelGrid>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </p:tab>
+                </p:tabView>
+            </h:panelGroup>
+        </h:panelGrid>
+    </f:define>
+</f:composition>

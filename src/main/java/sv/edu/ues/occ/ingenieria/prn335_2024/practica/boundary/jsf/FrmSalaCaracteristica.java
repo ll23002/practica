@@ -14,10 +14,11 @@ import org.primefaces.model.SortMeta;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSalaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.SalaCaracteristicaBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.PeliculaCaracteristica;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoAsientoBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sala;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.SalaCaracteristica;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoSala;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoAsiento;
 
 import java.io.Serializable;
 import java.util.List;
@@ -33,12 +34,15 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
     @Inject
     TipoSalaBean TSB;
     @Inject
+    TipoAsientoBean TAB;
+    @Inject
     FacesContext facesContext;
     SalaCaracteristica registro;
     LazyDataModel<SalaCaracteristica> modelo;
 
     Integer idSala;
     List<TipoSala> tipoSalaList;
+    List<TipoAsiento> tipoAsientoList;
 
     @PostConstruct
     public void inicializar() {
@@ -46,11 +50,11 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
             modelo = this;
             estado = ESTADO_CRUD.NONE;
             System.out.println("Estado: " + estado);
-            this.tipoSalaList = TSB.findRange(0,Integer.MAX_VALUE);
+            this.tipoSalaList = TSB.findRange(0, Integer.MAX_VALUE);
+            this.tipoAsientoList = TAB.findRange(0, Integer.MAX_VALUE);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -61,7 +65,6 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
             }
         } catch (Exception e) {
             e.printStackTrace();
-
         }
         return List.of();
     }
@@ -69,28 +72,31 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
     @Override
     public int count(Map<String, FilterMeta> filterMeta) {
         try {
-           if(this.idSala != null && SCB != null){
-               return SCB.countByIdSala(idSala);
-           }
+            if (this.idSala != null && SCB != null) {
+                return SCB.countByIdSala(idSala);
+            }
         } catch (Exception e) {
             e.printStackTrace();
-
         }
         return 0;
     }
 
     @Override
-    protected AbstractDataPersistence<SalaCaracteristica> getDataBean() {return SCB;}
+    protected AbstractDataPersistence<SalaCaracteristica> getDataBean() {
+        return SCB;
+    }
 
     @Override
-    protected FacesContext getFacesContext() {return facesContext;}
+    protected FacesContext getFacesContext() {
+        return facesContext;
+    }
 
     @Override
     protected SalaCaracteristica createNewInstance() {
-        try{
+        try {
             registro = new SalaCaracteristica();
             return registro;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -98,51 +104,67 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
 
     @Override
     public SalaCaracteristica buscarRegistroPorId(String id) {
-       if(id!=null && this.modelo != null){
-               return this.modelo.getWrappedData().stream().filter( s ->s.getIdSalaCaracteristica().toString().equals(id)).findFirst().orElse(null);
-       }
-       return null;
+        if (id != null && this.modelo != null) {
+            return this.modelo.getWrappedData().stream().filter(s -> s.getIdSalaCaracteristica().toString().equals(id)).findFirst().orElse(null);
+        }
+        return null;
     }
 
     @Override
     public String buscarIdPorRegistro(SalaCaracteristica dato) {
-        if(dato != null && dato.getIdSalaCaracteristica() != null){
+        if (dato != null && dato.getIdSalaCaracteristica() != null) {
             return dato.getIdSalaCaracteristica().toString();
         }
         return null;
     }
 
     @Override
-    public String getTituloPagina() {return "GESTIÓN DE SALA CARACTERÍSTICA";}
+    public String getTituloPagina() {
+        return "GESTIÓN DE SALA CARACTERÍSTICA";
+    }
 
     @Override
-    protected Object getId(SalaCaracteristica object) {return object.getIdSalaCaracteristica();}
+    protected Object getId(SalaCaracteristica object) {
+        return object.getIdSalaCaracteristica();
+    }
 
-    public LazyDataModel<SalaCaracteristica> getModelo() {return modelo;}
+    public LazyDataModel<SalaCaracteristica> getModelo() {
+        return modelo;
+    }
 
-    public void setModelo(LazyDataModel<SalaCaracteristica> modelo) {this.modelo = modelo;}
+    public void setModelo(LazyDataModel<SalaCaracteristica> modelo) {
+        this.modelo = modelo;
+    }
 
     @Override
-    public ESTADO_CRUD getEstado() {return estado;}
+    public ESTADO_CRUD getEstado() {
+        return estado;
+    }
 
     @Override
-    public void setEstado(ESTADO_CRUD estado) {this.estado = estado;}
+    public void setEstado(ESTADO_CRUD estado) {
+        this.estado = estado;
+    }
 
-    public SalaCaracteristica getRegistro() {return registro;}
+    public SalaCaracteristica getRegistro() {
+        return registro;
+    }
 
-    public void setRegistro(SalaCaracteristica registro) {this.registro = registro;}
+    public void setRegistro(SalaCaracteristica registro) {
+        this.registro = registro;
+    }
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event, this.registro);
         System.out.println("REGISTRO NUEVO DE FrmSalaCaracteristica: " + estado);
-        Integer id= SCB.findLasId();
-        try{
-            if(id != null){
-                registro.setIdSalaCaracteristica((long) (id+1));//ver porque se castea, no deberia de hacer eso
-            }else {
+        Integer id = SCB.findLasId();
+        try {
+            if (id != null) {
+                registro.setIdSalaCaracteristica((long) (id + 1));
+            } else {
                 registro.setIdSalaCaracteristica(1L);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -168,31 +190,41 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
     }
 
     public SalaCaracteristica crearNuevo() {
-     SalaCaracteristica sc= new SalaCaracteristica();
-     if(idSala != null){
-         sc.setIdSala(new Sala(idSala));
-     }
-        if(tipoSalaList != null && !tipoSalaList.isEmpty()){
+        SalaCaracteristica sc = new SalaCaracteristica();
+        if (idSala != null) {
+            sc.setIdSala(new Sala(idSala));
+        }
+        if (tipoSalaList != null && !tipoSalaList.isEmpty()) {
             sc.setIdTipoSala(tipoSalaList.get(0));
         }
         return sc;
     }
 
-    public Integer getIdSala() {return idSala;}
+    public Integer getIdSala() {
+        return idSala;
+    }
 
-    public void setIdSala(Integer idSala) {this.idSala = idSala;}
+    public void setIdSala(Integer idSala) {
+        this.idSala = idSala;
+    }
 
-    public List<TipoSala> getTipoSalaList() {return tipoSalaList;}
+    public List<TipoSala> getTipoSalaList() {
+        return tipoSalaList;
+    }
 
-    public Integer getIdTipoSalSeleccionada(){
-        if(registro != null && registro.getIdTipoSala() != null){
+    public List<TipoAsiento> getTipoAsientoList() {
+        return tipoAsientoList;
+    }
+
+    public Integer getIdTipoSalaSeleccionada() {
+        if (registro != null && registro.getIdTipoSala() != null) {
             return this.registro.getIdTipoSala().getIdTipoSala();
         }
         return null;
     }
 
-    public void setIdTipoSalSeleccionada(Integer idTipoSala){
-        if(this.registro != null && tipoSalaList != null && !tipoSalaList.isEmpty()){
+    public void setIdTipoSalaSeleccionada(Integer idTipoSala) {
+        if (this.registro != null && tipoSalaList != null && !tipoSalaList.isEmpty()) {
             this.registro.setIdTipoSala(tipoSalaList.stream().filter(ts -> ts.getIdTipoSala().equals(idTipoSala)).findFirst().orElse(null));
         }
     }
@@ -205,16 +237,15 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
 
     public void validarValor(FacesContext fc, UIComponent component, Object valor) {
         UIInput input = (UIInput) component;
-        if(registro != null && this.registro.getIdTipoSala() != null){
+        if (registro != null && this.registro.getIdTipoSala() != null) {
             String nuevo = valor.toString();
             Pattern patron = Pattern.compile(this.registro.getIdTipoSala().getExpresionRegular());
             Matcher validador = patron.matcher(nuevo);
-            if(validador.find()){
+            if (validador.find()) {
                 input.setValid(true);
                 return;
             }
         }
         input.setValid(false);
     }
-
 }

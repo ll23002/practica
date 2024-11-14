@@ -1,6 +1,5 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.control;
 
-
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -10,6 +9,8 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.SalaCaracteristica;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Stateless
 @LocalBean
@@ -17,13 +18,16 @@ public class SalaCaracteristicaBean extends AbstractDataPersistence<SalaCaracter
     @PersistenceContext(unitName = "practicaPU")
     EntityManager em;
 
-    public SalaCaracteristicaBean() {super(SalaCaracteristica.class);}
+    private static final Logger LOGGER = Logger.getLogger(SalaCaracteristicaBean.class.getName());
+
+    public SalaCaracteristicaBean() {
+        super(SalaCaracteristica.class);
+    }
 
     @Override
     public EntityManager getEntityManager() {
         return em;
     }
-
 
     public List<SalaCaracteristica> findByIdSala(final Integer idSala, int first, int max) {
         try {
@@ -33,9 +37,9 @@ public class SalaCaracteristicaBean extends AbstractDataPersistence<SalaCaracter
             q.setMaxResults(max);
             return q.getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error executing findByIdSala query", e);
+            throw new RuntimeException("Error executing findByIdSala query", e);
         }
-        return List.of();
     }
 
     public int countByIdSala(final Integer idSala) {
@@ -44,24 +48,27 @@ public class SalaCaracteristicaBean extends AbstractDataPersistence<SalaCaracter
             q.setParameter("idSala", idSala);
             return q.getSingleResult().intValue();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error executing countByIdSala query", e);
+            throw new RuntimeException("Error executing countByIdSala query", e);
         }
-        return 0;
     }
 
     @Override
-    public void delete(SalaCaracteristica registro) {super.delete(registro);}
+    public void delete(SalaCaracteristica registro) {
+        super.delete(registro);
+    }
 
     @Override
-    public SalaCaracteristica update(SalaCaracteristica registro) throws IllegalArgumentException, IllegalStateException {return super.update(registro);}
+    public SalaCaracteristica update(SalaCaracteristica registro) throws IllegalArgumentException, IllegalStateException {
+        return super.update(registro);
+    }
 
-    public Integer findLasId(){
+    public Integer findLasId() {
         try {
             return em.createQuery("SELECT MAX(sc.idSalaCaracteristica) FROM SalaCaracteristica sc", Integer.class).getSingleResult();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error executing findLasId query", e);
             return null;
         }
     }
 }
-

@@ -1,6 +1,5 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
-
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
@@ -11,7 +10,6 @@ import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.SalaBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Pelicula;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sala;
 
 import java.io.Serializable;
@@ -25,6 +23,10 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     FacesContext facesContext;
     @Inject
     FrmSalaCaracteristica frmSalaCaracteristica;
+    @Inject
+    FrmAsiento frmAsiento;
+    @Inject
+    FrmProgramacion frmProgramacion;
     Sala registro;
     LazyDataModel<Sala> modelo;
 
@@ -33,15 +35,6 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         modelo = this;
         estado = ESTADO_CRUD.NONE;
         System.out.println("Estado: " + estado);
-    }
-
-    public void cambiarTab(TabChangeEvent tce){
-        System.out.println("Cambiando de tab");
-        if (tce.getTab().getTitle().equals("Tipos")){
-            if (this.registro != null && this.frmSalaCaracteristica != null){
-                this.frmSalaCaracteristica.setIdSala(this.registro.getIdSala());
-            }
-        }
     }
 
     @Override
@@ -87,7 +80,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
 
     @Override
     public String getTituloPagina() {
-        return "GESTIÓN DE SALA";
+        return "Gestión de Sala";
     }
 
     @Override
@@ -121,10 +114,6 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         this.registro = registro;
     }
 
-    public FrmSalaCaracteristica getFrmSalaCaracteristica() {
-        return frmSalaCaracteristica;
-    }
-
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event, this.registro);
         System.out.println("Registro nuevo en FrmSala: " + estado);
@@ -145,14 +134,14 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         System.out.println("Registro guardado en FrmSala: " + estado);
     }
 
-    public void btnEditar(ActionEvent event) {
-        super.btnEditar(event, this.registro);
-        System.out.println("Registro editado en FrmSala: " + estado);
-    }
-
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
         System.out.println("Registro cancelado en FrmSala: " + estado);
+    }
+
+    public void btnEditar(ActionEvent event) {
+        super.btnEditar(event, this.registro);
+        System.out.println("Registro editado en FrmSala: " + estado);
     }
 
     public void btnEliminar(ActionEvent event) {
@@ -166,6 +155,44 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         System.out.println("Registro seleccionado en FrmSala: " + estado);
     }
 
+    public void cambiarTab(TabChangeEvent tce) {
+        System.out.println("Cambiando de tab");
+        if (tce.getTab().getTitle().equals("Caracteristicas")) {
+            if (this.registro != null && this.frmSalaCaracteristica != null) {
+                this.frmSalaCaracteristica.setIdSala(this.registro.getIdSala());
+            }
+        } else if (tce.getTab().getTitle().equals("Asientos")) {
+            if (this.registro != null && this.frmAsiento != null) {
+                this.frmAsiento.setIdSala(this.registro.getIdSala());
+            }
+        } else if (tce.getTab().getTitle().equals("Programacion")) {
+            if (this.registro != null && this.frmProgramacion != null) {
+                this.frmProgramacion.setIdSala(this.registro.getIdSala());
+            }
+        }
+    }
 
+    public FrmSalaCaracteristica getFrmSalaCaracteristica() {
+        return frmSalaCaracteristica;
+    }
 
+    public void setFrmSalaCaracteristica(FrmSalaCaracteristica frmSalaCaracteristica) {
+        this.frmSalaCaracteristica = frmSalaCaracteristica;
+    }
+
+    public FrmAsiento getFrmAsiento() {
+        return frmAsiento;
+    }
+
+    public void setFrmAsiento(FrmAsiento frmAsiento) {
+        this.frmAsiento = frmAsiento;
+    }
+
+    public FrmProgramacion getFrmProgramacion() {
+        return frmProgramacion;
+    }
+
+    public void setFrmProgramacion(FrmProgramacion frmProgramacion) {
+        this.frmProgramacion = frmProgramacion;
+    }
 }

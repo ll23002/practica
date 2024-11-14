@@ -8,12 +8,16 @@ import java.util.Set;
 
 @Entity
 @Table(name = "asiento", schema = "public")
+@NamedQueries({
+    @NamedQuery(name = "Asiento.findByNombre", query = "SELECT a FROM Asiento a WHERE a.nombre = :nombre"),
+    @NamedQuery(name = "Asiento.countByNombre", query = "SELECT COUNT(a) FROM Asiento a WHERE a.nombre = :nombre")
+})
 public class Asiento {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "asiento_id_gen")
     @SequenceGenerator(name = "asiento_id_gen", sequenceName = "asiento_id_asiento_seq", allocationSize = 1)
     @Column(name = "id_asiento", nullable = false)
-    private Long idAsiento;
+    private Integer idAsiento;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sala")
@@ -32,11 +36,11 @@ public class Asiento {
     @OneToMany(mappedBy = "idAsiento")
     private Set<ReservaDetalle> reservaDetalles = new LinkedHashSet<>();
 
-    public Long getIdAsiento() {
+    public Integer getIdAsiento() {
         return idAsiento;
     }
 
-    public void setIdAsiento(Long id) {
+    public void setIdAsiento(Integer id) {
         this.idAsiento = id;
     }
 
@@ -79,5 +83,4 @@ public class Asiento {
     public void setReservaDetalles(Set<ReservaDetalle> reservaDetalles) {
         this.reservaDetalles = reservaDetalles;
     }
-
 }
