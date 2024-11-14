@@ -207,29 +207,11 @@
                             <h:panelGroup id="pnlTablaP">
                                 <h:form id="frmTablaP">
                                     <h:panelGrid>
-                                        <p:dataTable
-                                                rows="10"
-                                                paginator="true"
-                                                value="#{frmSala.frmProgramacion.modelo}"
-                                                var="rp"
-                                                lazy="true"
-                                                selectionMode="single"
-                                                rendered="#{frmSala.frmProgramacion.estado == 'NONE'}"
-                                                selection="#{frmSala.frmProgramacion.registro}">
-                                            <p:ajax event="rowSelect"
-                                                    update=":tabDetalle:pnlDetalleP :tabDetalle:frmTablaP"
-                                                    process="@this"
-                                                    listener="#{frmSala.frmProgramacion.onRowSelect}"/>
-                                            <p:column headerText="ID">
-                                                <h:outputText value="#{rp.idProgramacion}"/>
-                                            </p:column>
-                                            <p:column headerText="Desde">
-                                                <h:outputText value="#{rp.desde}"/>
-                                            </p:column>
-                                            <p:column headerText="Hasta">
-                                                <h:outputText value="#{rp.hasta}"/>
-                                            </p:column>
-                                        </p:dataTable>
+                                        <p:schedule value="#{frmSala.frmProgramacion.eventModel}" widgetVar="schedule"
+                                                    timeZone="UTC" locale="en" showWeekends="true" showHeader="true"
+                                                    draggable="false" resizable="false">
+                                            <p:ajax event="eventSelect" listener="#{frmSala.frmProgramacion.onEventSelect}" update=":tabDetalle:pnlDetalleP"/>
+                                        </p:schedule>
                                         <h:panelGrid>
                                             <crud:BotonesTop frm="#{frmSala.frmProgramacion}"
                                                              actualizar=":tabDetalle:pnlDetalleP :tabDetalle:pnlTablaP"/>

@@ -2,17 +2,25 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.primefaces.event.TabChangeEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.ProgramacionBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Programacion;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
 
 @Named
 @SessionScoped
@@ -23,13 +31,15 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     FacesContext facesContext;
     Programacion registro;
     LazyDataModel<Programacion> modelo;
-
+    private ScheduleModel eventModel;
     Integer idSala;
 
     @PostConstruct
     public void inicializar() {
         modelo = this;
         estado = ESTADO_CRUD.NONE;
+        eventModel = new DefaultScheduleModel();
+        cargarEventos();
         System.out.println("Estado: " + estado);
     }
 
@@ -157,5 +167,35 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
 
     public void setIdSala(Integer idSala) {
         this.idSala = idSala;
+    }
+
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    private void cargarEventos() {
+        List<Programacion> programaciones = dataBean.findAll();
+        for (Programacion programacion : programaciones) {
+            DefaultScheduleEvent<?> event = DefaultScheduleEvent.builder()
+                    .title(programacion.getIdPelicula().getNombre())
+                    .startDate(LocalDateTime.ofInstant(programacion.getDesde().toInstant(), ZoneOffset.UTC))
+                    .endDate(LocalDateTime.ofInstant(programacion.getHasta().toInstant(), ZoneOffset.UTC))
+                    .description(programacion.getComentarios())
+                    .build();
+            eventModel.addEvent(event);
+        }
+    }
+
+    public void onEventSelect(SelectEvent<ScheduleEvent<?>> selectEvent) {
+        ScheduleEvent<?> event = selectEvent.getObject();
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Evento seleccionado", event.getTitle());
+        FacesContext.getCurrentInstance().addMessage(null, message);
+
+        this.registro = findProgramacionByEvent(event);
+    }
+
+    private Programacion findProgramacionByEvent(ScheduleEvent<?> event) {
+        // Implement the logic to find the Programacion entity based on the event
+        return dataBean.findById(Integer.parseInt(event.getId()));
     }
 }

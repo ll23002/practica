@@ -44,4 +44,13 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
             return null;
         }
     }
+     public List<Programacion> findAll() {
+        try {
+            TypedQuery<Programacion> query = em.createQuery("SELECT p FROM Programacion p", Programacion.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
