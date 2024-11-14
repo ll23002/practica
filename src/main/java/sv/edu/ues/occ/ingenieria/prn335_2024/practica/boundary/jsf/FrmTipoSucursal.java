@@ -55,7 +55,7 @@ public class FrmTipoSucursal extends FrmAbstractPersistence<Sucursal> implements
     public String buscarIdPorRegistro(Sucursal dato) {return null;}
 
     @Override
-    public String getTituloPagina() {return "Gestión de Sucursal";}
+    public String getTituloPagina() {return "";}
 
     @Override
     protected Object getId(Sucursal object) {return object.getIdSucursal();}

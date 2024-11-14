@@ -22,8 +22,6 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
     TipoSalaBean TSB;
     @Inject
     FacesContext facesContext;
-    //@Inject
-    //FrmSalaCaracteristica frmSalaCaracteristica;
     TipoSala registro;
     LazyDataModel<TipoSala> modelo;//modelo es una variable de tipo LazyDataModel que se encarga de almacenar los datos de la tabla TipoSala.
 
@@ -33,15 +31,6 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
         estado = ESTADO_CRUD.NONE;
         System.out.println("Estado: " + estado);
     }
-
-    /*public void cambiarTab(TabChangeEvent tce){
-        System.out.println("Cambiando de tab");
-        if (tce.getTab().getTitle().equals("Tipos")){
-            if (this.registro != null && this.frmSalaCaracteristica != null){
-                this.frmSalaCaracteristica.setIdSala(this.registro.getIdTipoSala());
-            }
-        }
-    }*/
 
     @Override
     protected AbstractDataPersistence<TipoSala> getDataBean() {
@@ -76,7 +65,7 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
 
     @Override
     public String getTituloPagina() {
-        return "Gestión de Tipos de Sala";
+        return "";
     }
 
     @Override

@@ -3,6 +3,7 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.component.UIInput;
 import jakarta.faces.context.FacesContext;
@@ -119,7 +120,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
 
     @Override
     public String getTituloPagina() {
-        return "Gestión de Características de Película";
+        return " ";
     }
 
     @Override
@@ -166,16 +167,20 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public void btnGuardar(ActionEvent event) {
         if (registro != null && idPelicula != null) {
             registro.setIdPelicula(new Pelicula(idPelicula));
         }
-        super.btnGuardar(event, this.registro);
-        System.out.println("Registro guardado en FrmPeliculaCaracteristica: " + estado);
+        if (registro == null || registro.getValor() == null ) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", " "));
+        }else {
+            super.btnGuardar(event, this.registro);
+            System.out.println("Registro guardado en FrmPeliculaCaracteristica: " + estado);
+        }
     }
-
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
@@ -183,8 +188,12 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
     }
 
     public void btnEditar(ActionEvent event) {
-        super.btnEditar(event, this.registro);
-        System.out.println("Registro seleccionado en btnEditar en FrmPeliculaCaracteristica: " + estado);
+        if (registro == null || registro.getValor() == null || registro.getIdTipoPelicula()==null ) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", " "));
+        }else {
+            super.btnEditar(event, this.registro);
+            System.out.println("Registro editado en FrmPeliculaCaracteristica: " + estado);
+        }
     }
 
     public void btnEliminar(ActionEvent event) {

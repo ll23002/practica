@@ -86,7 +86,7 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
 
     @Override
     public String getTituloPagina() {
-        return "Gestión de Películas";
+        return "";
     }
 
     @Override
@@ -147,7 +147,6 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
         if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty()|| registro.getSinopsis()==null || registro.getSinopsis().isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error,Llene el formulario", "El nombre es requerido"));
         }else{
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado con éxito", "Registro guardado"));
             super.btnGuardar(event, this.registro);
             System.out.println("Registro guardado en FrmPelicula: " + estado);
         }
@@ -162,13 +161,10 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
         if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty() || registro.getSinopsis()==null || registro.getSinopsis().isEmpty()  ) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", "El nombre es requerido"));
         }else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado con éxito", "Registro editado"));
             super.btnEditar(event, this.registro);
             System.out.println("Registro editado en FrmPelicula: " + estado);
         }
     }
-
-
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);

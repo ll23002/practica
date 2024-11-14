@@ -81,7 +81,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
 
     @Override
     public String getTituloPagina() {
-        return "Gestión de Sala";
+        return " ";
     }
 
     @Override

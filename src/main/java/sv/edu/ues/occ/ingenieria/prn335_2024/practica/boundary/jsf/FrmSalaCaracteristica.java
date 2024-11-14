@@ -120,7 +120,7 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
 
     @Override
     public String getTituloPagina() {
-        return "GESTIÓN DE SALA CARACTERÍSTICA";
+        return " ";
     }
 
     @Override
@@ -180,6 +180,7 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
     }
 
     public void btnEditar(ActionEvent event) {
+
         super.btnEditar(event, this.registro);
         System.out.println("REGISTRO EDITADO DE FrmSalaCaracteristica: " + estado);
     }
