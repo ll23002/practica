@@ -5,15 +5,18 @@
                xmlns:crud="jakarta.faces.composite/crud"
                template="WEB-INF/Templates/Principal.xhtml"
                xmlns:h="jakarta.faces.html">
-
-    <f:define name="titulo">
-        #{frmSala.tituloPagina}
+<h1>
+    <f:define name="Titulo">
+        Sala
     </f:define>
+</h1>
+
 
     <f:define name="Cuerpo">
         <h:panelGrid>
             <h:panelGroup id="pnlTabla">
                 <h:form id="frmTabla">
+
                     <h:panelGrid>
                         <p:dataTable
                                 rows="10"
