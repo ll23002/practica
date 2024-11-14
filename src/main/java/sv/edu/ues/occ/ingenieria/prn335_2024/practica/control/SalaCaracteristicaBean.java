@@ -67,7 +67,7 @@ public class SalaCaracteristicaBean extends AbstractDataPersistence<SalaCaracter
         try {
             return em.createQuery("SELECT MAX(sc.idSalaCaracteristica) FROM SalaCaracteristica sc", Integer.class).getSingleResult();
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error executing findLasId query", e);
+            LOGGER.log(Level.SEVERE, "Error en traer el ID de SalaCaracteristica", e);
             return null;
         }
     }

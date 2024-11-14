@@ -160,9 +160,9 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
         Integer id = SCB.findLasId();
         try {
             if (id != null) {
-                registro.setIdSalaCaracteristica((long) (id + 1));
+                registro.setIdSalaCaracteristica( (id + 1));
             } else {
-                registro.setIdSalaCaracteristica(1L);
+                registro.setIdSalaCaracteristica(1);
             }
         } catch (Exception e) {
             e.printStackTrace();

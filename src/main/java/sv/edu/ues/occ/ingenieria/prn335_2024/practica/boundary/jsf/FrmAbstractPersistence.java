@@ -101,6 +101,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
     public void btnGuardar(ActionEvent event, F registro) {
         try {
             estado = ESTADO_CRUD.NONE;
+            System.out.println("Si entra a guardar");
             getDataBean().create(registro);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro guardado", "El registro ha sido guardado exitosamente."));
             registro = null;

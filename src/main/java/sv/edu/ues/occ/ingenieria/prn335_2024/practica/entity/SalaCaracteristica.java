@@ -13,7 +13,7 @@ public class SalaCaracteristica {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sala_caracteristica_id_gen")
     @SequenceGenerator(name = "sala_caracteristica_id_gen", sequenceName = "sala_caracteristica_id_sala_caracteristica_seq", allocationSize = 1)
     @Column(name = "id_sala_caracteristica", nullable = false)
-    private Long idSalaCaracteristica;
+    private Integer idSalaCaracteristica;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_sala")
@@ -27,11 +27,11 @@ public class SalaCaracteristica {
     @Column(name = "valor")
     private String valor;
 
-    public Long getIdSalaCaracteristica() {
+    public Integer getIdSalaCaracteristica() {
         return idSalaCaracteristica;
     }
 
-    public void setIdSalaCaracteristica(Long id) {
+    public void setIdSalaCaracteristica(Integer id) {
         this.idSalaCaracteristica = id;
     }
 
