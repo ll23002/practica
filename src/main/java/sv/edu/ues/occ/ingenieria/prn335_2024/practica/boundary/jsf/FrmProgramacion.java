@@ -19,6 +19,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Programacion;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
@@ -136,6 +137,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     }
 
     public void btnGuardar(ActionEvent event) {
+        convertirYGuardarFecha();
         super.btnGuardar(event, this.registro);
         System.out.println("Registro guardado en FrmProgramacion: " + estado);
     }
@@ -197,5 +199,54 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     private Programacion findProgramacionByEvent(ScheduleEvent<?> event) {
         // Implement the logic to find the Programacion entity based on the event
         return dataBean.findById(Integer.parseInt(event.getId()));
+    }
+
+    public void convertirYGuardarFecha() {
+        // Obtener la fecha desde el registro
+        OffsetDateTime desde = registro.getDesde();
+        OffsetDateTime hasta = registro.getHasta();
+
+        // Imprimir valores antes de la conversión
+        System.out.println("Antes de la conversión:");
+        System.out.println("Desde: " + desde);
+        System.out.println("Hasta: " + hasta);
+
+        // Convertir OffsetDateTime a LocalDateTime
+        LocalDateTime localDesde = desde.toLocalDateTime();
+        LocalDateTime localHasta = hasta.toLocalDateTime();
+
+        // Convertir LocalDateTime a OffsetDateTime con el offset deseado
+        ZoneOffset offset = ZoneOffset.of("-06:00");
+        OffsetDateTime offsetDesde = localDesde.atOffset(offset);
+        OffsetDateTime offsetHasta = localHasta.atOffset(offset);
+
+        // Imprimir valores después de la conversión
+        System.out.println("Después de la conversión:");
+        System.out.println("Desde: " + offsetDesde);
+        System.out.println("Hasta: " + offsetHasta);
+
+        // Guardar las fechas convertidas en el registro
+        registro.setDesde(offsetDesde);
+        registro.setHasta(offsetHasta);
+    }
+
+    public LocalDateTime getLocalDesde() {
+        return registro.getDesde() != null ? registro.getDesde().toLocalDateTime() : null;
+    }
+
+    public void setLocalDesde(LocalDateTime localDesde) {
+        if (localDesde != null) {
+            registro.setDesde(localDesde.atOffset(ZoneOffset.of("-06:00")));
+        }
+    }
+
+    public LocalDateTime getLocalHasta() {
+        return registro.getHasta() != null ? registro.getHasta().toLocalDateTime() : null;
+    }
+
+    public void setLocalHasta(LocalDateTime localHasta) {
+        if (localHasta != null) {
+            registro.setHasta(localHasta.atOffset(ZoneOffset.of("-06:00")));
+        }
     }
 }
