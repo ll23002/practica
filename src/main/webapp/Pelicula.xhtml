@@ -129,6 +129,7 @@
                                                 <p:outputLabel value="Tipo de Pelicula" for="lstTipoPelicula"/>
                                                 <h:selectOneMenu id="lstTipoPelicula"
                                                                  value="#{frmPelicula.frmPeliculaCaracteristica.idTipoPeliculaSeleccionada}">
+                                                    <f2:selectItem itemLabel="Seleccione un tipo" itemValue="i1" noSelectionOption="true"/>
                                                     <f2:selectItems
                                                             value="#{frmPelicula.frmPeliculaCaracteristica.tipoPeliculaList}"
                                                             var="tp"
