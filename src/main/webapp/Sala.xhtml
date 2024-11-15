@@ -5,11 +5,11 @@
                xmlns:crud="jakarta.faces.composite/crud"
                template="WEB-INF/Templates/Principal.xhtml"
                xmlns:h="jakarta.faces.html">
-<h1>
-    <f:define name="Titulo">
-        Sala
-    </f:define>
-</h1>
+    <h1>
+        <f:define name="Titulo">
+            Sala
+        </f:define>
+    </h1>
 
 
     <f:define name="Cuerpo">
@@ -213,7 +213,9 @@
                                         <p:schedule value="#{frmSala.frmProgramacion.eventModel}" widgetVar="schedule"
                                                     timeZone="UTC" locale="en" showWeekends="true" showHeader="true"
                                                     draggable="false" resizable="false">
-                                            <p:ajax event="eventSelect" listener="#{frmSala.frmProgramacion.onEventSelect}" update=":tabDetalle:pnlDetalleP"/>
+                                            <p:ajax event="eventSelect"
+                                                    listener="#{frmSala.frmProgramacion.onEventSelect}"
+                                                    update=":tabDetalle:pnlDetalleP"/>
                                         </p:schedule>
                                         <h:panelGrid>
                                             <crud:BotonesTop frm="#{frmSala.frmProgramacion}"
@@ -226,25 +228,23 @@
                                 <h:panelGrid
                                         rendered="#{frmSala.frmProgramacion.estado != 'NONE'}">
                                     <h:form id="frmDetalleP">
-                                        <h:panelGrid>
-                                            <h:panelGrid columns="2">
-                                                <p:outputLabel value="ID:" for="txtIdProgramacion"/>
-                                                <h:inputText id="txtIdProgramacion"
-                                                             value="#{frmSala.frmProgramacion.registro.idProgramacion}"
-                                                             readonly="true"
-                                                             disabled="true"/>
-                                                <p:outputLabel value="Desde" for="txtDesde"/>
-                                                <p:calendar id="txtDesde"
-                                                            value="#{frmSala.frmProgramacion.registro.desde}"
-                                                            pattern="yyyy-MM-dd HH:mm:ss.SSSSSS Z" showTime="true"/>
-                                                <p:outputLabel value="Hasta" for="txtHasta"/>
-                                                <p:calendar id="txtHasta"
-                                                            value="#{frmSala.frmProgramacion.registro.hasta}"
-                                                            pattern="yyyy-MM-dd HH:mm:ss.SSSSSS Z" showTime="true"/>
-                                            </h:panelGrid>
+                                        <h:panelGrid columns="2">
+                                            <p:outputLabel value="ID:" for="txtIdProgramacion"/>
+                                            <h:inputText id="txtIdProgramacion"
+                                                         value="#{frmSala.frmProgramacion.registro.idProgramacion}"
+                                                         readonly="true"
+                                                         disabled="true"/>
+                                            <p:outputLabel value="Desde" for="txtDesde"/>
+                                            <p:datePicker id="txtDesde"
+                                                          value="#{frmSala.frmProgramacion.localDesde}"
+                                                          pattern="yyyy-MM-dd HH:mm" showTime="true"/>
+                                            <p:outputLabel value="Hasta" for="txtHasta"/>
+                                            <p:datePicker id="txtHasta"
+                                                          value="#{frmSala.frmProgramacion.localHasta}"
+                                                          pattern="yyyy-MM-dd HH:mm" showTime="true"/>
                                         </h:panelGrid>
-                                        <crud:BotonesCRUD frm="#{frmSala.frmProgramacion}"
-                                                          actualizar=":tabDetalle:pnlDetalleP :tabDetalle:pnlTablaP"/>
+                                        <p:commandButton value="Guardar" actionListener="#{frmSala.frmProgramacion.btnGuardar}"
+                                                         update=":tabDetalle:pnlDetalleP :tabDetalle:pnlTablaP"/>
                                     </h:form>
                                 </h:panelGrid>
                             </h:panelGroup>
