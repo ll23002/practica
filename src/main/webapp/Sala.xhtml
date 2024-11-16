@@ -36,7 +36,7 @@
                                 <h:outputText value="#{r.nombre}"/>
                             </p:column>
                             <p:column headerText="Activo">
-                                <h:outputText value="#{r.activo}"/>
+                                <h:outputText value="#{r.activo ? 'Activo' : 'Desactivado'}"/>
                             </p:column>
                         </p:dataTable>
                         <h:panelGrid>
@@ -62,8 +62,8 @@
                                         <p:outputLabel value="Nombre" for="txtNombreGeneral"/>
                                         <h:inputText id="txtNombreGeneral" value="#{frmSala.registro.nombre}"
                                                      size="70"/>
-                                        <p:outputLabel value="Activo" for="txtActivo"/>
-                                        <h:inputText id="txtActivo" value="#{frmSala.registro.activo}" size="70"/>
+                                        <p:outputLabel value="Activo" for="chkActivo"/>
+                                        <p:selectBooleanCheckbox id="chkActivo" value="#{frmSala.registro.activo}"/>
                                         <p:outputLabel value="Observaciones" for="txtObservaciones"/>
                                         <h:inputTextarea id="txtObservaciones" value="#{frmSala.registro.observaciones}"
                                                          rows="3" cols="70"/>
@@ -239,7 +239,8 @@
                                                           value="#{frmSala.frmProgramacion.localHasta}"
                                                           pattern="yyyy-MM-dd HH:mm" showTime="true"/>
                                         </h:panelGrid>
-                                        <p:commandButton value="Guardar" actionListener="#{frmSala.frmProgramacion.btnGuardar}"
+                                        <p:commandButton value="Guardar"
+                                                         actionListener="#{frmSala.frmProgramacion.btnGuardar}"
                                                          update=":tabDetalle:pnlDetalleP :tabDetalle:pnlTablaP"/>
                                     </h:form>
                                 </h:panelGrid>
