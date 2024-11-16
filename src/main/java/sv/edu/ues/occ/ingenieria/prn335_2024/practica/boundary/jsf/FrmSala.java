@@ -11,9 +11,13 @@ import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.SalaBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSucursalBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sala;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sucursal;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoPelicula;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Named
 @SessionScoped
@@ -30,12 +34,24 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     FrmProgramacion frmProgramacion;
     Sala registro;
     LazyDataModel<Sala> modelo;
+    @Inject
+    TipoSucursalBean TSB;
+    List<Sucursal> sucursalList;
+    Integer idSucursal;
 
     @PostConstruct
     public void inicializar() {
-        modelo = this;
-        estado = ESTADO_CRUD.NONE;
-        System.out.println("Estado: " + estado);
+        try {
+            modelo = this;
+            estado = ESTADO_CRUD.NONE;
+            System.out.println("Estado: " + estado);
+            this.sucursalList = TSB.findRange(0, Integer.MAX_VALUE);
+            if (this.sucursalList != null && !this.sucursalList.isEmpty()) {
+                this.setIdSucursalSeleccionada(this.sucursalList.get(0).getIdSucursal());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -115,6 +131,22 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         this.registro = registro;
     }
 
+    public List<Sucursal> getSucursalList() {
+        return sucursalList;
+    }
+
+    public Integer getIdSucursalSeleccionada(){
+        if (registro != null && this.registro.getIdSucursal() != null) {
+            return this.registro.getIdSucursal().getIdSucursal();
+        }
+        return null;
+    }
+    public void setIdSucursalSeleccionada(Integer idSucursal){
+        if (this.registro != null && this.sucursalList != null && !this.sucursalList.isEmpty()) {
+            this.registro.setIdSucursal(this.sucursalList.stream().filter(tp -> tp.getIdSucursal().equals(idSucursal)).findFirst().orElse(null));
+        }
+    }
+
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event, this.registro);
         System.out.println("Registro nuevo en FrmSala: " + estado);
@@ -134,7 +166,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         /*
         super.btnGuardar(event, this.registro);
         System.out.println("Registro guardado en FrmSala: " + estado);*/
-        if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty() || registro.getActivo()== null ||registro.getObservaciones().isEmpty()) {
+        if (registro == null || registro.getIdSucursal() == null || registro.getNombre() == null || registro.getNombre().isEmpty() || registro.getActivo()== null ||registro.getObservaciones().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", "El nombre es requerido"));
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado con éxito", "Registro guardado"));

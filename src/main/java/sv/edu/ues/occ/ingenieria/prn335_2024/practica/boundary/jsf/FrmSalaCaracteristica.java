@@ -2,6 +2,7 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.Dependent;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.component.UIInput;
 import jakarta.faces.context.FacesContext;
@@ -15,10 +16,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersis
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSalaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.SalaCaracteristicaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoAsientoBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sala;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.SalaCaracteristica;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoSala;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoAsiento;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -170,8 +168,15 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
     }
 
     public void btnGuardar(ActionEvent event) {
-        super.btnGuardar(event, this.registro);
-        System.out.println("REGISTRO GUARDADO DE FrmSalaCaracteristica: " + estado);
+        if (registro != null && idSala != null) {
+            registro.setIdSala(new Sala(idSala));
+        }
+        if (registro == null || registro.getValor() == null ) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", " "));
+        }else {
+            super.btnGuardar(event, this.registro);
+            System.out.println("Registro guardado en FrmPeliculaCaracteristica: " + estado);
+        }
     }
 
     public void btnCancelar(ActionEvent event) {
