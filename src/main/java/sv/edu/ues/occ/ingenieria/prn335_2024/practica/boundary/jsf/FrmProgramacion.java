@@ -87,7 +87,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
 
     @Override
     public String getTituloPagina() {
-        return "Gestión de Programación";
+        return "Programación";
     }
 
     @Override

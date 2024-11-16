@@ -112,7 +112,7 @@ public void inicializar() {
 
     @Override
     public String getTituloPagina() {
-        return "";
+        return "Asiento Caracteristica";
     }
 
     @Override

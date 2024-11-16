@@ -120,7 +120,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
 
     @Override
     public String getTituloPagina() {
-        return " ";
+        return " Pelicula Caracteristica";
     }
 
     @Override

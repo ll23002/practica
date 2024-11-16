@@ -63,7 +63,7 @@ public class FrmTipoAsiento extends FrmAbstractPersistence<TipoAsiento> implemen
 
     @Override
     public String getTituloPagina() {
-        return null;
+        return "Tipo de Asiento";
     }
 
     @Override
