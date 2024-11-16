@@ -34,6 +34,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     LazyDataModel<Programacion> modelo;
     private ScheduleModel eventModel;
     Integer idSala;
+    boolean mostrarSchedule = true;
 
     @PostConstruct
     public void inicializar() {
@@ -87,7 +88,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
 
     @Override
     public String getTituloPagina() {
-        return "Gestión de Programación";
+        return "Programación";
     }
 
     @Override
@@ -123,6 +124,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event, this.registro);
+        mostrarSchedule = false;
         System.out.println("Registro nuevo en FrmProgramacion: " + estado);
         Integer id = dataBean.findLastId();
         try {
@@ -137,12 +139,14 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     }
 
     public void btnGuardar(ActionEvent event) {
+        mostrarSchedule = true;
         convertirYGuardarFecha();
         super.btnGuardar(event, this.registro);
         System.out.println("Registro guardado en FrmProgramacion: " + estado);
     }
 
     public void btnCancelar(ActionEvent event) {
+        mostrarSchedule = true;
         super.btnCancelar(event, this.registro);
         System.out.println("Registro cancelado en FrmProgramacion: " + estado);
     }
@@ -249,4 +253,12 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
             registro.setHasta(localHasta.atOffset(ZoneOffset.of("-06:00")));
         }
     }
+   public boolean isMostrarSchedule() {
+    return mostrarSchedule;
+}
+
+public void setMostrarSchedule(boolean mostrarSchedule) {
+    this.mostrarSchedule = mostrarSchedule;
+}
+
 }

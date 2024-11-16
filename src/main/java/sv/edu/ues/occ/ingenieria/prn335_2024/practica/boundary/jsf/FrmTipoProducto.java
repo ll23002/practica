@@ -63,7 +63,7 @@ public class FrmTipoProducto extends FrmAbstractPersistence<TipoProducto> implem
 
     @Override
     public String getTituloPagina() {
-        return null;
+        return "Tipo de Producto";
     }
 
     @Override

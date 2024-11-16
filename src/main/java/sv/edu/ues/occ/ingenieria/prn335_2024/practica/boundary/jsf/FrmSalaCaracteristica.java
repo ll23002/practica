@@ -120,7 +120,7 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
 
     @Override
     public String getTituloPagina() {
-        return " ";
+        return " Sala Caracteristica";
     }
 
     @Override

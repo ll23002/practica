@@ -63,7 +63,7 @@ public class FrmTipoReserva extends FrmAbstractPersistence<TipoReserva> implemen
 
     @Override
     public String getTituloPagina() {
-        return null;
+        return "Tipo de Reserva";
     }
 
     @Override

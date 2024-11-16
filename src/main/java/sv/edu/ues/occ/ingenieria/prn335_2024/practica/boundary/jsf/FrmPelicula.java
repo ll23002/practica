@@ -86,7 +86,7 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
 
     @Override
     public String getTituloPagina() {
-        return "";
+        return "Pelicula";
     }
 
     @Override

@@ -63,7 +63,7 @@ public class FrmTipoPelicula extends FrmAbstractPersistence<TipoPelicula> implem
 
     @Override
     public String getTituloPagina() {
-        return null;
+        return "Tipo de Pelicula";
     }
 
     @Override

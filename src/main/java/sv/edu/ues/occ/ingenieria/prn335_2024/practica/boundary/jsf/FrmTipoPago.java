@@ -63,7 +63,7 @@ public class FrmTipoPago extends FrmAbstractPersistence<TipoPago> implements Ser
 
     @Override
     public String getTituloPagina() {
-        return null;
+        return "Tipo de Pago";
     }
 
     @Override

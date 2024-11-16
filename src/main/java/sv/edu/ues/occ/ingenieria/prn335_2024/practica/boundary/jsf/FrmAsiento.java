@@ -76,7 +76,7 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
 
     @Override
     public String getTituloPagina() {
-        return "Gestión de Asiento";
+        return "Asiento";
     }
 
     @Override

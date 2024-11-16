@@ -82,7 +82,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
 
     @Override
     public String getTituloPagina() {
-        return " ";
+        return " Sala";
     }
 
     @Override
