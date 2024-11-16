@@ -168,15 +168,14 @@
                                             <p:column headerText="Nombre">
                                                 <h:outputText value="#{ra.nombre}"/>
                                             </p:column>
-                                            <p:column headerText="Activo">
-                                                <h:outputText value="#{ra.activo}"/>
-                                            </p:column>
+
                                         </p:dataTable>
                                         <h:panelGrid>
                                             <crud:BotonesTop frm="#{frmSala.frmAsiento}"
                                                              actualizar=":tabDetalle:pnlDetalleA :tabDetalle:pnlTablaA"/>
                                         </h:panelGrid>
                                     </h:panelGrid>
+
                                 </h:form>
                             </h:panelGroup>
                             <h:panelGroup id="pnlDetalleA">
@@ -193,9 +192,6 @@
                                                 <p:outputLabel value="Nombre" for="txtNombreAsiento"/>
                                                 <h:inputText id="txtNombreAsiento"
                                                              value="#{frmSala.frmAsiento.registro.nombre}" size="70"/>
-                                                <p:outputLabel value="Activo" for="txtActivoAsiento"/>
-                                                <h:inputText id="txtActivoAsiento"
-                                                             value="#{frmSala.frmAsiento.registro.activo}" size="70"/>
                                             </h:panelGrid>
                                         </h:panelGrid>
                                         <crud:BotonesCRUD frm="#{frmSala.frmAsiento}"
