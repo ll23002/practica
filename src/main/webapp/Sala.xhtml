@@ -180,7 +180,6 @@
                                             <p:column headerText="Nombre">
                                                 <h:outputText value="#{ra.nombre}"/>
                                             </p:column>
-
                                         </p:dataTable>
                                         <h:panelGrid>
                                             <crud:BotonesTop frm="#{frmSala.frmAsiento}"
@@ -220,7 +219,8 @@
                                     <h:panelGrid>
                                         <p:schedule value="#{frmSala.frmProgramacion.eventModel}" widgetVar="schedule"
                                                     timeZone="UTC" locale="en" showWeekends="true" showHeader="true"
-                                                    draggable="false" resizable="false">
+                                                    draggable="false" resizable="false"
+                                                    rendered="#{frmSala.frmProgramacion.mostrarSchedule}">
                                             <p:ajax event="eventSelect"
                                                     listener="#{frmSala.frmProgramacion.onEventSelect}"
                                                     update=":tabDetalle:pnlDetalleP"/>
