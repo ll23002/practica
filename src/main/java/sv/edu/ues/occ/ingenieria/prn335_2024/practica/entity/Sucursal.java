@@ -8,6 +8,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "sucursal", schema = "public")
+@NamedQueries({
+       @NamedQuery(name = "Sucursal.findByIdSucursal", query = "SELECT s FROM Sucursal s WHERE s.idSucursal = :idSucursal ORDER BY s.nombre ASC"),
+       @NamedQuery(name = "Sucursal.countByIdSucursal", query = "SELECT COUNT(s.idSucursal) FROM Sucursal s WHERE s.idSucursal = :idSucursal")
+})
+
 public class Sucursal {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sucursal_id_gen")
