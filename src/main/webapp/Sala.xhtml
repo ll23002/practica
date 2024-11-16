@@ -169,26 +169,6 @@
                                                 <h:outputText value="#{ra.nombre}"/>
                                             </p:column>
                                         </p:dataTable>
-                                        <p:dataTable
-                                        rows="10"
-                                        paginator="false"
-                                        value="#{frmSala.frmAsientoCaracteristica.modelo}"
-                                        var="rac"
-                                        lazy="true"
-                                        selectionMode="single"
-                                        rendered="#{frmSala.frmAsientoCaracteristica.estado == 'NONE'}"
-                                        selection="#{frmSala.frmAsientoCaracteristica.registro}">
-                                           <p:ajax event="rowSelect"
-                                            update=":tabDetalle:pnlDetalleAC :tabDetalle:frmTablaAC"
-                                            process="@this"
-                                            listener="#{frmSala.frmAsientoCaracteristica.onRowSelect}"/>
-                                    <p:column headerText="Tipo de Asiento">
-                                        <h:outputText value="#{rac.idTipoAsiento.nombre}"/>
-                                    </p:column>
-                                    <p:column headerText="Caracteristica">
-                                        <h:outputText value="#{rac.valor}"/>
-                                    </p:column>
-                                        </p:dataTable>
                                         <h:panelGrid>
                                             <crud:BotonesTop frm="#{frmSala.frmAsiento}"
                                                              actualizar=":tabDetalle:pnlDetalleA :tabDetalle:pnlTablaA"/>
@@ -227,7 +207,8 @@
                                     <h:panelGrid>
                                         <p:schedule value="#{frmSala.frmProgramacion.eventModel}" widgetVar="schedule"
                                                     timeZone="UTC" locale="en" showWeekends="true" showHeader="true"
-                                                    draggable="false" resizable="false" rendered="#{frmSala.frmProgramacion.mostrarSchedule}">
+                                                    draggable="false" resizable="false"
+                                                    rendered="#{frmSala.frmProgramacion.mostrarSchedule}">
                                             <p:ajax event="eventSelect"
                                                     listener="#{frmSala.frmProgramacion.onEventSelect}"
                                                     update=":tabDetalle:pnlDetalleP"/>
