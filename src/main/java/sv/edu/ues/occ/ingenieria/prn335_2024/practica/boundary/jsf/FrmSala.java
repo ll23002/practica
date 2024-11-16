@@ -30,7 +30,8 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     FrmProgramacion frmProgramacion;
     Sala registro;
     LazyDataModel<Sala> modelo;
-
+    @Inject
+    FrmAsientoCaracteristica frmAsientoCaracteristica;
     @PostConstruct
     public void inicializar() {
         modelo = this;
@@ -210,5 +211,9 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
 
     public void setFrmProgramacion(FrmProgramacion frmProgramacion) {
         this.frmProgramacion = frmProgramacion;
+    }
+
+    public Object getFrmAsientoCaracteristica() {
+        return frmAsientoCaracteristica;
     }
 }

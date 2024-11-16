@@ -3,6 +3,7 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.Dependent;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.model.FilterMeta;
@@ -11,6 +12,7 @@ import org.primefaces.model.SortMeta;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AsientoCaracteristicaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoAsientoBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Asiento;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.AsientoCaracteristica;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.SalaCaracteristica;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoAsiento;
@@ -138,6 +140,71 @@ public void inicializar() {
         this.estado = estado;
     }
 
+    public AsientoCaracteristica getRegistro() {return registro;}
+
+    public void setRegistro(AsientoCaracteristica registro) {this.registro = registro;}
+
+    public void btnNuevo(ActionEvent event) {
+        super.btnNuevo(event, this.registro);
+        System.out.println("REGISTRO NUEVO DE FrmAsientoCaracteristica: " + estado);
+        Integer id = ACB.findLastId();
+        try {
+            if (id != null) {
+                registro.setIdAsientoCaracteristica((id + 1));
+            } else {
+                registro.setIdAsientoCaracteristica(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void btnGuardar(ActionEvent event) {
+        super.btnGuardar(event, this.registro);
+        System.out.println("REGISTRO GUARDADO DE FrmAsientoCaracteristica: " + estado);
+    }
+
+    public void btnCancelar(ActionEvent event) {
+        super.btnCancelar(event, this.registro);
+        System.out.println("REGISTRO CANCELADO DE FrmAsientoCaracteristica: " + estado);
+    }
+
+    public void btnEditar(ActionEvent event) {
+
+        super.btnEditar(event, this.registro);
+        System.out.println("REGISTRO EDITADO DE FrmAsientoCaracteristica: " + estado);
+    }
+
+    public void btnEliminar(ActionEvent event) {
+        super.btnEliminar(event, this.registro);
+        System.out.println("REGISTRO ELIMINADO DE FrmAsientoCaracteristica: " + estado);
+    }
+
+    public Integer getIdAsiento() {
+        return idAsiento;
+    }
+
+    public void setIdAsiento(Integer idAsiento) {
+        this.idAsiento = idAsiento;
+    }
+
+    public List<TipoAsiento> getTipoAsientoList() {
+        return tipoAsientoList;
+    }
+
+    @Override
+    public void onRowSelect() {
+        super.onRowSelect();
+        System.out.println("Registro seleccionado en FrmSalaCaracteristica: " + estado);
+    }
+
+
+    public List<AsientoCaracteristica> getCaracteristicas() {
+        if (idAsiento != null) {
+            return ACB.findByIdAsiento(idAsiento, 0, Integer.MAX_VALUE);
+        }
+        return List.of();
+    }
 
 
 }

@@ -23,6 +23,8 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
     Asiento registro;
     LazyDataModel<Asiento> modelo;
     Integer idSala;
+    @Inject
+    FrmAsientoCaracteristica frmAsientoCaracteristica;
 
     @PostConstruct
     public void inicializar() {
@@ -156,4 +158,6 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
     public void setIdSala(Integer idSala) {
         this.idSala = idSala;
     }
+
+
 }
