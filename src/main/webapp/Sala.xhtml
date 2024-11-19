@@ -65,7 +65,8 @@
                                         <p:outputLabel value="Sucursal" for="sucursalList"/>
                                         <h:selectOneMenu id="sucursalList"
                                                          value="#{frmSala.idSucursalSeleccionada}">
-                                            <f2:selectItem itemLabel="Seleccione una sucursal" itemValue="i1" noSelectionOption="true"/>
+                                            <f2:selectItem itemLabel="Seleccione una sucursal" itemValue="i1"
+                                                           noSelectionOption="true"/>
                                             <f2:selectItems
                                                     value="#{frmSala.sucursalList}"
                                                     var="s"
@@ -133,7 +134,8 @@
                                                 <p:outputLabel value="Tipo de Sala" for="lstTipoSala"/>
                                                 <h:selectOneMenu id="lstTipoSala"
                                                                  value="#{frmSala.frmSalaCaracteristica.idTipoSalaSeleccionada}">
-                                                    <f2:selectItem itemLabel="Seleccione una caracteristica" itemValue="i1" noSelectionOption="true"/>
+                                                    <f2:selectItem itemLabel="Seleccione una caracteristica"
+                                                                   itemValue="i1" noSelectionOption="true"/>
                                                     <f2:selectItems
                                                             value="#{frmSala.frmSalaCaracteristica.tipoSalaList}"
                                                             var="ts"
@@ -217,48 +219,50 @@
                             <h:panelGroup id="pnlTablaP">
                                 <h:form id="frmTablaP">
                                     <h:panelGrid>
+                                        <!-- Schedule -->
                                         <p:schedule value="#{frmSala.frmProgramacion.eventModel}" widgetVar="schedule"
                                                     timeZone="UTC" locale="en" showWeekends="true" showHeader="true"
                                                     draggable="false" resizable="false"
                                                     rendered="#{frmSala.frmProgramacion.mostrarSchedule}">
+                                            <p:ajax event="dateSelect"
+                                                    listener="#{frmSala.frmProgramacion.onDateSelect}"
+                                                    update=":tabDetalle:dlgNuevoEvento"/>
                                             <p:ajax event="eventSelect"
                                                     listener="#{frmSala.frmProgramacion.onEventSelect}"
                                                     update=":tabDetalle:pnlDetalleP"/>
                                         </p:schedule>
-                                        <h:panelGrid>
-                                            <crud:BotonesTop frm="#{frmSala.frmProgramacion}"
-                                                             actualizar=":tabDetalle:pnlDetalleP :tabDetalle:pnlTablaP"/>
-                                        </h:panelGrid>
                                     </h:panelGrid>
                                 </h:form>
                             </h:panelGroup>
-                            <h:panelGroup id="pnlDetalleP">
-                                <h:panelGrid
-                                        rendered="#{frmSala.frmProgramacion.estado != 'NONE'}">
-                                    <h:form id="frmDetalleP">
-                                        <h:panelGrid columns="2">
-                                            <p:outputLabel value="ID:" for="txtIdProgramacion"/>
-                                            <h:inputText id="txtIdProgramacion"
-                                                         value="#{frmSala.frmProgramacion.registro.idProgramacion}"
-                                                         readonly="true"
-                                                         disabled="true"/>
-                                            <p:outputLabel value="Desde" for="txtDesde"/>
-                                            <p:datePicker id="txtDesde"
-                                                          value="#{frmSala.frmProgramacion.localDesde}"
-                                                          pattern="yyyy-MM-dd HH:mm" showTime="true"/>
-                                            <p:outputLabel value="Hasta" for="txtHasta"/>
-                                            <p:datePicker id="txtHasta"
-                                                          value="#{frmSala.frmProgramacion.localHasta}"
-                                                          pattern="yyyy-MM-dd HH:mm" showTime="true"/>
-                                        </h:panelGrid>
-                                        <p:commandButton value="Guardar"
-                                                         actionListener="#{frmSala.frmProgramacion.btnGuardar}"
-                                                         update=":tabDetalle:pnlDetalleP :tabDetalle:pnlTablaP"/>
-                                    </h:form>
-                                </h:panelGrid>
-                            </h:panelGroup>
+
+                            <!-- Dialogo para nueva programación -->
+                            <p:dialog id="dlgNuevoEvento" widgetVar="dlgNuevoEvento" modal="true"
+                                      header="Nueva Programación"
+                                      resizable="false" draggable="false" closable="false"
+                                      visible="#{frmSala.frmProgramacion.mostrarDialogo}">
+                                <h:form id="frmNuevoEvento">
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="Pelicula:" for="txtPelicula"/>
+                                        <h:inputText id="txtPelicula" value="#{frmSala.frmProgramacion.nuevaPelicula}"
+                                                     required="true"/>
+
+                                        <p:outputLabel value="Desde:" for="txtDesde"/>
+                                        <p:datePicker id="txtDesde" value="#{frmSala.frmProgramacion.localDesde}"
+                                                      pattern="yyyy-MM-dd HH:mm" showTime="true" required="true"/>
+
+                                        <p:outputLabel value="Hasta:" for="txtHasta"/>
+                                        <p:datePicker id="txtHasta" value="#{frmSala.frmProgramacion.localHasta}"
+                                                      pattern="yyyy-MM-dd HH:mm" showTime="true" required="true"/>
+                                    </h:panelGrid>
+                                    <p:commandButton value="Guardar"
+                                                     actionListener="#{frmSala.frmProgramacion.btnGuardar}"
+                                                     update=":tabDetalle:pnlTablaP"
+                                                     oncomplete="PF('dlgNuevoEvento').hide();"/>
+                                </h:form>
+                            </p:dialog>
                         </h:panelGrid>
                     </p:tab>
+
                 </p:tabView>
             </h:panelGroup>
         </h:panelGrid>

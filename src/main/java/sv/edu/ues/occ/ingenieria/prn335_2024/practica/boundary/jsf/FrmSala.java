@@ -163,9 +163,6 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     }
 
     public void btnGuardar(ActionEvent event) {
-        /*
-        super.btnGuardar(event, this.registro);
-        System.out.println("Registro guardado en FrmSala: " + estado);*/
         if (registro == null || registro.getIdSucursal() == null || registro.getNombre() == null || registro.getNombre().isEmpty() || registro.getActivo()== null ||registro.getObservaciones().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", "El nombre es requerido"));
         }else{
@@ -181,8 +178,6 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     }
 
     public void btnEditar(ActionEvent event) {
-        /*super.btnEditar(event, this.registro);
-        System.out.println("Registro editado en FrmSala: " + estado);*/
         if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty() || registro.getActivo()== null ||registro.getObservaciones()== null || registro.getObservaciones().isEmpty() ) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", "El nombre es requerido"));
         }else {

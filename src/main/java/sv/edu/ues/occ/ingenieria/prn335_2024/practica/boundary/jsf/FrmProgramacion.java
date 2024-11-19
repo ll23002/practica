@@ -30,11 +30,16 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     ProgramacionBean dataBean;
     @Inject
     FacesContext facesContext;
+
     Programacion registro;
     LazyDataModel<Programacion> modelo;
-    private ScheduleModel eventModel;
+    ScheduleModel eventModel;
     Integer idSala;
     boolean mostrarSchedule = true;
+    boolean mostrarDialogo = false; // Para manejar la visibilidad del diálogo
+    LocalDateTime localDesde;
+    LocalDateTime localHasta;
+    String nuevaPelicula;
 
     @PostConstruct
     public void inicializar() {
@@ -126,57 +131,21 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
         super.btnNuevo(event, this.registro);
         mostrarSchedule = false;
         System.out.println("Registro nuevo en FrmProgramacion: " + estado);
-        Integer id = dataBean.findLastId();
-        try {
-            if (id != null) {
-                registro.setIdProgramacion(id + 1);
-            } else {
-                registro.setIdProgramacion(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void btnGuardar(ActionEvent event) {
         mostrarSchedule = true;
         convertirYGuardarFecha();
         super.btnGuardar(event, this.registro);
+        mostrarDialogo = false;
         System.out.println("Registro guardado en FrmProgramacion: " + estado);
     }
 
     public void btnCancelar(ActionEvent event) {
         mostrarSchedule = true;
+        mostrarDialogo = false;
         super.btnCancelar(event, this.registro);
         System.out.println("Registro cancelado en FrmProgramacion: " + estado);
-    }
-
-    public void btnEditar(ActionEvent event) {
-        super.btnEditar(event, this.registro);
-        System.out.println("Registro editado en FrmProgramacion: " + estado);
-    }
-
-    public void btnEliminar(ActionEvent event) {
-        super.btnEliminar(event, this.registro);
-        System.out.println("Registro eliminado en FrmProgramacion: " + estado);
-    }
-
-    @Override
-    public void onRowSelect() {
-        super.onRowSelect();
-        System.out.println("Registro seleccionado en FrmProgramacion: " + estado);
-    }
-
-    public Integer getIdSala() {
-        return idSala;
-    }
-
-    public void setIdSala(Integer idSala) {
-        this.idSala = idSala;
-    }
-
-    public ScheduleModel getEventModel() {
-        return eventModel;
     }
 
     private void cargarEventos() {
@@ -200,65 +169,76 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
         this.registro = findProgramacionByEvent(event);
     }
 
+    public void onDateSelect(SelectEvent<LocalDateTime> event) {
+        localDesde = event.getObject();
+        localHasta = null; // Dejar hasta vacío inicialmente
+        nuevaPelicula = ""; // Vaciar el nombre de la película
+        mostrarDialogo = true; // Mostrar el cuadro de diálogo
+        System.out.println("Fecha seleccionada: " + localDesde);
+    }
+
     private Programacion findProgramacionByEvent(ScheduleEvent<?> event) {
-        // Implement the logic to find the Programacion entity based on the event
         return dataBean.findById(Integer.parseInt(event.getId()));
     }
 
     public void convertirYGuardarFecha() {
-        // Obtener la fecha desde el registro
-        OffsetDateTime desde = registro.getDesde();
-        OffsetDateTime hasta = registro.getHasta();
-
-        // Imprimir valores antes de la conversión
-        System.out.println("Antes de la conversión:");
-        System.out.println("Desde: " + desde);
-        System.out.println("Hasta: " + hasta);
-
-        // Convertir OffsetDateTime a LocalDateTime
-        LocalDateTime localDesde = desde.toLocalDateTime();
-        LocalDateTime localHasta = hasta.toLocalDateTime();
-
-        // Convertir LocalDateTime a OffsetDateTime con el offset deseado
-        ZoneOffset offset = ZoneOffset.of("-06:00");
-        OffsetDateTime offsetDesde = localDesde.atOffset(offset);
-        OffsetDateTime offsetHasta = localHasta.atOffset(offset);
-
-        // Imprimir valores después de la conversión
-        System.out.println("Después de la conversión:");
-        System.out.println("Desde: " + offsetDesde);
-        System.out.println("Hasta: " + offsetHasta);
-
-        // Guardar las fechas convertidas en el registro
-        registro.setDesde(offsetDesde);
-        registro.setHasta(offsetHasta);
-    }
-
-    public LocalDateTime getLocalDesde() {
-        return registro.getDesde() != null ? registro.getDesde().toLocalDateTime() : null;
-    }
-
-    public void setLocalDesde(LocalDateTime localDesde) {
         if (localDesde != null) {
             registro.setDesde(localDesde.atOffset(ZoneOffset.of("-06:00")));
         }
-    }
-
-    public LocalDateTime getLocalHasta() {
-        return registro.getHasta() != null ? registro.getHasta().toLocalDateTime() : null;
-    }
-
-    public void setLocalHasta(LocalDateTime localHasta) {
         if (localHasta != null) {
             registro.setHasta(localHasta.atOffset(ZoneOffset.of("-06:00")));
         }
     }
-   public boolean isMostrarSchedule() {
-    return mostrarSchedule;
-}
 
-public void setMostrarSchedule(boolean mostrarSchedule) {
-    this.mostrarSchedule = mostrarSchedule;
-}
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
 
+    public LocalDateTime getLocalDesde() {
+        return localDesde;
+    }
+
+    public void setLocalDesde(LocalDateTime localDesde) {
+        this.localDesde = localDesde;
+    }
+
+    public LocalDateTime getLocalHasta() {
+        return localHasta;
+    }
+
+    public void setLocalHasta(LocalDateTime localHasta) {
+        this.localHasta = localHasta;
+    }
+
+    public boolean isMostrarSchedule() {
+        return mostrarSchedule;
+    }
+
+    public void setMostrarSchedule(boolean mostrarSchedule) {
+        this.mostrarSchedule = mostrarSchedule;
+    }
+
+    public boolean isMostrarDialogo() {
+        return mostrarDialogo;
+    }
+
+    public void setMostrarDialogo(boolean mostrarDialogo) {
+        this.mostrarDialogo = mostrarDialogo;
+    }
+
+    public String getNuevaPelicula() {
+        return nuevaPelicula;
+    }
+
+    public void setNuevaPelicula(String nuevaPelicula) {
+        this.nuevaPelicula = nuevaPelicula;
+    }
+
+    public Integer getIdSala() {
+        return idSala;
+    }
+
+    public void setIdSala(Integer idSala) {
+        this.idSala = idSala;
+    }
 }
