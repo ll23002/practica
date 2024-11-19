@@ -14,7 +14,9 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.PeliculaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.ProgramacionBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Pelicula;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Programacion;
 
 import java.io.Serializable;
@@ -22,12 +24,16 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Named
 @SessionScoped
 public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implements Serializable {
     @Inject
     ProgramacionBean dataBean;
+    @Inject
+    PeliculaBean peliculaBean;
+    List<Pelicula> peliculasFiltradas;
     @Inject
     FacesContext facesContext;
 
@@ -39,7 +45,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     boolean mostrarDialogo = false; // Para manejar la visibilidad del diálogo
     LocalDateTime localDesde;
     LocalDateTime localHasta;
-    String nuevaPelicula;
+    Pelicula nuevaPelicula;
 
     @PostConstruct
     public void inicializar() {
@@ -172,7 +178,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     public void onDateSelect(SelectEvent<LocalDateTime> event) {
         localDesde = event.getObject();
         localHasta = null; // Dejar hasta vacío inicialmente
-        nuevaPelicula = ""; // Vaciar el nombre de la película
+        nuevaPelicula  = null; // Vaciar el nombre de la película
         mostrarDialogo = true; // Mostrar el cuadro de diálogo
         System.out.println("Fecha seleccionada: " + localDesde);
     }
@@ -189,6 +195,14 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
             registro.setHasta(localHasta.atOffset(ZoneOffset.of("-06:00")));
         }
     }
+
+    public List<Pelicula> completarPelicula(String query) {
+        List<Pelicula> todasPeliculas = peliculaBean.findAll();
+        return todasPeliculas.stream()
+                .filter(p -> p.getNombre().toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
 
     public ScheduleModel getEventModel() {
         return eventModel;
@@ -226,11 +240,11 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
         this.mostrarDialogo = mostrarDialogo;
     }
 
-    public String getNuevaPelicula() {
+    public Pelicula getNuevaPelicula() {
         return nuevaPelicula;
     }
 
-    public void setNuevaPelicula(String nuevaPelicula) {
+    public void setNuevaPelicula(Pelicula nuevaPelicula) {
         this.nuevaPelicula = nuevaPelicula;
     }
 
@@ -241,4 +255,13 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     public void setIdSala(Integer idSala) {
         this.idSala = idSala;
     }
+
+    public List<Pelicula> getPeliculasFiltradas() {
+        return peliculasFiltradas;
+    }
+
+    public void setPeliculasFiltradas(List<Pelicula> peliculasFiltradas) {
+        this.peliculasFiltradas = peliculasFiltradas;
+    }
+
 }

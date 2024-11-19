@@ -238,13 +238,23 @@
                             <!-- Dialogo para nueva programación -->
                             <p:dialog id="dlgNuevoEvento" widgetVar="dlgNuevoEvento" modal="true"
                                       header="Nueva Programación"
-                                      resizable="false" draggable="false" closable="false"
+                                      resizable="false" draggable="false" closable="true"
                                       visible="#{frmSala.frmProgramacion.mostrarDialogo}">
                                 <h:form id="frmNuevoEvento">
                                     <h:panelGrid columns="2">
-                                        <p:outputLabel value="Pelicula:" for="txtPelicula"/>
-                                        <h:inputText id="txtPelicula" value="#{frmSala.frmProgramacion.nuevaPelicula}"
-                                                     required="true"/>
+                                        <p:outputLabel value="Pelicula" for="txtPelicula"/>
+                                        <p:autoComplete id="txtPelicula"
+                                                        value="#{frmSala.frmProgramacion.nuevaPelicula}"
+                                                        completeMethod="#{frmSala.frmProgramacion.completarPelicula}"
+                                                        var="pelicula"
+                                                        itemLabel="#{pelicula.nombre}"
+                                                        itemValue="#{pelicula}"
+                                                        forceSelection="true"
+                                                        dropdown="true">
+                                            <p:column>
+                                                <h:outputText value="#{pelicula.nombre}"/>
+                                            </p:column>
+                                        </p:autoComplete>
 
                                         <p:outputLabel value="Desde:" for="txtDesde"/>
                                         <p:datePicker id="txtDesde" value="#{frmSala.frmProgramacion.localDesde}"
@@ -258,6 +268,9 @@
                                                      actionListener="#{frmSala.frmProgramacion.btnGuardar}"
                                                      update=":tabDetalle:pnlTablaP"
                                                      oncomplete="PF('dlgNuevoEvento').hide();"/>
+                                    <p:commandButton value="Cancelar" type="button"
+                                                     onclick="PF('dlgNuevoEvento').hide();"/>
+
                                 </h:form>
                             </p:dialog>
                         </h:panelGrid>

@@ -7,6 +7,7 @@ import jakarta.persistence.PersistenceContext;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Pelicula;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Stateless
 @LocalBean
@@ -45,5 +46,9 @@ public class PeliculaBean extends AbstractDataPersistence<Pelicula> implements S
     @Override
     public Pelicula findById(Object id) {
         return super.findById(id);
+    }
+
+    public List<Pelicula> findAll() {
+        return em.createQuery("SELECT p FROM Pelicula p", Pelicula.class).getResultList();
     }
 }
