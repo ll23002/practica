@@ -238,7 +238,6 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     }
 
     public FrmProgramacion getFrmProgramacion() {
-        System.out.println("FrmProgramacion: " + frmProgramacion);
         return frmProgramacion;
     }
 

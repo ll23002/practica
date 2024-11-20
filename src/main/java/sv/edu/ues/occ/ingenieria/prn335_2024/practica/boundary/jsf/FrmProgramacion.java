@@ -24,6 +24,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -251,17 +252,31 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
         }
     }
 
-    public List<Pelicula> completarPelicula(String query) {
-        try {
-            List<Pelicula> todasPeliculas = peliculaBean.findAll();
-            return todasPeliculas.stream()
-                    .filter(p -> p.getNombre().toLowerCase().contains(query.toLowerCase()))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+   public List<Pelicula> completarPelicula(String query) {
+    try {
+        List<Pelicula> todasPeliculas = peliculaBean.findAll(); // Recuperar todas las películas
+        System.out.println("Películas disponibles: " + todasPeliculas.size());
+        return todasPeliculas.stream()
+                .filter(p -> p.getNombre().toLowerCase().contains(query.toLowerCase())) // Filtrar por nombre
+                .collect(Collectors.toList());
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new ArrayList<>(); // Retornar lista vacía en caso de error
     }
+}
+
+public void seleccionarPelicula(SelectEvent<Pelicula> event) {
+    System.out.println("Evento de selección de película");
+    if (event.getObject() != null) {
+        this.nuevaPelicula = event.getObject(); // Asigna la película seleccionada
+        if (this.registro != null) {
+            this.registro.setIdPelicula(nuevaPelicula); // Asigna la película completa al registro
+        }
+        System.out.println("Pelicula seleccionada: " + nuevaPelicula.getNombre() + " (ID: " + nuevaPelicula.getIdPelicula() + ")");
+    }else{
+        System.out.println("No se seleccionó ninguna película");
+    }
+}
 
 
     public ScheduleModel getEventModel() {

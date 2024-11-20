@@ -241,6 +241,7 @@
                                       resizable="false" draggable="false" closable="true"
                                       visible="#{frmSala.frmProgramacion.mostrarDialogo}">
                                 <h:form id="frmNuevoEvento">
+                                    <p:messages id="messages" autoUpdate="true"/>
                                     <h:panelGrid columns="2">
                                         <p:outputLabel value="Pelicula" for="txtPelicula"/>
                                         <p:autoComplete id="txtPelicula"
@@ -251,6 +252,7 @@
                                                         itemValue="#{pelicula}"
                                                         forceSelection="true"
                                                         dropdown="true">
+                                            <p:ajax event="itemSelect" listener="#{frmSala.frmProgramacion.seleccionarPelicula}" update=":tabDetalle:frmNuevoEvento" process="@all"/>
                                             <p:column>
                                                 <h:outputText value="#{pelicula.nombre}"/>
                                             </p:column>
