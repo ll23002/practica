@@ -182,6 +182,13 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Las fechas 'Desde' y 'Hasta' son obligatorias."));
             return;
         }
+        // Validar que la película esté seleccionada
+        if (nuevaPelicula == null || nuevaPelicula.getIdPelicula() == null) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar una película."));
+            return;
+        }registro.setIdPelicula(nuevaPelicula);// Asignar la película seleccionada al registro
+
         try {
             mostrarSchedule = true;
 

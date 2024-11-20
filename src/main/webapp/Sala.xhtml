@@ -195,6 +195,7 @@
                                 <h:panelGrid
                                         rendered="#{frmSala.frmAsiento.estado != 'NONE'}">
                                     <h:form id="frmDetalleA">
+                                        <h1>Asientos de #{frmSala.registro.nombre}</h1>
                                         <h:panelGrid>
                                             <h:panelGrid columns="2">
                                                 <p:outputLabel value="ID:" for="txtIdAsiento"/>
@@ -209,6 +210,13 @@
                                         </h:panelGrid>
                                         <crud:BotonesCRUD frm="#{frmSala.frmAsiento}"
                                                           actualizar=":tabDetalle:pnlDetalleA :tabDetalle:pnlTablaA"/>
+                                        <h2>Caracteristicas del Asiento</h2>
+                                        <h:panelGrid columns="2">
+                                            <p:outputLabel value="Caracteristicas:" for="txtCaracteristicas"/>
+                                            <h:inputText id="txtCaracteristicas"
+                                                         value="#{frmSala.frmAsiento.registro.asientoCaracteristicas}"
+                                                         readonly="true"/>
+                                        </h:panelGrid>
                                     </h:form>
                                 </h:panelGrid>
                             </h:panelGroup>
