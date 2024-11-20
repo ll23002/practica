@@ -318,8 +318,18 @@ public void seleccionarPelicula(SelectEvent<Pelicula> event) {
     }
 
     public Pelicula getNuevaPelicula() {
-        System.out.println("Pelicula seleccionada: " + nuevaPelicula);
-        return nuevaPelicula;
+        if (registro == null){
+            System.out.println("Registro nulo");
+            return null;
+        }
+        if (this.registro.getIdPelicula() != null) {
+            nuevaPelicula = this.registro.getIdPelicula();
+            System.out.println("Pelicula seleccionada: " + nuevaPelicula);
+            return nuevaPelicula;
+        }else {
+            System.out.println("No hay película seleccionada");
+            return null;
+        }
     }
 
     public void setNuevaPelicula(Pelicula nuevaPelicula) {
