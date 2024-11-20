@@ -18,6 +18,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.PeliculaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.ProgramacionBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Pelicula;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Programacion;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sala;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -33,11 +34,14 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     ProgramacionBean dataBean;
     @Inject
     PeliculaBean peliculaBean;
+    @Inject
+    FrmSala frmSala;
     List<Pelicula> peliculasFiltradas;
     @Inject
     FacesContext facesContext;
 
     Programacion registro;
+    Sala Sala;
     LazyDataModel<Programacion> modelo;
     ScheduleModel eventModel;
     Integer idSala;
@@ -136,15 +140,59 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event, this.registro);
         mostrarSchedule = false;
+        // Asignar idSala desde FrmSala
+        if (frmSala != null && frmSala.getRegistro() != null && frmSala.getRegistro().getIdSala() != null) {
+            Sala sala = new Sala(); // Crea una nueva instancia
+            sala.setIdSala(frmSala.getRegistro().getIdSala()); // Asigna el idSala
+            this.registro.setIdSala(sala); // Asigna el objeto Sala
+            System.out.println("Sala asignada al nuevo registro de Programacion: " + sala.getIdSala());
+        }
         System.out.println("Registro nuevo en FrmProgramacion: " + estado);
+        Integer id = dataBean.findLastId();
+
+        try {
+            if (id != null) {
+                registro.setIdProgramacion(id + 1);
+            } else {
+                registro.setIdProgramacion(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void btnGuardar(ActionEvent event) {
-        mostrarSchedule = true;
-        convertirYGuardarFecha();
-        super.btnGuardar(event, this.registro);
-        mostrarDialogo = false;
-        System.out.println("Registro guardado en FrmProgramacion: " + estado);
+        if (registro == null) {
+            registro = new Programacion(); // Inicializar si está nulo
+            System.out.println("Registro inicializado en btnGuardar");
+        }
+
+        // Obtener las fechas seleccionadas en los campos de fecha
+        if (localDesde != null) {
+            registro.setDesde(localDesde.atOffset(ZoneOffset.UTC)); // Asignar el valor de txtDesde a 'desde'
+        }
+        if (localHasta != null) {
+            registro.setHasta(localHasta.atOffset(ZoneOffset.UTC)); // Asignar el valor de txtHasta a 'hasta'
+        }
+
+        // Validar que ambos campos tengan valores
+        if (registro.getDesde() == null || registro.getHasta() == null) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Las fechas 'Desde' y 'Hasta' son obligatorias."));
+            return;
+        }
+        try {
+            mostrarSchedule = true;
+
+            convertirYGuardarFecha();
+            System.out.println("Registro a guardar: " + registro);
+            super.btnGuardar(event, this.registro);
+            mostrarDialogo = false;
+            System.out.println("Registro guardado en FrmProgramacion: " + estado);
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo guardar el registro."));
+            e.printStackTrace();
+        }
     }
 
     public void btnCancelar(ActionEvent event) {
@@ -177,8 +225,9 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
 
     public void onDateSelect(SelectEvent<LocalDateTime> event) {
         localDesde = event.getObject();
+        btnNuevo(null); // Llama a btnNuevo de FrmProgramacion
         localHasta = null; // Dejar hasta vacío inicialmente
-        nuevaPelicula  = null; // Vaciar el nombre de la película
+        nuevaPelicula = null; // Vaciar el nombre de la película
         mostrarDialogo = true; // Mostrar el cuadro de diálogo
         System.out.println("Fecha seleccionada: " + localDesde);
     }
@@ -190,17 +239,28 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     public void convertirYGuardarFecha() {
         if (localDesde != null) {
             registro.setDesde(localDesde.atOffset(ZoneOffset.of("-06:00")));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar una fecha de inicio"));
+            System.out.println("Debe seleccionar una fecha de inicio");
         }
         if (localHasta != null) {
             registro.setHasta(localHasta.atOffset(ZoneOffset.of("-06:00")));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar una fecha de fin"));
+            System.out.println("Debe seleccionar una fecha de fin");
         }
     }
 
     public List<Pelicula> completarPelicula(String query) {
-        List<Pelicula> todasPeliculas = peliculaBean.findAll();
-        return todasPeliculas.stream()
-                .filter(p -> p.getNombre().toLowerCase().contains(query.toLowerCase()))
-                .collect(Collectors.toList());
+        try {
+            List<Pelicula> todasPeliculas = peliculaBean.findAll();
+            return todasPeliculas.stream()
+                    .filter(p -> p.getNombre().toLowerCase().contains(query.toLowerCase()))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -217,10 +277,12 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     }
 
     public LocalDateTime getLocalHasta() {
+        System.out.println("Fecha de Hasta: " + localHasta);
         return localHasta;
     }
 
     public void setLocalHasta(LocalDateTime localHasta) {
+        System.out.println("Fecha de Hasta: " + localHasta);
         this.localHasta = localHasta;
     }
 
@@ -241,6 +303,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     }
 
     public Pelicula getNuevaPelicula() {
+        System.out.println("Pelicula seleccionada: " + nuevaPelicula);
         return nuevaPelicula;
     }
 
@@ -264,4 +327,11 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
         this.peliculasFiltradas = peliculasFiltradas;
     }
 
+    public FrmSala getFrmSala() {
+        return frmSala;
+    }
+
+    public void setFrmSala(FrmSala frmSala) {
+        this.frmSala = frmSala;
+    }
 }

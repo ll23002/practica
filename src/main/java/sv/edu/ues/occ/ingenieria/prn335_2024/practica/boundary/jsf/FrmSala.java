@@ -38,6 +38,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     TipoSucursalBean TSB;
     List<Sucursal> sucursalList;
     Integer idSucursal;
+    Integer idSala;
 
     @PostConstruct
     public void inicializar() {
@@ -195,6 +196,8 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     @Override
     public void onRowSelect() {
         super.onRowSelect();
+        idSala = registro.getIdSala();
+        System.out.println("Id del registro seleccionado: " + idSala);
         System.out.println("Registro seleccionado en FrmSala: " + estado);
     }
 
@@ -202,14 +205,17 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         System.out.println("Cambiando de tab");
         if (tce.getTab().getTitle().equals("Caracteristicas")) {
             if (this.registro != null && this.frmSalaCaracteristica != null) {
+                System.out.println("Cambio exitoso a caracteristicas");
                 this.frmSalaCaracteristica.setIdSala(this.registro.getIdSala());
             }
         } else if (tce.getTab().getTitle().equals("Asientos")) {
             if (this.registro != null && this.frmAsiento != null) {
+                System.out.println("Cambio exitoso a asientos");
                 this.frmAsiento.setIdSala(this.registro.getIdSala());
             }
         } else if (tce.getTab().getTitle().equals("Programacion")) {
             if (this.registro != null && this.frmProgramacion != null) {
+                System.out.println("Cambio exitoso a programacion");
                 this.frmProgramacion.setIdSala(this.registro.getIdSala());
             }
         }
@@ -232,6 +238,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     }
 
     public FrmProgramacion getFrmProgramacion() {
+        System.out.println("FrmProgramacion: " + frmProgramacion);
         return frmProgramacion;
     }
 

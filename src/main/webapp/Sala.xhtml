@@ -258,16 +258,21 @@
 
                                         <p:outputLabel value="Desde:" for="txtDesde"/>
                                         <p:datePicker id="txtDesde" value="#{frmSala.frmProgramacion.localDesde}"
-                                                      pattern="yyyy-MM-dd HH:mm" showTime="true" required="true"/>
+                                                      pattern="yyyy-MM-dd HH:mm" showTime="true" required="true">
+                                            <p:ajax event="dateSelect" update="@this" process="@this"/>
+                                        </p:datePicker>
 
                                         <p:outputLabel value="Hasta:" for="txtHasta"/>
                                         <p:datePicker id="txtHasta" value="#{frmSala.frmProgramacion.localHasta}"
-                                                      pattern="yyyy-MM-dd HH:mm" showTime="true" required="true"/>
+                                                      pattern="yyyy-MM-dd HH:mm" showTime="true" required="true">
+                                            <p:ajax event="dateSelect" update="@this" process="@this"/>
+                                        </p:datePicker>
                                     </h:panelGrid>
                                     <p:commandButton value="Guardar"
                                                      actionListener="#{frmSala.frmProgramacion.btnGuardar}"
-                                                     update=":tabDetalle:pnlTablaP"
-                                                     oncomplete="PF('dlgNuevoEvento').hide();"/>
+                                                     update=":tabDetalle:pnlTablaP :tabDetalle:frmTablaP :tabDetalle:frmNuevoEvento"
+                                                     oncomplete="PF('dlgNuevoEvento').hide();"
+                                                     process="@this"/>
                                     <p:commandButton value="Cancelar" type="button"
                                                      onclick="PF('dlgNuevoEvento').hide();"/>
 
