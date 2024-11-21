@@ -251,8 +251,9 @@
                                                         itemLabel="#{pelicula.nombre}"
                                                         itemValue="#{pelicula}"
                                                         forceSelection="true"
+                                                        converter="peliculaConverter"
                                                         dropdown="true">
-                                            <p:ajax event="itemSelect" listener="#{frmSala.frmProgramacion.seleccionarPelicula}" update=":tabDetalle:frmNuevoEvento" process="@all"/>
+                                            <p:ajax event="itemSelect" listener="#{frmSala.frmProgramacion.seleccionarPelicula}" update="@form" process="@this"/>
                                             <p:column>
                                                 <h:outputText value="#{pelicula.nombre}"/>
                                             </p:column>

@@ -265,6 +265,14 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     }
 }
 
+public void funcionPrueba(SelectEvent<String> event){
+    System.out.println("Evento de selección de película");
+    if (event.getObject() != null) {
+        System.out.println("Película seleccionada: " + event.getObject());
+    }else{
+        System.out.println("No se seleccionó ninguna película");
+    }
+}
 public void seleccionarPelicula(SelectEvent<Pelicula> event) {
     System.out.println("Evento de selección de película");
     if (event.getObject() != null) {
