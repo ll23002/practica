@@ -110,9 +110,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         return modelo;
     }
 
-    public void setModelo(LazyDataModel<Sala> modelo) {
-        this.modelo = modelo;
-    }
+    public void setModelo(LazyDataModel<Sala> modelo) {this.modelo = modelo;}
 
     @Override
     public ESTADO_CRUD getEstado() {
@@ -135,6 +133,8 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     public List<Sucursal> getSucursalList() {
         return sucursalList;
     }
+
+    public void setSucursalList(List<Sucursal> sucursalList) {this.sucursalList = sucursalList;}
 
     public Integer getIdSucursalSeleccionada(){
         if (registro != null && this.registro.getIdSucursal() != null) {
@@ -243,5 +243,12 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
 
     public void setFrmProgramacion(FrmProgramacion frmProgramacion) {
         this.frmProgramacion = frmProgramacion;
+    }
+
+    public String getNombreSucursal(Sala sala) {
+        if (sala != null && sala.getIdSucursal() != null) {
+            return sala.getIdSucursal().getNombre();
+        }
+        return "MISTAKE";
     }
 }
