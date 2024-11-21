@@ -182,6 +182,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Las fechas 'Desde' y 'Hasta' son obligatorias."));
             return;
         }
+
         try {
             mostrarSchedule = true;
 
