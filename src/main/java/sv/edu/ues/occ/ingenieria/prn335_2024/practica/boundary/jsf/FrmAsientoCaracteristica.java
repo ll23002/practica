@@ -26,28 +26,31 @@ import java.util.function.Consumer;
 @Named
 @Dependent
 public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCaracteristica> implements Serializable {
-@Inject
-AsientoCaracteristicaBean ACB;
-@Inject
-TipoAsientoBean TAB;
-@Inject
-FacesContext facesContext;
-AsientoCaracteristica registro;
-LazyDataModel<AsientoCaracteristica> modelo;
-Integer idAsiento;
-List<TipoAsiento> tipoAsientoList;
+    @Inject
+    AsientoCaracteristicaBean ACB;
+    @Inject
+    TipoAsientoBean TAB;
+    @Inject
+    FacesContext facesContext;
+    AsientoCaracteristica registro;
+    LazyDataModel<AsientoCaracteristica> modelo;
+    Integer idAsiento;
+    List<TipoAsiento> tipoAsientoList;
 
-@PostConstruct
-public void inicializar() {
-    try {
-        modelo = this;
-        estado = ESTADO_CRUD.NONE;
-        System.out.println("Estado: " + estado);
-        this.tipoAsientoList = TAB.findRange(0, Integer.MAX_VALUE);
-    } catch (Exception e) {
-        e.printStackTrace();
+    List<AsientoCaracteristica> listaCaracteristicas;
+    AsientoCaracteristica caracteristicaSeleccionada;
+
+    @PostConstruct
+    public void inicializar() {
+        try {
+            modelo = this;
+            estado = ESTADO_CRUD.NONE;
+            System.out.println("Estado: " + estado);
+            this.tipoAsientoList = TAB.findRange(0, Integer.MAX_VALUE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 
     @Override
     public List<AsientoCaracteristica> load(int firstResult, int maxResults, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
@@ -74,7 +77,9 @@ public void inicializar() {
     }
 
     @Override
-    protected AbstractDataPersistence<AsientoCaracteristica> getDataBean() {return ACB;}
+    protected AbstractDataPersistence<AsientoCaracteristica> getDataBean() {
+        return ACB;
+    }
 
     @Override
     protected FacesContext getFacesContext() {
@@ -94,22 +99,22 @@ public void inicializar() {
 
     @Override
     public AsientoCaracteristica buscarRegistroPorId(String id) {
-    if(id!=null && this.modelo != null){
-        try {
-            return this.modelo.getWrappedData().stream().filter(r -> r.getIdAsientoCaracteristica().toString().equals(id)).findFirst().orElse(null);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        if (id != null && this.modelo != null) {
+            try {
+                return this.modelo.getWrappedData().stream().filter(r -> r.getIdAsientoCaracteristica().toString().equals(id)).findFirst().orElse(null);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
-    }
-    return null;
+        return null;
     }
 
     @Override
     public String buscarIdPorRegistro(AsientoCaracteristica dato) {
-    if (dato != null && dato.getIdAsientoCaracteristica() != null) {
-        return dato.getIdAsientoCaracteristica().toString();
-    }
-    return null;
+        if (dato != null && dato.getIdAsientoCaracteristica() != null) {
+            return dato.getIdAsientoCaracteristica().toString();
+        }
+        return null;
     }
 
     @Override
@@ -140,9 +145,13 @@ public void inicializar() {
         this.estado = estado;
     }
 
-    public AsientoCaracteristica getRegistro() {return registro;}
+    public AsientoCaracteristica getRegistro() {
+        return registro;
+    }
 
-    public void setRegistro(AsientoCaracteristica registro) {this.registro = registro;}
+    public void setRegistro(AsientoCaracteristica registro) {
+        this.registro = registro;
+    }
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event, this.registro);
@@ -185,7 +194,15 @@ public void inicializar() {
     }
 
     public void setIdAsiento(Integer idAsiento) {
-        this.idAsiento = idAsiento;
+        try {
+            this.idAsiento = idAsiento;
+            System.out.println("ID ASIENTO: " + idAsiento);
+            //this.listaCaracteristicas = getCaracteristicas();
+            System.out.println("LISTA DE CARACTERISTICAS: " + listaCaracteristicas);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public List<TipoAsiento> getTipoAsientoList() {
@@ -200,10 +217,36 @@ public void inicializar() {
 
 
     public List<AsientoCaracteristica> getCaracteristicas() {
-        if (idAsiento != null) {
+    if (idAsiento != null) {
+        try {
             return ACB.findByIdAsiento(idAsiento, 0, Integer.MAX_VALUE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return List.of();
+    }
+    return List.of();
+}
+
+
+    public AsientoCaracteristica getCaracteristicaSeleccionada() {
+        return caracteristicaSeleccionada;
+    }
+
+    public void setCaracteristicaSeleccionada(AsientoCaracteristica caracteristicaSeleccionada) {
+        this.caracteristicaSeleccionada = caracteristicaSeleccionada;
+    }
+
+    public List<AsientoCaracteristica> getListaCaracteristicas() {
+        if (listaCaracteristicas == null && idAsiento != null) {
+            listaCaracteristicas = getCaracteristicas();
+            System.out.println("Características cargadas para asiento: " + idAsiento);
+        }
+
+        return listaCaracteristicas;
+    }
+
+    public void setListaCaracteristicas(List<AsientoCaracteristica> listaCaracteristicas) {
+        this.listaCaracteristicas = listaCaracteristicas;
     }
 
 

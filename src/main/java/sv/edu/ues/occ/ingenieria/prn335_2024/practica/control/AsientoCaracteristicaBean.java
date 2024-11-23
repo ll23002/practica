@@ -25,18 +25,18 @@ public class AsientoCaracteristicaBean extends AbstractDataPersistence<AsientoCa
     @Override
     public EntityManager getEntityManager() {return em;}
 
-    public List<AsientoCaracteristica> findByIdAsiento(final Integer idAsiento, int first, int max) {
-        try {
-            TypedQuery<AsientoCaracteristica> q = em.createNamedQuery("AsientoCaracteristica.findByIdAsiento", AsientoCaracteristica.class);
-            q.setParameter("idAsiento", idAsiento);
-            q.setFirstResult(first);
-            q.setMaxResults(max);
-            return q.getResultList();
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error executing findByIdAsiento query", e);
-            throw new RuntimeException("Error executing findByIdAsiento query", e);
-        }
+   public List<AsientoCaracteristica> findByIdAsiento(final Integer idAsiento, int first, int max) {
+    try {
+        TypedQuery<AsientoCaracteristica> q = em.createNamedQuery("AsientoCaracteristica.findByIdAsiento", AsientoCaracteristica.class);
+        q.setParameter("idAsiento", idAsiento);
+        q.setFirstResult(first);
+        q.setMaxResults(max);
+        return q.getResultList();
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "Error al ejecutar la consulta findByIdAsiento", e);
+        throw new RuntimeException("Error al ejecutar la consulta findByIdAsiento", e);
     }
+}
 
     public int countByIdAsiento(final Integer idAsiento) {
         try {
@@ -67,6 +67,9 @@ public class AsientoCaracteristicaBean extends AbstractDataPersistence<AsientoCa
             LOGGER.log(Level.SEVERE, "Error executing findLastId query", e);
             throw new RuntimeException("Error executing findLastId query", e);
         }
+    }
+    public List<AsientoCaracteristica> findAll() {
+       return em.createNamedQuery("AsientoCaracteristica.findAll", AsientoCaracteristica.class).getResultList();
     }
 
 }

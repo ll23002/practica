@@ -216,13 +216,62 @@
                                         </h:panelGrid>
                                         <crud:BotonesCRUD frm="#{frmSala.frmAsiento}"
                                                           actualizar=":tabDetalle:pnlDetalleA :tabDetalle:pnlTablaA"/>
-                                        <h2>Caracteristicas del Asiento</h2>
-                                        <h:panelGrid columns="2">
-                                            <p:outputLabel value="Caracteristicas:" for="txtCaracteristicas"/>
-                                            <h:inputText id="txtCaracteristicas"
-                                                         value="#{frmSala.frmAsiento.registro.asientoCaracteristicas}"
-                                                         readonly="true"/>
-                                        </h:panelGrid>
+                                        <h2>Características del Asiento</h2>
+
+                                        <!-- Tabla de características -->
+                                        <p:dataTable
+                                                value="#{frmSala.frmAsiento.frmAsientoCaracteristica.listaCaracteristicas}"
+                                                var="caracteristica"
+                                                selection="#{frmSala.frmAsiento.frmAsientoCaracteristica.caracteristicaSeleccionada}"
+                                                selectionMode="single"
+                                                editable="true" editMode="cell">
+                                            <!-- Columna para mostrar el tipo de característica -->
+                                            <p:column headerText="Tipo">
+                                                <h:outputText value="#{caracteristica.idTipoAsiento.nombre}"/>
+                                            </p:column>
+                                            <!-- Columna para mostrar y editar el valor de la característica -->
+                                            <p:column headerText="Valor">
+                                                <p:cellEditor>
+                                                    <f2:facet name="output">
+                                                        <h:outputText value="#{caracteristica.valor}"/>
+                                                    </f2:facet>
+                                                    <f2:facet name="input">
+                                                        <p:inputText value="#{caracteristica.valor}"/>
+                                                    </f2:facet>
+                                                </p:cellEditor>
+                                            </p:column>
+
+                                            <!-- Columna para acciones (actualizar y eliminar) -->
+                                            <p:column headerText="Acciones">
+                                                <p:commandButton value="Actualizar" icon="pi pi-save"
+                                                                 action="#{frmSala.frmAsiento.frmAsientoCaracteristica.btnEditar}"/>
+                                                <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                                                 action="#{frmSala.frmAsiento.frmAsientoCaracteristica.btnEliminar}"/>
+                                            </p:column>
+                                        </p:dataTable>
+
+                                        <!-- Formulario para agregar o editar características -->
+                                        <h:form>
+                                            <h3>Editar/Agregar Característica</h3>
+                                            <h:panelGrid columns="2">
+                                                <h:outputLabel value="Tipo" for="tipo"/>
+                                                <p:inputText id="tipo"
+                                                             value="#{frmSala.frmAsiento.frmAsientoCaracteristica.caracteristicaSeleccionada.idTipoAsiento.nombre}"
+                                                             readonly="false"/>
+
+                                                <h:outputLabel value="Valor" for="valor"/>
+                                                <p:inputText id="valor"
+                                                             value="#{frmSala.frmAsiento.frmAsientoCaracteristica.caracteristicaSeleccionada.valor}"/>
+                                            </h:panelGrid>
+
+                                            <p:commandButton value="Guardar" icon="pi pi-check"
+                                                             action="#{frmSala.frmAsiento.frmAsientoCaracteristica.btnGuardar}"
+                                                             update="@form"/>
+                                            <p:commandButton value="Cancelar" icon="pi pi-times"
+                                                             action="#{frmSala.frmAsiento.frmAsientoCaracteristica.btnCancelar}"
+                                                             update="@form"/>
+                                        </h:form>
+
                                     </h:form>
                                 </h:panelGrid>
                             </h:panelGroup>
@@ -267,7 +316,9 @@
                                                         forceSelection="true"
                                                         converter="peliculaConverter"
                                                         dropdown="true">
-                                            <p:ajax event="itemSelect" listener="#{frmSala.frmProgramacion.seleccionarPelicula}" update="@form" process="@this"/>
+                                            <p:ajax event="itemSelect"
+                                                    listener="#{frmSala.frmProgramacion.seleccionarPelicula}"
+                                                    update="@form" process="@this"/>
                                             <p:column>
                                                 <h:outputText value="#{pelicula.nombre}"/>
                                             </p:column>

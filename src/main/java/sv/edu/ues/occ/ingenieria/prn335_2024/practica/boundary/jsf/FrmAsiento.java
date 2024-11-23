@@ -6,12 +6,16 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.primefaces.PrimeFaces;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AsientoBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AsientoCaracteristicaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Asiento;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.AsientoCaracteristica;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Named
 @SessionScoped
@@ -25,6 +29,10 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
     Integer idSala;
     @Inject
     FrmAsientoCaracteristica frmAsientoCaracteristica;
+
+    @Inject
+    AsientoCaracteristicaBean asientoCaracteristicaBean;
+
 
     @PostConstruct
     public void inicializar() {
@@ -148,6 +156,13 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
     @Override
     public void onRowSelect() {
         super.onRowSelect();
+        if (registro != null) {
+            frmAsientoCaracteristica.setIdAsiento(registro.getIdAsiento());
+            System.out.println("IdAsiento seleccionado en FrmAsiento: " + registro.getIdAsiento());
+            System.out.println("IdSala enviado a FrmAsientoCaracteristica: " + frmAsientoCaracteristica.getIdAsiento());
+        } else {
+            System.out.println("No se pudo asignar el idAsiento a FrmAsientoCaracteristica");
+        }
         System.out.println("Registro seleccionado en FrmAsiento: " + estado);
     }
 
@@ -157,6 +172,14 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
 
     public void setIdSala(Integer idSala) {
         this.idSala = idSala;
+    }
+
+    public FrmAsientoCaracteristica getFrmAsientoCaracteristica() {
+        return frmAsientoCaracteristica;
+    }
+
+    public void setFrmAsientoCaracteristica(FrmAsientoCaracteristica frmAsientoCaracteristica) {
+        this.frmAsientoCaracteristica = frmAsientoCaracteristica;
     }
 
 
