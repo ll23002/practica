@@ -53,16 +53,17 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     }
 
     @Override
-    public List<AsientoCaracteristica> load(int firstResult, int maxResults, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
-        try {
-            if (this.idAsiento != null && ACB != null) {
-                return ACB.findByIdAsiento(idAsiento, firstResult, maxResults);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+public List<AsientoCaracteristica> load(int firstResult, int maxResults, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
+    try {
+        if (this.idAsiento != null && ACB != null) {
+            // Llamar al método findByIdAsiento sin los parámetros firstResult y maxResults
+            return ACB.findByIdAsiento(idAsiento);
         }
-        return List.of();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return List.of();
+}
 
     @Override
     public int count(Map<String, FilterMeta> filterMeta) {
@@ -216,17 +217,23 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     }
 
 
-    public List<AsientoCaracteristica> getCaracteristicas() {
+ public List<AsientoCaracteristica> getCaracteristicas() {
     if (idAsiento != null) {
         try {
-            return ACB.findByIdAsiento(idAsiento, 0, Integer.MAX_VALUE);
+            List<AsientoCaracteristica> caracteristicas = ACB.findByIdAsiento(idAsiento);
+            for (AsientoCaracteristica caracteristica : caracteristicas) {
+                System.out.println("ID: " + caracteristica.getIdAsientoCaracteristica());
+                System.out.println("Tipo: " + caracteristica.getIdTipoAsiento().getNombre());
+                System.out.println("Valor: " + caracteristica.getValor());
+                System.out.println("-------------------------");
+            }
+            return caracteristicas;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     return List.of();
 }
-
 
     public AsientoCaracteristica getCaracteristicaSeleccionada() {
         return caracteristicaSeleccionada;
@@ -235,16 +242,13 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     public void setCaracteristicaSeleccionada(AsientoCaracteristica caracteristicaSeleccionada) {
         this.caracteristicaSeleccionada = caracteristicaSeleccionada;
     }
-
     public List<AsientoCaracteristica> getListaCaracteristicas() {
         if (listaCaracteristicas == null && idAsiento != null) {
             listaCaracteristicas = getCaracteristicas();
             System.out.println("Características cargadas para asiento: " + idAsiento);
         }
-
         return listaCaracteristicas;
     }
-
     public void setListaCaracteristicas(List<AsientoCaracteristica> listaCaracteristicas) {
         this.listaCaracteristicas = listaCaracteristicas;
     }

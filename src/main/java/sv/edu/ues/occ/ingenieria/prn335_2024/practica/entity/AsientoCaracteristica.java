@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "asiento_caracteristica", schema = "public")
 @NamedQueries({
-        @NamedQuery(name = "AsientoCaracteristica.findByIdAsiento", query = "SELECT ac FROM AsientoCaracteristica ac WHERE ac.idAsiento.idAsiento = :idAsiento ORDER BY ac.idTipoAsiento.nombre ASC"),
+        @NamedQuery(name = "AsientoCaracteristica.findByIdAsiento", query = "SELECT ac FROM AsientoCaracteristica ac WHERE ac.idAsiento.idAsiento = :idAsiento"),
         @NamedQuery(name = "AsientoCaracteristica.countByIdAsiento", query = "SELECT COUNT(ac.idAsientoCaracteristica) FROM AsientoCaracteristica ac WHERE ac.idAsiento.idAsiento = :idAsiento"),
          @NamedQuery(name = "AsientoCaracteristica.findAll", query = "SELECT ac FROM AsientoCaracteristica ac"),
         @NamedQuery(name = "AsientoCaracteristica.findLastId", query = "SELECT MAX(ac.idAsientoCaracteristica) FROM AsientoCaracteristica ac")

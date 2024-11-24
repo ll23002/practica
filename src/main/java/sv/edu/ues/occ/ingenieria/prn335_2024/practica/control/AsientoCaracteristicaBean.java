@@ -25,12 +25,10 @@ public class AsientoCaracteristicaBean extends AbstractDataPersistence<AsientoCa
     @Override
     public EntityManager getEntityManager() {return em;}
 
-   public List<AsientoCaracteristica> findByIdAsiento(final Integer idAsiento, int first, int max) {
+  public List<AsientoCaracteristica> findByIdAsiento(final Integer idAsiento) {
     try {
         TypedQuery<AsientoCaracteristica> q = em.createNamedQuery("AsientoCaracteristica.findByIdAsiento", AsientoCaracteristica.class);
         q.setParameter("idAsiento", idAsiento);
-        q.setFirstResult(first);
-        q.setMaxResults(max);
         return q.getResultList();
     } catch (Exception e) {
         LOGGER.log(Level.SEVERE, "Error al ejecutar la consulta findByIdAsiento", e);
