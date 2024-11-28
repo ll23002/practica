@@ -26,6 +26,8 @@ public class AsientoCaracteristicaBean extends AbstractDataPersistence<AsientoCa
     public EntityManager getEntityManager() {return em;}
 
     public List<AsientoCaracteristica> findByIdAsiento(final Long idAsiento, int first, int max) {
+        System.out.println("findByIdAsiento ha sido llamado con idAsiento: " + idAsiento);
+         LOGGER.log(Level.INFO, "Buscando características para el idAsiento: {0}", idAsiento);
         try {
             TypedQuery<AsientoCaracteristica> q = em.createNamedQuery("AsientoCaracteristica.findByIdAsiento", AsientoCaracteristica.class);
             q.setParameter("idAsiento", idAsiento);
