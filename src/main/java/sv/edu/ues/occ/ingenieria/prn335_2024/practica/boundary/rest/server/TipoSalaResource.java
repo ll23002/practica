@@ -19,6 +19,7 @@ public class TipoSalaResource implements Serializable {
     @Inject
     TipoSalaBean tsBean;
 
+    /*
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public List<TipoSala> findRange(
@@ -45,7 +46,7 @@ public class TipoSalaResource implements Serializable {
             return Response.status(500).entity(e.getMessage()).build();
         }
     }
-
+*/
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Integer id) {

@@ -116,9 +116,9 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
         Integer id = dataBean.findLastId();
         try {
             if (id != null) {
-                registro.setIdAsiento(Long.valueOf(id+1) );
+                registro.setIdAsiento(id+1) ;
             } else {
-                registro.setIdAsiento(Long.valueOf(1));
+                registro.setIdAsiento(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,6 +149,11 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
     public void onRowSelect() {
         super.onRowSelect();
         System.out.println("Registro seleccionado en FrmAsiento: " + estado);
+        // Notifica a FrmAsientoCaracteristica sobre el asiento seleccionado
+    if (this.registro != null && this.registro.getIdAsiento() != null) {
+        frmAsientoCaracteristica.setIdAsiento(this.registro.getIdAsiento());
+        frmAsientoCaracteristica.cargarCaracteristicas(); // Método para actualizar las características
+    }
     }
 
     public Integer getIdSala() {

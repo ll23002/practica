@@ -30,54 +30,54 @@ import java.util.regex.Pattern;
 @Named
 @Dependent
 public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCaracteristica> implements Serializable {
-@Inject
-AsientoCaracteristicaBean ACB;
-@Inject
-TipoAsientoBean TAB;
-@Inject
-FacesContext facesContext;
-AsientoCaracteristica registro;
-LazyDataModel<AsientoCaracteristica> modelo;
-Long idAsiento;
-List<TipoAsiento> tipoAsientoList;
-TipoAsiento selectedTipoAsiento;
+    @Inject
+    AsientoCaracteristicaBean ACB;
+    @Inject
+    TipoAsientoBean TAB;
+    @Inject
+    FacesContext facesContext;
+    AsientoCaracteristica registro;
+    LazyDataModel<AsientoCaracteristica> modelo;
+    Long idAsiento;
+    List<TipoAsiento> tipoAsientoList;
+    TipoAsiento selectedTipoAsiento;
 
-@PostConstruct
-public void inicializar() {
-    try {
-        modelo = this;
-        estado = ESTADO_CRUD.NONE;
-        System.out.println("Estado: " + estado);
-        this.tipoAsientoList = TAB.findRange(0, Integer.MAX_VALUE);
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
-
-@Override
-public String getRowKey(AsientoCaracteristica object) {//el object esta como entity en el otro
-    if (object != null && object.getIdTipoAsiento() != null) {
-        return object.getIdAsientoCaracteristica().toString();
-    }
-    return null;
-
-}
-
-@Override
-public AsientoCaracteristica getRowData(String rowKey) {
-    if (rowKey != null) {
+    @PostConstruct
+    public void inicializar() {
         try {
-            return ACB.findById(Long.parseLong(rowKey));
-            //return this.modelo.getWrappedData().stream().filter(r -> r.getIdAsientoCaracteristica().toString().equals(rowKey)).findFirst().orElse(null);
-        } catch (NumberFormatException e) {
+            modelo = this;
+            estado = ESTADO_CRUD.NONE;
+            System.out.println("Estado: " + estado);
+            this.tipoAsientoList = TAB.findRange(0, Integer.MAX_VALUE);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    return null;
-}
 
     @Override
-    public List<AsientoCaracteristica> load(int firstResult, int maxResults , Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
+    public String getRowKey(AsientoCaracteristica object) {//el object esta como entity en el otro
+        if (object != null && object.getIdTipoAsiento() != null) {
+            return object.getIdAsientoCaracteristica().toString();
+        }
+        return null;
+
+    }
+
+    @Override
+    public AsientoCaracteristica getRowData(String rowKey) {
+        if (rowKey != null) {
+            try {
+                return ACB.findById(Long.parseLong(rowKey));
+                //return this.modelo.getWrappedData().stream().filter(r -> r.getIdAsientoCaracteristica().toString().equals(rowKey)).findFirst().orElse(null);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<AsientoCaracteristica> load(int firstResult, int maxResults, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
         try {
             if (this.idAsiento != null && ACB != null) {
                 return ACB.findByIdAsiento(this.idAsiento, firstResult, maxResults);
@@ -101,7 +101,9 @@ public AsientoCaracteristica getRowData(String rowKey) {
     }
 
     @Override
-    protected AbstractDataPersistence<AsientoCaracteristica> getDataBean() {return ACB;}
+    protected AbstractDataPersistence<AsientoCaracteristica> getDataBean() {
+        return ACB;
+    }
 
     @Override
     protected FacesContext getFacesContext() {
@@ -110,7 +112,7 @@ public AsientoCaracteristica getRowData(String rowKey) {
 
     @Override
     protected AsientoCaracteristica createNewInstance() {//devuelve el registro
-    try {
+        try {
             registro = new AsientoCaracteristica();
             return registro;
         } catch (Exception e) {
@@ -136,22 +138,22 @@ public AsientoCaracteristica getRowData(String rowKey) {
 
     @Override
     public AsientoCaracteristica buscarRegistroPorId(String id) {
-    if(id!=null && this.modelo != null){
-        try {
-            return this.modelo.getWrappedData().stream().filter(r -> r.getIdAsientoCaracteristica().toString().equals(id)).findFirst().orElse(null);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
+        if (id != null && this.modelo != null) {
+            try {
+                return this.modelo.getWrappedData().stream().filter(r -> r.getIdAsientoCaracteristica().toString().equals(id)).findFirst().orElse(null);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
-    }
-    return null;
+        return null;
     }
 
     @Override
     public String buscarIdPorRegistro(AsientoCaracteristica dato) {
-    if (dato != null && dato.getIdAsientoCaracteristica() != null) {
-        return dato.getIdAsientoCaracteristica().toString();
-    }
-    return null;
+        if (dato != null && dato.getIdAsientoCaracteristica() != null) {
+            return dato.getIdAsientoCaracteristica().toString();
+        }
+        return null;
     }
 
     @Override
@@ -160,15 +162,15 @@ public AsientoCaracteristica getRowData(String rowKey) {
     }
 
     public Integer getIdTipoAsientoSeleccionado() {
-        if(this.registro != null && this.registro.getIdTipoAsiento() != null){
+        if (this.registro != null && this.registro.getIdTipoAsiento() != null) {
             return this.registro.getIdTipoAsiento().getIdTipoAsiento();
         }
         return null;
     }
 
     public void setIdTipoAsientoSeleccionado(final Integer idTipoAsiento) {
-        if(this.registro != null && this.tipoAsientoList != null && !this.tipoAsientoList.isEmpty()){
-        this.registro.setIdTipoAsiento(this.tipoAsientoList.stream().filter(r -> r.getIdTipoAsiento().equals(idTipoAsiento)).findFirst().orElse(null));
+        if (this.registro != null && this.tipoAsientoList != null && !this.tipoAsientoList.isEmpty()) {
+            this.registro.setIdTipoAsiento(this.tipoAsientoList.stream().filter(r -> r.getIdTipoAsiento().equals(idTipoAsiento)).findFirst().orElse(null));
         }
     }
 
@@ -197,7 +199,7 @@ public AsientoCaracteristica getRowData(String rowKey) {
                     facesContext.addMessage(componente.getClientId(facesContext), message);
                 } else if (registro.getIdTipoAsiento() != null && registro.getIdTipoAsiento().getNombre().equals("ERGONOMIA")) {
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Formato esperado","Ergonomico,Comodo,Ajustable,\nRespaldo Lumbar,Reposabrazos");
+                            "Formato esperado", "Ergonomico,Comodo,Ajustable,\nRespaldo Lumbar,Reposabrazos");
                     facesContext.addMessage(componente.getClientId(facesContext), message);
                 } else if (registro.getIdTipoAsiento() != null && registro.getIdTipoAsiento().getNombre().equals("ACCESIBILIDAD")) {
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -236,9 +238,13 @@ public AsientoCaracteristica getRowData(String rowKey) {
         this.estado = estado;
     }
 
-    public AsientoCaracteristica getRegistro() {return registro;}
+    public AsientoCaracteristica getRegistro() {
+        return registro;
+    }
 
-    public void setRegistro(AsientoCaracteristica registro) {this.registro = registro;}
+    public void setRegistro(AsientoCaracteristica registro) {
+        this.registro = registro;
+    }
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event, this.registro);
@@ -326,7 +332,6 @@ public AsientoCaracteristica getRowData(String rowKey) {
     }
 
 
-
     public TipoAsiento getSelectedTipoAsiento() {
         return selectedTipoAsiento;
     }
@@ -334,4 +339,19 @@ public AsientoCaracteristica getRowData(String rowKey) {
     public void setSelectedTipoAsiento(TipoAsiento selectedTipoAsiento) {
         this.selectedTipoAsiento = selectedTipoAsiento;
     }
+
+    public void cargarCaracteristicas() {
+        try {
+            if (idAsiento != null) {
+                // Recarga los datos del modelo con las características del asiento
+                modelo.setWrappedData(ACB.findByIdAsiento(idAsiento, 0, Integer.MAX_VALUE));
+            } else {
+                modelo.setWrappedData(List.of());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

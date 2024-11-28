@@ -38,7 +38,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     TipoSucursalBean TSB;
     List<Sucursal> sucursalList;
     Integer idSucursal;
-    Integer idSala;
+    Integer idAsiento;
 
     @PostConstruct
     public void inicializar() {
@@ -196,8 +196,8 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     @Override
     public void onRowSelect() {
         super.onRowSelect();
-        idSala = registro.getIdSala();
-        System.out.println("Id del registro seleccionado: " + idSala);
+        idAsiento = registro.getIdSala();
+        System.out.println("Id del registro seleccionado: " + idAsiento);
         System.out.println("Registro seleccionado en FrmSala: " + estado);
     }
 
