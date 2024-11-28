@@ -265,14 +265,6 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     }
 
 
-    public void setACB(AsientoCaracteristicaBean ACB) {
-        this.ACB = ACB;
-    }
-
-
-
-
-
     public void setFacesContext(FacesContext facesContext) {
         this.facesContext = facesContext;
     }
