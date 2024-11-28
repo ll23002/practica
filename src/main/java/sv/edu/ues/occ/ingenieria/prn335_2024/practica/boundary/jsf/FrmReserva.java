@@ -26,6 +26,7 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     @Inject
     AsientoBean aBean;
 
+    // Sí
     @Inject
     AsientoCaracteristicaBean acBean;
 
@@ -48,7 +49,6 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         registro = new Reserva();
 
     }
-
 
     @Override
     protected AbstractDataPersistence<Reserva> getDataBean() {

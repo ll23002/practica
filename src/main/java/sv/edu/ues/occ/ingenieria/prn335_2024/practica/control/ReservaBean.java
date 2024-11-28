@@ -29,6 +29,7 @@ public class ReservaBean extends AbstractDataPersistence<Reserva> implements Ser
         return super.findById(id);
     }
 
+    //No
     public Integer findLastId() {
         try {
             return em.createQuery("SELECT MAX(r.idReserva) FROM Reserva r", Integer.class).getSingleResult();

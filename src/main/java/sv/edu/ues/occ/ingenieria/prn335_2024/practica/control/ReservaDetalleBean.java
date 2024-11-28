@@ -29,8 +29,4 @@ public class ReservaDetalleBean extends AbstractDataPersistence<ReservaDetalle> 
         return super.findById(id);
     }
 
-    @Override
-    public List<ReservaDetalle> findRange(int first, int max) {
-        return super.findRange(first, max);
-    }
 }
