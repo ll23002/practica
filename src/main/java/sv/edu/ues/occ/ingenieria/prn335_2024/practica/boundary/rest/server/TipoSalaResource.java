@@ -19,34 +19,35 @@ public class TipoSalaResource implements Serializable {
     @Inject
     TipoSalaBean tsBean;
 
-    /*
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<TipoSala> findRange(
-            @QueryParam("first")
-            @DefaultValue("0")
-            int firstResult,
-            @QueryParam("max")
-            @DefaultValue("10")
-            @Max(50)
-            int maxResults) {
-        try {
-            if (firstResult >= 0 && maxResults > 0 && maxResults <= 50) {
-                List<TipoSala> encontrados = tsBean.findRange(firstResult, maxResults);
-                Integer total = tsBean.count();//count devuelve un int
-                Response.ResponseBuilder builder = Response.ok(encontrados)
-                        .header("Total-Records", total)
-                        .type(MediaType.APPLICATION_JSON);
-                return builder.build();
-            } else {
-                return Response.status(422).header("Wrong-Parameter", "first: " + firstResult + ", max: " + maxResults).build();
-            }
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
-            return Response.status(500).entity(e.getMessage()).build();
+
+   @GET
+@Produces({MediaType.APPLICATION_JSON})
+public Response findRange(
+        @QueryParam("first")
+        @DefaultValue("0")
+        int firstResult,
+        @QueryParam("max")
+        @DefaultValue("10")
+        @Max(50)
+        int maxResults) {
+    try {
+        if (firstResult >= 0 && maxResults > 0 && maxResults <= 50) {
+            List<TipoSala> encontrados = tsBean.findRange(firstResult, maxResults);
+            Integer total = tsBean.count(); // count devuelve un int
+            Response.ResponseBuilder builder = Response.ok(encontrados)
+                    .header("Total-Records", total)
+                    .type(MediaType.APPLICATION_JSON);
+            return builder.build();
+        } else {
+            return Response.status(422).header("Wrong-Parameter", "first: " + firstResult + ", max: " + maxResults).build();
         }
+    } catch (Exception e) {
+        Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        return Response.status(500).entity(e.getMessage()).build();
     }
-*/
+}
+
+
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Integer id) {

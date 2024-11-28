@@ -21,9 +21,11 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Asiento;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.AsientoCaracteristica;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoAsiento;
 
+import javax.swing.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +42,6 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     LazyDataModel<AsientoCaracteristica> modelo;
     Long idAsiento;
     List<TipoAsiento> tipoAsientoList;
-    TipoAsiento selectedTipoAsiento;
 
     @PostConstruct
     public void inicializar() {
@@ -70,7 +71,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
                 return ACB.findById(Long.parseLong(rowKey));
                 //return this.modelo.getWrappedData().stream().filter(r -> r.getIdAsientoCaracteristica().toString().equals(rowKey)).findFirst().orElse(null);
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Logger.getLogger(getClass().getName()).severe(e.getMessage());
             }
         }
         return null;
@@ -83,7 +84,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
                 return ACB.findByIdAsiento(this.idAsiento, firstResult, maxResults);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
         return List.of();
     }
@@ -95,7 +96,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
                 return ACB.countByIdAsiento(this.idAsiento);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
         return 0;
     }
@@ -121,21 +122,6 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
         }
     }
 
-    /*@Override
-    protected AsientoCaracteristica createNewEntity() {//este metodo ayudara a poner el id
-        AsientoCaracteristica ac =new AsientoCaracteristica();
-        if(idAsiento != null){
-            Asiento asiento = new Asiento();
-            asiento.setIdAsiento(idAsiento);
-            ac.setIdAsiento(asiento);
-        }
-        if(tipoAsientoList != null && !tipoAsientoList.isEmpty()){
-            ac.setIdTipoAsiento(tipoAsientoList.get(0));
-        }
-        return ac;
-    }*/
-
-
     @Override
     public AsientoCaracteristica buscarRegistroPorId(String id) {
         if (id != null && this.modelo != null) {
@@ -159,19 +145,6 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     @Override
     public String getTituloPagina() {
         return "Asiento Caracteristica";
-    }
-
-    public Integer getIdTipoAsientoSeleccionado() {
-        if (this.registro != null && this.registro.getIdTipoAsiento() != null) {
-            return this.registro.getIdTipoAsiento().getIdTipoAsiento();
-        }
-        return null;
-    }
-
-    public void setIdTipoAsientoSeleccionado(final Integer idTipoAsiento) {
-        if (this.registro != null && this.tipoAsientoList != null && !this.tipoAsientoList.isEmpty()) {
-            this.registro.setIdTipoAsiento(this.tipoAsientoList.stream().filter(r -> r.getIdTipoAsiento().equals(idTipoAsiento)).findFirst().orElse(null));
-        }
     }
 
     public void validarValor(FacesContext facesContext, UIComponent componente, Object valor) {
@@ -287,57 +260,21 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
         super.onRowSelect();
         System.out.println("Registro seleccionado en FrmSalaCaracteristica: " + estado);
     }
-
     public void setIdAsiento(long idAsiento) {
         this.idAsiento = idAsiento;
     }
 
-    public AsientoCaracteristicaBean getACB() {
-        return ACB;
-    }
 
     public void setACB(AsientoCaracteristicaBean ACB) {
         this.ACB = ACB;
     }
 
-    public TipoAsientoBean getTAB() {
-        return TAB;
-    }
 
-    public void setTAB(TipoAsientoBean TAB) {
-        this.TAB = TAB;
-    }
 
-    public List<TipoAsiento> getTipoAsientoList() {
-        return tipoAsientoList;
-    }
 
-    public void setTipoAsientoList(List<TipoAsiento> tipoAsientoList) {
-        this.tipoAsientoList = tipoAsientoList;
-    }
 
     public void setFacesContext(FacesContext facesContext) {
         this.facesContext = facesContext;
-    }
-
-    public List<AsientoCaracteristica> getCaracteristicas() {
-        if (idAsiento != null) {
-            return ACB.findByIdAsiento(idAsiento, 0, Integer.MAX_VALUE);
-        }
-        return List.of();
-    }
-
-    public long getIdAsiento() {
-        return idAsiento;
-    }
-
-
-    public TipoAsiento getSelectedTipoAsiento() {
-        return selectedTipoAsiento;
-    }
-
-    public void setSelectedTipoAsiento(TipoAsiento selectedTipoAsiento) {
-        this.selectedTipoAsiento = selectedTipoAsiento;
     }
 
     public void cargarCaracteristicas() {
@@ -349,7 +286,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
                 modelo.setWrappedData(List.of());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
     }
 
