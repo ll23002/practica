@@ -25,7 +25,7 @@ public class AsientoCaracteristicaBean extends AbstractDataPersistence<AsientoCa
     @Override
     public EntityManager getEntityManager() {return em;}
 
-    public List<AsientoCaracteristica> findByIdAsiento(final Integer idAsiento, int first, int max) {
+    public List<AsientoCaracteristica> findByIdAsiento(final Long idAsiento, int first, int max) {
         try {
             TypedQuery<AsientoCaracteristica> q = em.createNamedQuery("AsientoCaracteristica.findByIdAsiento", AsientoCaracteristica.class);
             q.setParameter("idAsiento", idAsiento);
@@ -38,7 +38,7 @@ public class AsientoCaracteristicaBean extends AbstractDataPersistence<AsientoCa
         }
     }
 
-    public int countByIdAsiento(final Integer idAsiento) {
+    public int countByIdAsiento(final Long idAsiento) {
         try {
             TypedQuery<Long> q = em.createNamedQuery("AsientoCaracteristica.countByIdAsiento", Long.class);
             q.setParameter("idAsiento", idAsiento);
@@ -59,9 +59,9 @@ public class AsientoCaracteristicaBean extends AbstractDataPersistence<AsientoCa
         return super.update(registro);
     }
 
-    public Integer findLastId() {
+    public Long findLastId() {
         try {
-            TypedQuery<Integer> q = em.createNamedQuery("AsientoCaracteristica.findLastId", Integer.class);
+            TypedQuery<Long> q = em.createNamedQuery("AsientoCaracteristica.findLastId", Long.class);
             return q.getSingleResult();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error executing findLastId query", e);

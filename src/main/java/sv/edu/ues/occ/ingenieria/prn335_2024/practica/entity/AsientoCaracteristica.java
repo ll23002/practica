@@ -6,14 +6,16 @@ import jakarta.persistence.*;
 @Table(name = "asiento_caracteristica", schema = "public")
 @NamedQueries({
         @NamedQuery(name = "AsientoCaracteristica.findByIdAsiento", query = "SELECT ac FROM AsientoCaracteristica ac WHERE ac.idAsiento.idAsiento = :idAsiento ORDER BY ac.idTipoAsiento.nombre ASC"),
-        @NamedQuery(name = "AsientoCaracteristica.countByIdAsiento", query = "SELECT COUNT(ac.idAsientoCaracteristica) FROM AsientoCaracteristica ac WHERE ac.idAsiento.idAsiento = :idAsiento")
+        @NamedQuery(name = "AsientoCaracteristica.countByIdAsiento", query = "SELECT COUNT(ac.idAsientoCaracteristica) FROM AsientoCaracteristica ac WHERE ac.idAsiento.idAsiento = :idAsiento"),
+        @NamedQuery(name = "AsientoCaracteristica.findLastId", query = "SELECT MAX(a.idAsientoCaracteristica) FROM AsientoCaracteristica a"),
 })
+
 public class AsientoCaracteristica {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "asiento_caracteristica_id_gen")
     @SequenceGenerator(name = "asiento_caracteristica_id_gen", sequenceName = "asiento_caracteristica_id_asiento_caracteristica_seq", allocationSize = 1)
     @Column(name = "id_asiento_caracteristica", nullable = false)
-    private Integer idAsientoCaracteristica;//estaba como long
+    private Long idAsientoCaracteristica;//estaba como long
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_asiento")
@@ -27,11 +29,11 @@ public class AsientoCaracteristica {
     @Column(name = "valor")
     private String valor;
 
-    public Integer getIdAsientoCaracteristica() {
+    public Long getIdAsientoCaracteristica() {
         return idAsientoCaracteristica;
     }
 
-    public void setIdAsientoCaracteristica(Integer id) {
+    public void setIdAsientoCaracteristica(Long id) {
         this.idAsientoCaracteristica = id;
     }
 

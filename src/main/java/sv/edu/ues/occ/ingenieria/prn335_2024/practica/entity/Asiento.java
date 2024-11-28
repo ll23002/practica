@@ -17,7 +17,7 @@ public class Asiento {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "asiento_id_gen")
     @SequenceGenerator(name = "asiento_id_gen", sequenceName = "asiento_id_asiento_seq", allocationSize = 1)
     @Column(name = "id_asiento", nullable = false)
-    private Integer idAsiento;
+    private Long idAsiento; //estaba como integer
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sala")
@@ -36,11 +36,11 @@ public class Asiento {
     @OneToMany(mappedBy = "idAsiento")
     private Set<ReservaDetalle> reservaDetalles = new LinkedHashSet<>();
 
-    public Integer getIdAsiento() {
+    public Long getIdAsiento() {
         return idAsiento;
     }
 
-    public void setIdAsiento(Integer id) {
+    public void setIdAsiento(Long id) {
         this.idAsiento = id;
     }
 
