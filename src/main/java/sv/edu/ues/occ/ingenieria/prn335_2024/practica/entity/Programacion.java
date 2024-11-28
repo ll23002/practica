@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "programacion", schema = "public")
+
 public class Programacion {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "programacion_id_gen")
