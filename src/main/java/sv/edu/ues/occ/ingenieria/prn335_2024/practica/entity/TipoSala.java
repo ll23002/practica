@@ -1,5 +1,4 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -30,6 +29,7 @@ public class TipoSala {
     @Column(name = "expresion_regular")
     private String expresionRegular;
 
+    //@JsonIgnore//Esto es temporal, se debe quitar
     @OneToMany(mappedBy = "idTipoSala")
     private Set<SalaCaracteristica> salaCaracteristicas = new LinkedHashSet<>();
 

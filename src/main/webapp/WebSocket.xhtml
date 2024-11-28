@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: alexander
+  Date: 21/11/24
+  Time: 17:53
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="primefaces"
+      xmlns:h="jakarta.faces.html">
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:remoteCommand name="actualizarCuenta"  update="txtCuenta"  />
+        <h:commandButton value="Send" action="#{frmWebSocket.enviarMensaje}">
+            <f:ajax/>
+        </h:commandButton>
+        <h:outputText id="txtCuenta" value="Cuenta actual #{frmWebSocket.cuenta}"/>
+        <f:websocket channel="websocket" onmessage="recibirMensaje"/>
+    </h:form>
+    <script type="text/javascript" >
+        function recibirMensaje(mensaje, channel,  event){
+            console.log(mensaje);
+            actualizarCuenta();
+        }
+    </script>
+</h:body>
+
+</html>

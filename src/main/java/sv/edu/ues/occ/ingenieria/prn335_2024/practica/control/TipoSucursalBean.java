@@ -40,8 +40,8 @@ public class TipoSucursalBean extends AbstractDataPersistence<Sucursal> implemen
                    q.setMaxResults(max);
                    return q.getResultList();
        } catch (Exception e) {
-           LOGGER.log(Level.SEVERE, "Error executing findByIdSucursal query", e);
-           throw new RuntimeException("Error executing findByIdSucursal query", e);
+           LOGGER.log(Level.SEVERE, "Error al ejecutar la consulta: findByIdSucursal ", e);
+           throw new RuntimeException("Error al ejecutar la consulta: findByIdSucursal", e);
        }
    }
 
@@ -52,8 +52,8 @@ public class TipoSucursalBean extends AbstractDataPersistence<Sucursal> implemen
                    q.setParameter("idSucursal", idSucursal);
                    return q.getSingleResult().intValue();
        } catch (Exception e) {
-           LOGGER.log(Level.SEVERE, "Error executing countByIdSucursal query", e);
-           throw new RuntimeException("Error executing countByIdSucursal query", e);
+           LOGGER.log(Level.SEVERE, "Error al ejecutar la consulta: countByIdSucursal", e);
+           throw new RuntimeException("Error al ejecutar la consulta: countByIdSucursal", e);
        }
    }
 
