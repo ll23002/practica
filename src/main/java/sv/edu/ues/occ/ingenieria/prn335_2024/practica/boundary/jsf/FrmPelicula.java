@@ -7,6 +7,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.jboss.logging.Logger;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
@@ -31,11 +32,9 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
     public void inicializar() {
         modelo = this;
         estado = ESTADO_CRUD.NONE;
-        System.out.println("Estado: " + estado);
     }
 
      public void cambiarTab(TabChangeEvent tce){
-         System.out.println("Cambiando de tab");
         if (tce.getTab().getTitle().equals("Tipos")){
             if (this.registro != null && this.frmPeliculaCaracteristica != null){
                 this.frmPeliculaCaracteristica.setIdPelicula(this.registro.getIdPelicula());
@@ -59,7 +58,7 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
             registro = new Pelicula();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).error(e);
             return null;
         }
     }
@@ -70,7 +69,7 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
             try {
                 return dataBean.findById(Integer.parseInt(id));
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).error(e);
             }
         }
         return null;
@@ -126,7 +125,6 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event);
-        System.out.println("Registro nuevo en FrmPelicula: " + estado);
         Integer id = dataBean.findLastId();
         try {
             if (id != null) {
@@ -135,7 +133,7 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
                 registro.setIdPelicula(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).error(e);
         }
     }
 
@@ -148,13 +146,11 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error,Llene el formulario", "El nombre es requerido"));
         }else{
             super.btnGuardar(event, this.registro);
-            System.out.println("Registro guardado en FrmPelicula: " + estado);
         }
     }
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
-        System.out.println("Registro cancelado en FrmPelicula: " + estado);
     }
 
     public void btnEditar(ActionEvent event) {
@@ -162,18 +158,15 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", "El nombre es requerido"));
         }else {
             super.btnEditar(event, this.registro);
-            System.out.println("Registro editado en FrmPelicula: " + estado);
         }
     }
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
-        System.out.println("Registro eliminado en FrmPelicula: " + estado);
     }
 
     @Override
     public void onRowSelect() {
         super.onRowSelect();
-        System.out.println("Registro seleccionado en FrmPelicula: " + estado);
     }
 }
