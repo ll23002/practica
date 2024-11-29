@@ -48,10 +48,9 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
         try {
             modelo = this;
             estado = ESTADO_CRUD.NONE;
-            System.out.println("Estado: " + estado);
             this.tipoAsientoList = TAB.findRange(0, Integer.MAX_VALUE);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
     }
 
@@ -117,7 +116,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
             registro = new AsientoCaracteristica();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
             return null;
         }
     }
@@ -128,7 +127,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
             try {
                 return this.modelo.getWrappedData().stream().filter(r -> r.getIdAsientoCaracteristica().toString().equals(id)).findFirst().orElse(null);
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Logger.getLogger(getClass().getName()).severe(e.getMessage());
             }
         }
         return null;
@@ -221,7 +220,6 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event);
-        System.out.println("REGISTRO NUEVO DE FrmAsientoCaracteristica: " + estado);
         Long id = ACB.findLastId();
         try {
             if (id != null) {
@@ -230,35 +228,29 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
                 registro.setIdAsientoCaracteristica(Long.valueOf(1));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
     }
 
     public void btnGuardar(ActionEvent event) {
         super.btnGuardar(event, this.registro);
-        System.out.println("REGISTRO GUARDADO DE FrmAsientoCaracteristica: " + estado);
     }
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
-        System.out.println("REGISTRO CANCELADO DE FrmAsientoCaracteristica: " + estado);
     }
 
     public void btnEditar(ActionEvent event) {
-
         super.btnEditar(event, this.registro);
-        System.out.println("REGISTRO EDITADO DE FrmAsientoCaracteristica: " + estado);
     }
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
-        System.out.println("REGISTRO ELIMINADO DE FrmAsientoCaracteristica: " + estado);
     }
 
     @Override
     public void onRowSelect() {
         super.onRowSelect();
-        System.out.println("Registro seleccionado en FrmSalaCaracteristica: " + estado);
     }
     public void setIdAsiento(long idAsiento) {
         this.idAsiento = idAsiento;
