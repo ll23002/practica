@@ -2,6 +2,7 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.control;
 
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoProducto;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 
 @Stateless
 @LocalBean
+@Named
 public class TipoProductoBean extends AbstractDataPersistence<TipoProducto> implements Serializable {
     @PersistenceContext(unitName = "practicaPU")
     EntityManager em;

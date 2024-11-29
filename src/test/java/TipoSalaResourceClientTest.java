@@ -18,7 +18,7 @@ public class TipoSalaResourceClientTest {
 
     public TipoSalaResourceClientTest() {
         cliente = ClientBuilder.newClient();
-        webTarget = cliente.target("http://localhost:9080/cine-1.0-SNAPSHOT/v1/");
+        webTarget = cliente.target("http://localhost:9080/cineprn335-1.0-SNAPSHOT/v1/");
     }
 
     @Test
