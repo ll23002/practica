@@ -1,5 +1,5 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity

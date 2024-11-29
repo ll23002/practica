@@ -56,11 +56,14 @@
     Linux
     /usr/local/open_liberty/wlp/configDropins/defaults/primefaces.xml
     -->
+    <!--
     <logging traceSpecification="*=info"
          maxFileSize="20"
          maxFiles="5"
          consoleLogLevel="INFO"
          messageFileName="logs/messages.log" />
+    -->
+
 
 
 </server>
