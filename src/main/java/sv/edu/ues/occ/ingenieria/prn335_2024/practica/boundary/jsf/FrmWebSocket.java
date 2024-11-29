@@ -10,6 +10,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.ContadorBean;
 
 import java.io.Serializable;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Named
 @ViewScoped
@@ -30,7 +31,7 @@ public class FrmWebSocket implements Serializable {
         contadorBean.contarDespacio(cuenta, identificador, this::recibirMensaje);//Antes era mensaje -> recibirMensaje(mensaje)
         pushContext.send("Mensaje enviado: " + System.currentTimeMillis());
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
 
     }
@@ -46,7 +47,7 @@ public class FrmWebSocket implements Serializable {
            }
        }
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
 
     }

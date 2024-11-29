@@ -12,6 +12,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoProductoBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoProducto;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 @Named
 @SessionScoped
@@ -27,7 +28,6 @@ public class FrmTipoProducto extends FrmAbstractPersistence<TipoProducto> implem
     public void inicializar() {
         modelo = this;
         estado = ESTADO_CRUD.NONE;
-        System.out.println("Estado: " + estado);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class FrmTipoProducto extends FrmAbstractPersistence<TipoProducto> implem
             registro = new TipoProducto();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
             return null;
         }
     }
@@ -108,7 +108,7 @@ public class FrmTipoProducto extends FrmAbstractPersistence<TipoProducto> implem
                 registro.setIdTipoProducto(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
     }
 

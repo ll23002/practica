@@ -14,6 +14,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoSala;
 
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 @Named
 @SessionScoped
@@ -29,7 +30,6 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
     public void inicializar() {
         modelo = this;
         estado = ESTADO_CRUD.NONE;
-        System.out.println("Estado: " + estado);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
             registro = new TipoSala();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
             return null;
         }
     }
@@ -110,7 +110,7 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
                 registro.setIdTipoSala(1);//Si no hay registros, se asigna el id 1.
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
     }
 

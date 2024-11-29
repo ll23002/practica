@@ -108,7 +108,7 @@ public class FrmTipoPelicula extends FrmAbstractPersistence<TipoPelicula> implem
                 registro.setIdTipoPelicula(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
     }
 
