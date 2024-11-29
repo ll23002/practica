@@ -25,19 +25,17 @@ public class TipoSalaResourceClientTest {
     public void testFindRange() {
         System.out.println("findRange");
         int statusEsperado = Response.Status.OK.getStatusCode();
-        Response respuesta = webTarget.path("tiposala").
-                queryParam("first", 0).
-                queryParam("max", 3).
-                request(MediaType.APPLICATION_JSON).get();
+        Response respuesta = webTarget.path("tiposala")
+                .queryParam("first", 0)
+                .queryParam("max", 3)
+                .request(MediaType.APPLICATION_JSON).get();
         Assertions.assertEquals(statusEsperado, respuesta.getStatus());
-        List<TipoSala> listaRespuesta = respuesta.readEntity(new GenericType<List<TipoSala>>() {
-        });
+        List<TipoSala> listaRespuesta = respuesta.readEntity(new GenericType<List<TipoSala>>() {});
         Assertions.assertNotNull(listaRespuesta);
         Assertions.assertFalse(listaRespuesta.isEmpty());
         Assertions.assertEquals(3, listaRespuesta.size());
         Assertions.assertTrue(respuesta.getHeaders().containsKey("Total-Records"));
         Assertions.assertTrue(Integer.parseInt(respuesta.getHeaderString("Total-Records")) > 0);
-
     }
 
     @Test
@@ -54,7 +52,6 @@ public class TipoSalaResourceClientTest {
         Assertions.assertEquals(idBuscado, tipoSala.getIdTipoSala());
     }
 
-
     @Test
     public void testCreate() {
         System.out.println("create");
@@ -70,6 +67,5 @@ public class TipoSalaResourceClientTest {
         Integer idCreado = Integer.parseInt(partes[partes.length - 1]);
         Assertions.assertNotNull(idCreado);
         System.out.println("Se creo: " + idCreado);
-
     }
 }

@@ -7,6 +7,6 @@ import java.util.Set;
 
 @ApplicationPath(value = "v1")
 public class CineApp extends Application {
-   //http://localhost:9080/cine-1.0-SNAPSHOT/v1/tiposala
+   //http://localhost:9080/cineprn335-1.0-SNAPSHOT/v1/
 
 }

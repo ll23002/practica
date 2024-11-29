@@ -5,6 +5,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.Max;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.Path;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSalaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoSala;
 
