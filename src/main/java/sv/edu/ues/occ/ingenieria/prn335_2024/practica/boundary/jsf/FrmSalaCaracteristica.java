@@ -9,6 +9,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.jboss.logging.Logger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
@@ -47,11 +48,10 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
         try {
             modelo = this;
             estado = ESTADO_CRUD.NONE;
-            System.out.println("Estado: " + estado);
             this.tipoSalaList = TSB.findRange(0, Integer.MAX_VALUE);
             this.tipoAsientoList = TAB.findRange(0, Integer.MAX_VALUE);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
         }
     }
 
@@ -62,7 +62,7 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
                 return SCB.findByIdSala(idSala, firstResult, maxResults);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
         }
         return List.of();
     }
@@ -74,7 +74,7 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
                 return SCB.countByIdSala(idSala);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
         }
         return 0;
     }
@@ -95,7 +95,7 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
             registro = new SalaCaracteristica();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
             return null;
         }
     }
@@ -154,7 +154,6 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event);
-        System.out.println("REGISTRO NUEVO DE FrmSalaCaracteristica: " + estado);
         Integer id = SCB.findLasId();
         try {
             if (id != null) {
@@ -163,7 +162,7 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
                 registro.setIdSalaCaracteristica(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
         }
     }
 
@@ -175,24 +174,19 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", " "));
         }else {
             super.btnGuardar(event, this.registro);
-            System.out.println("Registro guardado en FrmPeliculaCaracteristica: " + estado);
         }
     }
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
-        System.out.println("REGISTRO CANCELADO DE FrmSalaCaracteristica: " + estado);
     }
 
     public void btnEditar(ActionEvent event) {
-
         super.btnEditar(event, this.registro);
-        System.out.println("REGISTRO EDITADO DE FrmSalaCaracteristica: " + estado);
     }
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
-        System.out.println("REGISTRO ELIMINADO DE FrmSalaCaracteristica: " + estado);
     }
 
     public SalaCaracteristica crearNuevo() {
@@ -238,7 +232,6 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
     @Override
     public void onRowSelect() {
         super.onRowSelect();
-        System.out.println("Registro seleccionado en FrmSalaCaracteristica: " + estado);
     }
 
     public void validarValor(FacesContext fc, UIComponent component, Object valor) {

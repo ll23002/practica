@@ -6,6 +6,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.jboss.logging.Logger;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoAsientoBean;
@@ -27,7 +28,6 @@ public class FrmTipoAsiento extends FrmAbstractPersistence<TipoAsiento> implemen
     public void inicializar() {
         modelo = this;
         estado = ESTADO_CRUD.NONE;
-        System.out.println("Estado: " + estado);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class FrmTipoAsiento extends FrmAbstractPersistence<TipoAsiento> implemen
             registro = new TipoAsiento();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
             return null;
         }
     }
@@ -108,7 +108,7 @@ public class FrmTipoAsiento extends FrmAbstractPersistence<TipoAsiento> implemen
                 registro.setIdTipoAsiento(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
         }
     }
 

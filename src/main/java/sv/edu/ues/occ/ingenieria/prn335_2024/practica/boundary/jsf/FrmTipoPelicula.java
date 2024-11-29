@@ -28,7 +28,6 @@ public class FrmTipoPelicula extends FrmAbstractPersistence<TipoPelicula> implem
     public void inicializar() {
         modelo = this;
         estado = ESTADO_CRUD.NONE;
-        System.out.println("Estado: " + estado);
     }
 
     @Override

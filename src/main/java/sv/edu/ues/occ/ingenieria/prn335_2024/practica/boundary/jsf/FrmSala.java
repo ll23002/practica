@@ -7,6 +7,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.jboss.logging.Logger;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
@@ -45,13 +46,12 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         try {
             modelo = this;
             estado = ESTADO_CRUD.NONE;
-            System.out.println("Estado: " + estado);
             this.sucursalList = TSB.findRange(0, Integer.MAX_VALUE);
             if (this.sucursalList != null && !this.sucursalList.isEmpty()) {
                 this.setIdSucursalSeleccionada(this.sucursalList.get(0).getIdSucursal());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
         }
     }
 
@@ -71,7 +71,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
             registro = new Sala();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
             return null;
         }
     }
@@ -82,7 +82,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
             try {
                 return dataBean.findById(Integer.parseInt(id));
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Logger.getLogger(getClass().getName()).error(e);
             }
         }
         return null;
@@ -150,7 +150,6 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event);
-        System.out.println("Registro nuevo en FrmSala: " + estado);
         Integer id = dataBean.findLastId();
         try {
             if (id != null) {
@@ -159,7 +158,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
                 registro.setIdSala(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
         }
     }
 
@@ -169,13 +168,11 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Guardado con éxito", "Registro guardado"));
             super.btnGuardar(event, this.registro);
-            System.out.println("Registro guardado en FrmSala: " + estado);
         }
     }
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
-        System.out.println("Registro cancelado en FrmSala: " + estado);
     }
 
     public void btnEditar(ActionEvent event) {
@@ -184,38 +181,30 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         }else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Editado con éxito:", "Registro editado"));
             super.btnEditar(event, this.registro);
-            System.out.println("Registro editado en FrmSala: " + estado);
         }
     }
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
-        System.out.println("Registro eliminado en FrmSala: " + estado);
     }
 
     @Override
     public void onRowSelect() {
         super.onRowSelect();
         idAsiento = registro.getIdSala();
-        System.out.println("Id del registro seleccionado: " + idAsiento);
-        System.out.println("Registro seleccionado en FrmSala: " + estado);
     }
 
     public void cambiarTab(TabChangeEvent tce) {
-        System.out.println("Cambiando de tab");
         if (tce.getTab().getTitle().equals("Caracteristicas")) {
             if (this.registro != null && this.frmSalaCaracteristica != null) {
-                System.out.println("Cambio exitoso a caracteristicas");
                 this.frmSalaCaracteristica.setIdSala(this.registro.getIdSala());
             }
         } else if (tce.getTab().getTitle().equals("Asientos")) {
             if (this.registro != null && this.frmAsiento != null) {
-                System.out.println("Cambio exitoso a asientos");
                 this.frmAsiento.setIdSala(this.registro.getIdSala());
             }
         } else if (tce.getTab().getTitle().equals("Programacion")) {
             if (this.registro != null && this.frmProgramacion != null) {
-                System.out.println("Cambio exitoso a programacion");
                 this.frmProgramacion.setIdSala(this.registro.getIdSala());
             }
         }

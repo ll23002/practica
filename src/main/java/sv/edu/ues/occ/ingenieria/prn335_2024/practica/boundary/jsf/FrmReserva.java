@@ -9,6 +9,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.*;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.*;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Serializable {
     @Inject
@@ -26,7 +27,6 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     @Inject
     AsientoBean aBean;
 
-    // Sí
     @Inject
     AsientoCaracteristicaBean acBean;
 
@@ -47,7 +47,6 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         modelo = this;
         estado = ESTADO_CRUD.NONE;
         registro = new Reserva();
-
     }
 
     @Override
@@ -66,7 +65,7 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
             registro = new Reserva();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             return null;
         }
     }
@@ -77,7 +76,7 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
             try {
                 return rBean.findById(Integer.parseInt(id));
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             }
         }
         return null;
@@ -139,7 +138,7 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
                 registro.setIdReserva(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
     }
 
