@@ -9,6 +9,7 @@ import org.primefaces.model.SortMeta;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
     protected ESTADO_CRUD estado;
@@ -38,9 +39,13 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
     @Override
     public String getRowKey(F object) {//Se obtiene el identificador de la fila.
         try {
+            if (getId(object) == null) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo obtener el identificador de la fila."));
+                return null;
+            }
             return String.valueOf(getId(object));
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             return null;
         }
     }
@@ -50,7 +55,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
         try {
             return getDataBean().findById(Integer.parseInt(rowKey));//Se busca la fila en la base de datos por un identificador único.
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             return null;
         }
     }
@@ -60,7 +65,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
         try {
             return getDataBean().count();//Se retorna el número de registros en la base de datos.
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
         return 0;
     }
@@ -80,7 +85,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
                 return getDataBean().findRange(first, pageSize);//Se obtiene un rango de registros de la base de datos.
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             return null;
         }
         return List.of();//Por defecto retorna una lista vacia.
@@ -95,7 +100,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
             estado = ESTADO_CRUD.CREATE;//Se cambia el estado a CREATE.
             registro = createNewInstance();//Se crea una nueva instancia de la entidad.
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
     }
     public void btnGuardar(ActionEvent event, F registro) {
@@ -107,7 +112,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
             registro = null;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo guardar el registro."));
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
     }
 
@@ -118,7 +123,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Operación cancelada", "La operación ha sido cancelada."));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo cancelar la operación."));
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
     }
 
@@ -129,7 +134,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro editado", "El registro ha sido editado exitosamente."));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo editar el registro."));
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
     }
 
@@ -140,7 +145,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro eliminado", "El registro ha sido eliminado exitosamente."));
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar el registro."));
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
     }
 

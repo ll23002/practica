@@ -12,6 +12,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoPeliculaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoPelicula;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 @Named
 @SessionScoped
@@ -46,7 +47,7 @@ public class FrmTipoPelicula extends FrmAbstractPersistence<TipoPelicula> implem
             registro = new TipoPelicula();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             return null;
         }
     }
