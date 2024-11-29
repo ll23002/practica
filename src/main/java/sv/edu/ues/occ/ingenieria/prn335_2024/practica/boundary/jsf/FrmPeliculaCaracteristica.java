@@ -10,6 +10,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.jboss.logging.Logger;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
@@ -46,13 +47,12 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
         try {
             modelo = this;
             estado = ESTADO_CRUD.NONE;
-            System.out.println("Estado: " + estado);
             this.tipoPeliculaList = TPB.findRange(0, Integer.MAX_VALUE);
             if (this.tipoPeliculaList != null && !this.tipoPeliculaList.isEmpty()) {
                 this.setIdTipoPeliculaSeleccionada(this.tipoPeliculaList.get(0).getIdTipoPelicula());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
         }
     }
 
@@ -63,7 +63,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
                 return PCB.findByIdPelicula(idPelicula, firstResult, maxResults);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+             Logger.getLogger(getClass().getName()).error(e);
             return null;
         }
         return List.of();
@@ -76,7 +76,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
                 return PCB.countByIdPelicula(idPelicula);//countPelicula()???
             }
         } catch (Exception e) {
-            e.printStackTrace();
+             Logger.getLogger(getClass().getName()).error(e);
         }
         return 0;
     }
@@ -97,7 +97,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
             registro = new PeliculaCaracteristica();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
             return null;
         }
     }
@@ -156,7 +156,6 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event);
-        System.out.println("Registro nuevo en FrmPeliculaCaracteristica: " + estado);
         Integer id = PCB.findLastId();
         try {
             if (id != null) {
@@ -165,7 +164,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
                 registro.setIdPeliculaCaracteristica(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(getClass().getName()).error(e);
         }
 
     }
@@ -178,13 +177,11 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", " "));
         }else {
             super.btnGuardar(event, this.registro);
-            System.out.println("Registro guardado en FrmPeliculaCaracteristica: " + estado);
         }
     }
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
-        System.out.println("Registro cancelado en FrmPeliculaCaracteristica: " + estado);
     }
 
     public void btnEditar(ActionEvent event) {
@@ -192,13 +189,11 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error, Llene el formulario", " "));
         }else {
             super.btnEditar(event, this.registro);
-            System.out.println("Registro editado en FrmPeliculaCaracteristica: " + estado);
         }
     }
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
-        System.out.println("Registro eliminado en FrmPeliculaCaracteristica: " + estado);
     }
 
     public PeliculaCaracteristica crearNuevo() {
@@ -239,7 +234,6 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
     @Override
     public void onRowSelect() {
         super.onRowSelect();
-        System.out.println("Registro seleccionado en onRowSelect en FrmPeliculaCaracteristica: " + estado);
     }
     public void validarValor(FacesContext fc, UIComponent component, Object valor) {
         UIInput input = (UIInput) component;
