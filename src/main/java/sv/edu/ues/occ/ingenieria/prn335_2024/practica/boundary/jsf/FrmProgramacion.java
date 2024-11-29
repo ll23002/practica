@@ -140,7 +140,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         mostrarSchedule = false;
         // Asignar idSala desde FrmSala
         if (frmSala != null && frmSala.getRegistro() != null && frmSala.getRegistro().getIdSala() != null) {

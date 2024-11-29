@@ -111,7 +111,7 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         System.out.println("Registro nuevo en FrmAsiento: " + estado);
         Integer id = dataBean.findLastId();
         try {

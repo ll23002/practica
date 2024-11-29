@@ -98,7 +98,7 @@ public class FrmTipoAsiento extends FrmAbstractPersistence<TipoAsiento> implemen
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         Integer id = TAB.findLastId();
         registro.setActivo(true);
         try {

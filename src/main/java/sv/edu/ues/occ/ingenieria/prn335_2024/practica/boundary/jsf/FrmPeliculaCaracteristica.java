@@ -155,7 +155,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         System.out.println("Registro nuevo en FrmPeliculaCaracteristica: " + estado);
         Integer id = PCB.findLastId();
         try {

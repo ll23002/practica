@@ -149,7 +149,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         System.out.println("Registro nuevo en FrmSala: " + estado);
         Integer id = dataBean.findLastId();
         try {

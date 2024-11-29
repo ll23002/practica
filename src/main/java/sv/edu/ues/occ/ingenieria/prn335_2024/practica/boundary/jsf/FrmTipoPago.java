@@ -98,7 +98,7 @@ public class FrmTipoPago extends FrmAbstractPersistence<TipoPago> implements Ser
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         Integer id = TPB.findLastId();
         registro.setActivo(true);
         try {

@@ -220,7 +220,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         System.out.println("REGISTRO NUEVO DE FrmAsientoCaracteristica: " + estado);
         Long id = ACB.findLastId();
         try {

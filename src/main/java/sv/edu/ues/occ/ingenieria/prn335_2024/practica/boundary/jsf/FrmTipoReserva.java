@@ -98,7 +98,7 @@ public class FrmTipoReserva extends FrmAbstractPersistence<TipoReserva> implemen
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         Integer id = TRB.findLastId();
         registro.setActivo(true);
         try {

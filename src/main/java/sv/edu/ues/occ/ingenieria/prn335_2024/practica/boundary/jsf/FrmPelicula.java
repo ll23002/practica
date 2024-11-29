@@ -125,7 +125,7 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         System.out.println("Registro nuevo en FrmPelicula: " + estado);
         Integer id = dataBean.findLastId();
         try {

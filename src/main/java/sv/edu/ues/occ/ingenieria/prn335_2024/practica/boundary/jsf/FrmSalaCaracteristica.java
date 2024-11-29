@@ -153,7 +153,7 @@ public class FrmSalaCaracteristica extends FrmAbstractPersistence<SalaCaracteris
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         System.out.println("REGISTRO NUEVO DE FrmSalaCaracteristica: " + estado);
         Integer id = SCB.findLasId();
         try {

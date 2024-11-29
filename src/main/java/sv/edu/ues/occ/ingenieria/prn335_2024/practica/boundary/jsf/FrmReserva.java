@@ -128,7 +128,7 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
 
         Integer newId = rBean.findLastId();
 

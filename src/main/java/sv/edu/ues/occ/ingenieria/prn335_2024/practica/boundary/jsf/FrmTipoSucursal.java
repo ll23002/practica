@@ -97,7 +97,7 @@ public class FrmTipoSucursal extends FrmAbstractPersistence<Sucursal> implements
 
 
    public void btnNuevo(ActionEvent event) {
-       super.btnNuevo(event, this.registro);
+       super.btnNuevo(event);
        Integer id = TSB.findLastId();
        registro.setActivo(true);
        try {
