@@ -99,7 +99,7 @@ public class FrmTipoPelicula extends FrmAbstractPersistence<TipoPelicula> implem
     }
 
     public void btnNuevo(ActionEvent event) {
-        super.btnNuevo(event, this.registro);
+        super.btnNuevo(event);
         Integer id = TPB.findLastId();
         registro.setActivo(true);
         try {
