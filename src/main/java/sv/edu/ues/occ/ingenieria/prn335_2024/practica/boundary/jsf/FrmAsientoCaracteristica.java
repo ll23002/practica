@@ -1,7 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.el.MethodExpression;
 import jakarta.enterprise.context.Dependent;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -10,18 +9,15 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AsientoCaracteristicaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoAsientoBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Asiento;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.AsientoCaracteristica;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoAsiento;
 
-import javax.swing.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -178,10 +174,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
 
             }
         }
-
-
     }
-
 
     @Override
     protected Object getId(AsientoCaracteristica object) {
@@ -252,7 +245,6 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
         this.idAsiento = idAsiento;
     }
 
-
     public void setFacesContext(FacesContext facesContext) {
         this.facesContext = facesContext;
     }
@@ -268,6 +260,4 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
             Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
     }
-
-
 }

@@ -1,10 +1,10 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.jboss.logging.Logger;
@@ -15,13 +15,12 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.SalaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSucursalBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sala;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sucursal;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoPelicula;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializable {
     @Inject
     SalaBean dataBean;
@@ -238,6 +237,6 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
         if (sala != null && sala.getIdSucursal() != null) {
             return sala.getIdSucursal().getNombre();
         }
-        return "MISTAKE";
+        return "No se pudo obtener el nombre de la sucursal";
     }
 }

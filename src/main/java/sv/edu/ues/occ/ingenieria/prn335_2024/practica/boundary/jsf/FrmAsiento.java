@@ -1,9 +1,9 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.model.LazyDataModel;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Serializable {
     @Inject
     AsientoBean dataBean;
@@ -124,29 +124,20 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
         }
     }
 
-    public void btnGuardar(ActionEvent event) {
-        super.btnGuardar(event, this.registro);
-    }
+    public void btnGuardar(ActionEvent event) {super.btnGuardar(event, this.registro);}
 
-    public void btnCancelar(ActionEvent event) {
-        super.btnCancelar(event, this.registro);
-    }
+    public void btnCancelar(ActionEvent event) {super.btnCancelar(event, this.registro);}
 
-    public void btnEditar(ActionEvent event) {
-        super.btnEditar(event, this.registro);
-    }
+    public void btnEditar(ActionEvent event) {super.btnEditar(event, this.registro);}
 
-    public void btnEliminar(ActionEvent event) {
-        super.btnEliminar(event, this.registro);
-    }
+    public void btnEliminar(ActionEvent event) {super.btnEliminar(event, this.registro);}
 
     @Override
     public void onRowSelect() {
         super.onRowSelect();
-        // Notifica a FrmAsientoCaracteristica sobre el asiento seleccionado
     if (this.registro != null && this.registro.getIdAsiento() != null) {
         frmAsientoCaracteristica.setIdAsiento(this.registro.getIdAsiento());
-        frmAsientoCaracteristica.cargarCaracteristicas(); // Método para actualizar las características
+        frmAsientoCaracteristica.cargarCaracteristicas();
     }
     }
 
@@ -162,8 +153,5 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
         return frmAsientoCaracteristica;
     }
 
-
-    public void setFrmAsientoCaracteristica(FrmAsientoCaracteristica frmAsientoCaracteristica) {
-        this.frmAsientoCaracteristica = frmAsientoCaracteristica;
-    }
+    public void setFrmAsientoCaracteristica(FrmAsientoCaracteristica frmAsientoCaracteristica) {this.frmAsientoCaracteristica = frmAsientoCaracteristica;}
 }

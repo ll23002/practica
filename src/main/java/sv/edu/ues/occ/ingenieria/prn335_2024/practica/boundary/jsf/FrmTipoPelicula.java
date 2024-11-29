@@ -1,9 +1,9 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.model.LazyDataModel;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmTipoPelicula extends FrmAbstractPersistence<TipoPelicula> implements Serializable {
     @Inject
     TipoPeliculaBean TPB;
@@ -112,9 +112,7 @@ public class FrmTipoPelicula extends FrmAbstractPersistence<TipoPelicula> implem
         }
     }
 
-    public void btnGuardar(ActionEvent event) {
-        super.btnGuardar(event, this.registro);
-    }
+    public void btnGuardar(ActionEvent event) {super.btnGuardar(event, this.registro);}
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);

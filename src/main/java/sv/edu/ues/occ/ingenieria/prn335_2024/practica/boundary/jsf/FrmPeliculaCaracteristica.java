@@ -2,7 +2,6 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.component.UIInput;
@@ -247,7 +246,5 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
             }
         }
         input.setValid(false);
-
-
     }
 }

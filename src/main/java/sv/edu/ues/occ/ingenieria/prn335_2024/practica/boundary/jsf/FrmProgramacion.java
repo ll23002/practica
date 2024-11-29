@@ -1,13 +1,12 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -23,7 +22,6 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sala;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implements Serializable {
     @Inject
     ProgramacionBean dataBean;
@@ -261,7 +259,6 @@ public void seleccionarPelicula(SelectEvent<Pelicula> event) {
         }
     }
 }
-
 
     public ScheduleModel getEventModel() {
         return eventModel;
