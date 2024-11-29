@@ -20,24 +20,22 @@ public class FrmWebSocket implements Serializable {
     @Push(channel = "websocket")
     PushContext pushContext;
 
-
     @Inject
     ContadorBean contadorBean;
     int cuenta = 0;
     UUID identificador;
+
     public void enviarMensaje() {
         try {
              identificador = UUID.randomUUID();
-        contadorBean.contarDespacio(cuenta, identificador, this::recibirMensaje);//Antes era mensaje -> recibirMensaje(mensaje)
+        contadorBean.contarDespacio(cuenta, identificador, this::recibirMensaje);
         pushContext.send("Mensaje enviado: " + System.currentTimeMillis());
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
-
     }
 
     public void recibirMensaje(JsonObject respuesta) {
-
         try {
              if (respuesta != null) {
            if (respuesta.getString("TipoRespuesta").equals(ContadorBean.TIPO_RESPUESTA.EXITO.toString()) &&
@@ -49,7 +47,6 @@ public class FrmWebSocket implements Serializable {
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
-
     }
 
     public int getCuenta() {

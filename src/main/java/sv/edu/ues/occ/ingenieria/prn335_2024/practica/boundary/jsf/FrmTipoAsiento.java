@@ -1,9 +1,9 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.jboss.logging.Logger;
@@ -15,7 +15,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoAsiento;
 import java.io.Serializable;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmTipoAsiento extends FrmAbstractPersistence<TipoAsiento> implements Serializable {
     @Inject
     TipoAsientoBean TAB;

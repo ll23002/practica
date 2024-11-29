@@ -1,9 +1,9 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.model.LazyDataModel;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmTipoReserva extends FrmAbstractPersistence<TipoReserva> implements Serializable {
     @Inject
     TipoReservaBean TRB;
@@ -127,4 +127,4 @@ public class FrmTipoReserva extends FrmAbstractPersistence<TipoReserva> implemen
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
     }
-}//end of class FrmTipoReserva
+}

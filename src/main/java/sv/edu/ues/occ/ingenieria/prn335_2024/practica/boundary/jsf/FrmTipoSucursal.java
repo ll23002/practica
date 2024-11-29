@@ -1,10 +1,9 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
-
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.model.LazyDataModel;
@@ -12,14 +11,11 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersis
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSucursalBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sucursal;
 
-
 import java.io.Serializable;
-import java.util.List;
 import java.util.logging.Logger;
 
-
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmTipoSucursal extends FrmAbstractPersistence<Sucursal> implements Serializable {
  @Inject
    TipoSucursalBean TSB;
@@ -27,8 +23,6 @@ public class FrmTipoSucursal extends FrmAbstractPersistence<Sucursal> implements
    FacesContext facesContext;
    Sucursal registro;
    LazyDataModel<Sucursal> modelo;
-   Integer idSucursal;
-   List<Sucursal> sucursalList;
 
    @PostConstruct
    public void inicializar() {

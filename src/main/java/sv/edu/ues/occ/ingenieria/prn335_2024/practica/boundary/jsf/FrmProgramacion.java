@@ -1,13 +1,12 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
@@ -23,7 +22,6 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sala;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implements Serializable {
     @Inject
     ProgramacionBean dataBean;
@@ -49,7 +47,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     ScheduleModel eventModel;
     Integer idSala;
     boolean mostrarSchedule = true;
-    boolean mostrarDialogo = false; // Para manejar la visibilidad del diálogo
+    boolean mostrarDialogo = false;
     LocalDateTime localDesde;
     LocalDateTime localHasta;
     Pelicula nuevaPelicula;
@@ -142,11 +140,10 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event);
         mostrarSchedule = false;
-        // Asignar idSala desde FrmSala
         if (frmSala != null && frmSala.getRegistro() != null && frmSala.getRegistro().getIdSala() != null) {
-            Sala sala = new Sala(); // Crea una nueva instancia
-            sala.setIdSala(frmSala.getRegistro().getIdSala()); // Asigna el idSala
-            this.registro.setIdSala(sala); // Asigna el objeto Sala
+            Sala sala = new Sala();
+            sala.setIdSala(frmSala.getRegistro().getIdSala());
+            this.registro.setIdSala(sala);
         }
         Integer id = dataBean.findLastId();
 
@@ -163,18 +160,15 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
 
     public void btnGuardar(ActionEvent event) {
         if (registro == null) {
-            registro = new Programacion(); // Inicializar si está nulo
+            registro = new Programacion();
         }
 
-        // Obtener las fechas seleccionadas en los campos de fecha
         if (localDesde != null) {
-            registro.setDesde(localDesde.atOffset(ZoneOffset.UTC)); // Asignar el valor de txtDesde a 'desde'
+            registro.setDesde(localDesde.atOffset(ZoneOffset.UTC));
         }
         if (localHasta != null) {
-            registro.setHasta(localHasta.atOffset(ZoneOffset.UTC)); // Asignar el valor de txtHasta a 'hasta'
+            registro.setHasta(localHasta.atOffset(ZoneOffset.UTC));
         }
-
-        // Validar que ambos campos tengan valores
         if (registro.getDesde() == null || registro.getHasta() == null) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Las fechas 'Desde' y 'Hasta' son obligatorias."));
@@ -222,10 +216,10 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
 
     public void onDateSelect(SelectEvent<LocalDateTime> event) {
         localDesde = event.getObject();
-        btnNuevo(null); // Llama a btnNuevo de FrmProgramacion
-        localHasta = null; // Dejar hasta vacío inicialmente
-        nuevaPelicula = null; // Vaciar el nombre de la película
-        mostrarDialogo = true; // Mostrar el cuadro de diálogo
+        btnNuevo(null);
+        localHasta = null;
+        nuevaPelicula = null;
+        mostrarDialogo = true;
     }
 
     private Programacion findProgramacionByEvent(ScheduleEvent<?> event) {
@@ -247,25 +241,24 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
 
    public List<Pelicula> completarPelicula(String query) {
     try {
-        List<Pelicula> todasPeliculas = peliculaBean.findAll(); // Recuperar todas las películas
+        List<Pelicula> todasPeliculas = peliculaBean.findAll();
         return todasPeliculas.stream()
-                .filter(p -> p.getNombre().toLowerCase().contains(query.toLowerCase())) // Filtrar por nombre
+                .filter(p -> p.getNombre().toLowerCase().contains(query.toLowerCase()))
                 .collect(Collectors.toList());
     } catch (Exception e) {
         Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
-        return new ArrayList<>(); // Retornar lista vacía en caso de error
+        return new ArrayList<>();
     }
 }
 
 public void seleccionarPelicula(SelectEvent<Pelicula> event) {
     if (event.getObject() != null) {
-        this.nuevaPelicula = event.getObject(); // Asigna la película seleccionada
+        this.nuevaPelicula = event.getObject();
         if (this.registro != null) {
-            this.registro.setIdPelicula(nuevaPelicula); // Asigna la película completa al registro
+            this.registro.setIdPelicula(nuevaPelicula);
         }
     }
 }
-
 
     public ScheduleModel getEventModel() {
         return eventModel;

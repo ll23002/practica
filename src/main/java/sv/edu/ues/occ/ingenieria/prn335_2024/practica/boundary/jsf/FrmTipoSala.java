@@ -1,30 +1,28 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSalaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoSala;
 
-
 import java.io.Serializable;
 import java.util.logging.Logger;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Serializable {
     @Inject
     TipoSalaBean TSB;
     @Inject
     FacesContext facesContext;
     TipoSala registro;
-    LazyDataModel<TipoSala> modelo;//modelo es una variable de tipo LazyDataModel que se encarga de almacenar los datos de la tabla TipoSala.
+    LazyDataModel<TipoSala> modelo;
 
     @PostConstruct
     public void inicializar() {
@@ -105,9 +103,9 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
         registro.setActivo(true);
         try {
             if (id != null) {
-                registro.setIdTipoSala(id + 1);//Se incrementa el id del registro en 1 porque está en base cero.
+                registro.setIdTipoSala(id + 1);
             } else {
-                registro.setIdTipoSala(1);//Si no hay registros, se asigna el id 1.
+                registro.setIdTipoSala(1);
             }
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).severe(e.getMessage());
@@ -129,5 +127,4 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
     }
-
 }

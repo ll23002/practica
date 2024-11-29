@@ -1,7 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.el.MethodExpression;
 import jakarta.enterprise.context.Dependent;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
@@ -10,18 +9,15 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AsientoCaracteristicaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoAsientoBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Asiento;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.AsientoCaracteristica;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoAsiento;
 
-import javax.swing.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +51,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     }
 
     @Override
-    public String getRowKey(AsientoCaracteristica object) {//el object esta como entity en el otro
+    public String getRowKey(AsientoCaracteristica object) {
         if (object != null && object.getIdTipoAsiento() != null) {
             return object.getIdAsientoCaracteristica().toString();
         }
@@ -68,7 +64,6 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
         if (rowKey != null) {
             try {
                 return ACB.findById(Long.parseLong(rowKey));
-                //return this.modelo.getWrappedData().stream().filter(r -> r.getIdAsientoCaracteristica().toString().equals(rowKey)).findFirst().orElse(null);
             } catch (NumberFormatException e) {
                 Logger.getLogger(getClass().getName()).severe(e.getMessage());
             }
@@ -111,7 +106,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     }
 
     @Override
-    protected AsientoCaracteristica createNewInstance() {//devuelve el registro
+    protected AsientoCaracteristica createNewInstance() {
         try {
             registro = new AsientoCaracteristica();
             return registro;
@@ -149,21 +144,18 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     public void validarValor(FacesContext facesContext, UIComponent componente, Object valor) {
         UIInput input = (UIInput) componente;
 
-        // Verificar si el registro y el tipo de película son válidos
         if (registro != null && this.registro.getIdTipoAsiento() != null) {
             String nuevoValor = valor.toString();
             String expresionRegular = this.registro.getIdTipoAsiento().getExpresionRegular();
             Pattern patron = Pattern.compile(expresionRegular);
             Matcher validador = patron.matcher(nuevoValor);
 
-            // Validar según la expresión regular definida
             if (validador.matches()) {
                 input.setValid(true);
                 facesContext.addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Validación exitosa", "El valor ingresado es correcto"));
                 return;
             } else {
-                // Si no cumple con la expresión regular
                 input.setValid(false);
                 if (registro.getIdTipoAsiento() != null && registro.getIdTipoAsiento().getNombre().equals("CLIMA")) {
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -182,10 +174,7 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
 
             }
         }
-
-
     }
-
 
     @Override
     protected Object getId(AsientoCaracteristica object) {
@@ -256,7 +245,6 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
         this.idAsiento = idAsiento;
     }
 
-
     public void setFacesContext(FacesContext facesContext) {
         this.facesContext = facesContext;
     }
@@ -264,7 +252,6 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
     public void cargarCaracteristicas() {
         try {
             if (idAsiento != null) {
-                // Recarga los datos del modelo con las características del asiento
                 modelo.setWrappedData(ACB.findByIdAsiento(idAsiento, 0, Integer.MAX_VALUE));
             } else {
                 modelo.setWrappedData(List.of());
@@ -273,6 +260,4 @@ public class FrmAsientoCaracteristica extends FrmAbstractPersistence<AsientoCara
             Logger.getLogger(getClass().getName()).severe(e.getMessage());
         }
     }
-
-
 }

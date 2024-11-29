@@ -19,52 +19,45 @@ public class FrmMenu implements Serializable {
     @Inject
     FacesContext facesContext;
 
-    DefaultMenuModel model;//propiedad de primefaces
+    DefaultMenuModel model;
 
     @PostConstruct
     public void init(){
         model = new DefaultMenuModel();
-        //primera parte del menu
         DefaultSubMenu tipos = DefaultSubMenu.builder()
                 .label("Tipos")
                 .expanded(true)
                 .build();
-        //item del menu value like SALA
         DefaultMenuItem item = DefaultMenuItem.builder()
                 .value("Sala")
                 .ajax(true)
                 .command("#{frmMenu.navegar('TipoSala.jsf')}")
                 .build();
         tipos.getElements().add(item);
-        //items del menu value like Asiento
         DefaultMenuItem itemAsiento = DefaultMenuItem.builder()
                 .value("Asiento")
                 .ajax(true)
                 .command("#{frmMenu.navegar('TipoAsiento.jsf')}")
                 .build();
         tipos.getElements().add(itemAsiento);
-        //items del menu value like Pelicula
         DefaultMenuItem itemPelicula = DefaultMenuItem.builder()
                 .value("Pelicula")
                 .ajax(true)
                 .command("#{frmMenu.navegar('TipoPelicula.jsf')}")
                 .build();
         tipos.getElements().add(itemPelicula);
-        //items del menu value like Producto
         DefaultMenuItem itemProducto = DefaultMenuItem.builder()
                 .value("Producto")
                 .ajax(true)
                 .command("#{frmMenu.navegar('TipoProducto.jsf')}")
                 .build();
         tipos.getElements().add(itemProducto);
-        //items del menu value like Reserva
         DefaultMenuItem itemReserva = DefaultMenuItem.builder()
                 .value("Reserva")
                 .ajax(true)
                 .command("#{frmMenu.navegar('TipoReserva.jsf')}")
                 .build();
         tipos.getElements().add(itemReserva);
-        //items del menu value like Pago
         DefaultMenuItem itemPago = DefaultMenuItem.builder()
                 .value("Pago")
                 .ajax(true)
@@ -72,8 +65,6 @@ public class FrmMenu implements Serializable {
                 .build();
         tipos.getElements().add(itemPago);
         model.getElements().add(tipos);
-
-        //segunda parte del menu
         DefaultSubMenu cine = DefaultSubMenu.builder()
                 .label("Cine")
                 .expanded(true)

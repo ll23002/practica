@@ -1,10 +1,10 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.jboss.logging.Logger;
@@ -17,7 +17,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Pelicula;
 import java.io.Serializable;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Serializable {
     @Inject
     PeliculaBean dataBean;
@@ -137,10 +137,6 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
         }
     }
 
-    /*public void btnGuardar(ActionEvent event) {
-        super.btnGuardar(event, this.registro);
-        System.out.println("Registro guardado en FrmPelicula: " + estado);
-    }*/
     public void btnGuardar(ActionEvent event) {
         if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty()|| registro.getSinopsis()==null || registro.getSinopsis().isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error,Llene el formulario", "El nombre es requerido"));

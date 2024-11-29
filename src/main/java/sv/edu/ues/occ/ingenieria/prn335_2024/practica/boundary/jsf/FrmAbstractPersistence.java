@@ -37,7 +37,7 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
     protected abstract Object getId(F object);
 
     @Override
-    public String getRowKey(F object) {//Se obtiene el identificador de la fila.
+    public String getRowKey(F object) {
         try {
             if (getId(object) == null) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo obtener el identificador de la fila."));
@@ -51,9 +51,9 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
     }
 
     @Override
-    public F getRowData(String rowKey) {//Se obtiene la fila de una tabla de la base de datos.
+    public F getRowData(String rowKey) {
         try {
-            return getDataBean().findById(Integer.parseInt(rowKey));//Se busca la fila en la base de datos por un identificador único.
+            return getDataBean().findById(Integer.parseInt(rowKey)) ;
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             return null;
@@ -61,48 +61,41 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
     }
 
     @Override
-    public int count(Map<String, FilterMeta> filterMeta) {//Se cuenta el número de registros en la base de datos.
+    public int count(Map<String, FilterMeta> filterMeta) {
         try {
-            return getDataBean().count();//Se retorna el número de registros en la base de datos.
+            return getDataBean().count();
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
         return 0;
     }
 
-    /**
-     *
-     * @param first indice del primer registro a cargar
-     * @param pageSize El numero maximo de registros a cargar
-     * @param sorMeta información de ordenamiento(no se usa en nuestro caso)
-     * @param filterMeta información de filtrado(no se usa en nuestro caso)
-     * @return Lista de un rango de registros de la base de datos
-     */
     @Override
-    public List<F> load(int first, int pageSize, Map<String, SortMeta> sorMeta, Map<String, FilterMeta> filterMeta) {//Permite cargar un rango de datos de la base de datos.
+    public List<F> load(int first, int pageSize, Map<String, SortMeta> sorMeta, Map<String, FilterMeta> filterMeta) {
         try {
-            if (first>=0 && pageSize>0) {
-                return getDataBean().findRange(first, pageSize);//Se obtiene un rango de registros de la base de datos.
+            if (first >= 0 && pageSize > 0) {
+                return getDataBean().findRange(first, pageSize);
             }
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             return null;
         }
-        return List.of();//Por defecto retorna una lista vacia.
+        return List.of();
     }
 
-    public void onRowSelect() {//Método que se encarga de cambiar el estado cuando se selecciona un registro.
-        estado = ESTADO_CRUD.UPDATE;//Se cambia el estado a UPDATE.
+    public void onRowSelect() {
+        estado = ESTADO_CRUD.UPDATE;
     }
 
-    public void btnNuevo(ActionEvent event) {//Método que se encarga de crear un registro en la base de datos.
+    public void btnNuevo(ActionEvent event) {
         try {
-            estado = ESTADO_CRUD.CREATE;//Se cambia el estado a CREATE.
+            estado = ESTADO_CRUD.CREATE;
             createNewInstance();
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
     }
+
     public void btnGuardar(ActionEvent event, F registro) {
         try {
             estado = ESTADO_CRUD.NONE;
@@ -146,6 +139,4 @@ public abstract class FrmAbstractPersistence<F> extends LazyDataModel<F> {
             Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
     }
-
-
 }

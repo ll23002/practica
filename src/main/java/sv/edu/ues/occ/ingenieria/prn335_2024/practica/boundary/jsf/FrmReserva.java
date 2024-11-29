@@ -10,7 +10,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.*;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
-
+//no olvidar agregar el @Named y @ViewScoped
 public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Serializable {
     @Inject
     ReservaBean rBean;
