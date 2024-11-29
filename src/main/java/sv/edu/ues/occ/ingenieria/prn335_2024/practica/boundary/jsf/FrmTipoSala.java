@@ -24,7 +24,7 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
     @Inject
     FacesContext facesContext;
     TipoSala registro;
-    LazyDataModel<TipoSala> modelo;//modelo es una variable de tipo LazyDataModel que se encarga de almacenar los datos de la tabla TipoSala.
+    LazyDataModel<TipoSala> modelo;
 
     @PostConstruct
     public void inicializar() {

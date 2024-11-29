@@ -28,7 +28,7 @@ public class FrmWebSocket implements Serializable {
     public void enviarMensaje() {
         try {
              identificador = UUID.randomUUID();
-        contadorBean.contarDespacio(cuenta, identificador, this::recibirMensaje);//Antes era mensaje -> recibirMensaje(mensaje)
+        contadorBean.contarDespacio(cuenta, identificador, this::recibirMensaje);
         pushContext.send("Mensaje enviado: " + System.currentTimeMillis());
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).severe(e.getMessage());

@@ -137,10 +137,6 @@ public class FrmPelicula extends FrmAbstractPersistence<Pelicula> implements Ser
         }
     }
 
-    /*public void btnGuardar(ActionEvent event) {
-        super.btnGuardar(event, this.registro);
-        System.out.println("Registro guardado en FrmPelicula: " + estado);
-    }*/
     public void btnGuardar(ActionEvent event) {
         if (registro == null || registro.getNombre() == null || registro.getNombre().isEmpty()|| registro.getSinopsis()==null || registro.getSinopsis().isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error,Llene el formulario", "El nombre es requerido"));

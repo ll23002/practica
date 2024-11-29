@@ -57,7 +57,7 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
     }
 
     @Override
-    public List<PeliculaCaracteristica> load(int firstResult, int maxResults, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {//sortMeta y filterMeta no se usan.
+    public List<PeliculaCaracteristica> load(int firstResult, int maxResults, Map<String, SortMeta> sortMeta, Map<String, FilterMeta> filterMeta) {
          try {
             if (this.idPelicula != null && PCB != null) {
                 return PCB.findByIdPelicula(idPelicula, firstResult, maxResults);
@@ -70,10 +70,10 @@ public class FrmPeliculaCaracteristica extends FrmAbstractPersistence<PeliculaCa
     }
 
     @Override
-    public int count(Map<String, FilterMeta> filterMeta) {//filterMeta no se usa.
+    public int count(Map<String, FilterMeta> filterMeta) {
          try {
             if (this.idPelicula != null && PCB != null) {
-                return PCB.countByIdPelicula(idPelicula);//countPelicula()???
+                return PCB.countByIdPelicula(idPelicula);
             }
         } catch (Exception e) {
              Logger.getLogger(getClass().getName()).error(e);

@@ -127,4 +127,4 @@ public class FrmTipoReserva extends FrmAbstractPersistence<TipoReserva> implemen
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
     }
-}//end of class FrmTipoReserva
+}
