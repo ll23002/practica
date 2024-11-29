@@ -12,6 +12,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AsientoBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Asiento;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 @Named
 @SessionScoped
@@ -30,7 +31,6 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
     public void inicializar() {
         modelo = this;
         estado = ESTADO_CRUD.NONE;
-        System.out.println("Estado: " + estado);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
             registro = new Asiento();
             return registro;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             return null;
         }
     }
@@ -60,7 +60,7 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
             try {
                 return dataBean.findById(Integer.parseInt(id));
             } catch (NumberFormatException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
             }
         }
         return null;
@@ -112,7 +112,6 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event);
-        System.out.println("Registro nuevo en FrmAsiento: " + estado);
         Integer id = dataBean.findLastId();
         try {
             if (id != null) {
@@ -121,34 +120,29 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
                 registro.setIdAsiento(1);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
         }
     }
 
     public void btnGuardar(ActionEvent event) {
         super.btnGuardar(event, this.registro);
-        System.out.println("Registro guardado en FrmAsiento: " + estado);
     }
 
     public void btnCancelar(ActionEvent event) {
         super.btnCancelar(event, this.registro);
-        System.out.println("Registro cancelado en FrmAsiento: " + estado);
     }
 
     public void btnEditar(ActionEvent event) {
         super.btnEditar(event, this.registro);
-        System.out.println("Registro editado en FrmAsiento: " + estado);
     }
 
     public void btnEliminar(ActionEvent event) {
         super.btnEliminar(event, this.registro);
-        System.out.println("Registro eliminado en FrmAsiento: " + estado);
     }
 
     @Override
     public void onRowSelect() {
         super.onRowSelect();
-        System.out.println("Registro seleccionado en FrmAsiento: " + estado);
         // Notifica a FrmAsientoCaracteristica sobre el asiento seleccionado
     if (this.registro != null && this.registro.getIdAsiento() != null) {
         frmAsientoCaracteristica.setIdAsiento(this.registro.getIdAsiento());
