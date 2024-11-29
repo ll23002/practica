@@ -21,23 +21,36 @@ public class TipoSalaResource implements Serializable {
     TipoSalaBean tsBean;
 
 
-  @GET
+    @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public List<TipoSala> findRange(
+    public Response findRange(
             @QueryParam("first")
             @DefaultValue("0")
             int firstResult,
             @QueryParam("max")
             @DefaultValue("50")
-            //@Max(50)
+            @Max(50)
             int maxResults) {
         try {
-          return tsBean.findRange(firstResult, maxResults);
-        } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
 
+            if (firstResult >= 0 && maxResults > 0 && maxResults <= 50) {
+                List<TipoSala> encontrados = tsBean.findRange(firstResult, maxResults);
+                for (TipoSala ts : encontrados) {
+                    ts.getSalaCaracteristicas().size(); // Forzar inicialización
+                }
+                Long total = (long) tsBean.count();
+                Response.ResponseBuilder builder = Response.ok(encontrados)
+                        .header("Total_Records", total)
+                        .type(MediaType.APPLICATION_JSON);
+                return builder.build();
+            } else {
+                return Response.status(422).header("Wrong-Parameter", "first: " + firstResult + " max: " + maxResults).build();
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "Error en findRange", e);
+            return Response.status(500).entity(e.getMessage()).build();
         }
-        return List.of();
     }
 
 /*
@@ -82,5 +95,7 @@ public class TipoSalaResource implements Serializable {
         return Response.status(422).header("Wrong-Parameter", "tiposala: " + tipoSala).build();
     }
 
+
  */
+
 }

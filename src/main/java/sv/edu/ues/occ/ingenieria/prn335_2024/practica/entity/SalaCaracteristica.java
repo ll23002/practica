@@ -15,6 +15,7 @@ public class SalaCaracteristica {
     @Column(name = "id_sala_caracteristica", nullable = false)
     private Integer idSalaCaracteristica;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_sala")
     private TipoSala idTipoSala;
