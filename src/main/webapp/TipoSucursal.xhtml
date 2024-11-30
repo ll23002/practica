@@ -83,10 +83,7 @@
                                          requiredMessage="La longitud es requerida"/>
                         </h:panelGrid>
                         <h:panelGrid>
-                            <p:commandButton value="Actualizar"
-                                             actionListener="#{frmSucursal.btnEditar}"
-                                             rendered="#{frmSucursal.estado == 'UPDATE'}"
-                                             update=":frmTabla :pnlDetalle"/>
+
                             <crud:BotonesCRUD frm="#{frmSucursal}"/>
                         </h:panelGrid>
                     </h:form>
