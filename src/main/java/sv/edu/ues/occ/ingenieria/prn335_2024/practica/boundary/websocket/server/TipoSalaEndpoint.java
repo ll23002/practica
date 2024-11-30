@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/*
+
 @ServerEndpoint("/notificadortiposala")
 public class TipoSalaEndpoint implements Serializable {
 
@@ -28,7 +30,7 @@ public class TipoSalaEndpoint implements Serializable {
     public void propagarMensaje(Session sesion, String mensaje) {
         for (Session se : this.manejadorSesiones.getSESIONES()) {
             if (sesion != null && sesion.isOpen()) {
-                se.getAsyncRemote().sendText(mensaje);//pendiente
+              //  se.getAsyncRemote().sendText(mensaje);//pendiente
             } else {
                 try {
                     sesion.getBasicRemote().sendText(mensaje);
@@ -45,3 +47,5 @@ public class TipoSalaEndpoint implements Serializable {
         manejadorSesiones.eliminarSesion(session);
     }
 }
+
+ */

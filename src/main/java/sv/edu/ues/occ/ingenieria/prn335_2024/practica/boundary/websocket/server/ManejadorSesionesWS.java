@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+
 @ApplicationScoped
 @Named
 public class ManejadorSesionesWS implements Serializable {
@@ -26,3 +28,5 @@ public class ManejadorSesionesWS implements Serializable {
         return SESIONES;
     }
 }
+
+ */
