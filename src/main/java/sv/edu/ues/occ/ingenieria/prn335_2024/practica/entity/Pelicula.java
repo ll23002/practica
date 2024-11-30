@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -13,7 +14,7 @@ public class Pelicula {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pelicula_id_gen")
     @SequenceGenerator(name = "pelicula_id_gen", sequenceName = "pelicula_id_pelicula_seq", allocationSize = 1)
     @Column(name = "id_pelicula", nullable = false)
-    private Integer idPelicula;//Estaba como Long, es necesario cambiarlo a Integer
+    private Integer idPelicula;
 
     @Size(max = 255)
     @Column(name = "nombre")
@@ -23,17 +24,19 @@ public class Pelicula {
     @Column(name = "sinopsis")
     private String sinopsis;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idPelicula")
     private Set<PeliculaCaracteristica> peliculaCaracteristicas = new LinkedHashSet<>();
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idPelicula")
     private Set<Programacion> programacions = new LinkedHashSet<>();
 
     public Pelicula(Integer idPelicula) {//constructor improvisado
         this.idPelicula = idPelicula;
     }
-    public Pelicula() {//Constructor vació
-    }
+
+    public Pelicula() { }
 
     public Integer getIdPelicula() {
         return idPelicula;
@@ -63,9 +66,7 @@ public class Pelicula {
         return peliculaCaracteristicas;
     }
 
-    public void setPeliculaCaracteristicas(Set<PeliculaCaracteristica> peliculaCaracteristicas) {
-        this.peliculaCaracteristicas = peliculaCaracteristicas;
-    }
+    public void setPeliculaCaracteristicas(Set<PeliculaCaracteristica> peliculaCaracteristicas) {this.peliculaCaracteristicas = peliculaCaracteristicas;}
 
     public Set<Programacion> getProgramacions() {
         return programacions;
@@ -74,5 +75,4 @@ public class Pelicula {
     public void setProgramacions(Set<Programacion> programacions) {
         this.programacions = programacions;
     }
-
 }

@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -30,23 +31,21 @@ public class Sala {
     @Column(name = "observaciones")
     private String observaciones;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idSala")
     private Set<Asiento> asientos = new LinkedHashSet<>();
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idSala")
     private Set<Programacion> programacions = new LinkedHashSet<>();
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idSala")
     private Set<SalaCaracteristica> salaCaracteristicas = new LinkedHashSet<>();
 
+    public Sala(Integer idSala) {this.idSala = idSala;}
 
-    public Sala(Integer idSala) {
-        this.idSala = idSala;
-    }
-
-    public Sala() {//agregar un constructor vacio, necesario en FrmSala
-
-    }
+    public Sala() {    }
     public Integer getIdSala() {
         return idSala;
     }
@@ -107,8 +106,5 @@ public class Sala {
         return salaCaracteristicas;
     }
 
-    public void setSalaCaracteristicas(Set<SalaCaracteristica> salaCaracteristicas) {
-        this.salaCaracteristicas = salaCaracteristicas;
-    }
-
+    public void setSalaCaracteristicas(Set<SalaCaracteristica> salaCaracteristicas) {this.salaCaracteristicas = salaCaracteristicas;}
 }

@@ -15,7 +15,7 @@ public class AsientoCaracteristica {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "asiento_caracteristica_id_gen")
     @SequenceGenerator(name = "asiento_caracteristica_id_gen", sequenceName = "asiento_caracteristica_id_asiento_caracteristica_seq", allocationSize = 1)
     @Column(name = "id_asiento_caracteristica", nullable = false)
-    private Long idAsientoCaracteristica;//estaba como long
+    private Long idAsientoCaracteristica;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_asiento")
