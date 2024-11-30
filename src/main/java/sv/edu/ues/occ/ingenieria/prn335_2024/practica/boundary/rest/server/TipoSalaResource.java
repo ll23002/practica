@@ -61,7 +61,7 @@ public class TipoSalaResource implements Serializable {
         }
     }
 
-/*
+
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Integer id) {
@@ -104,6 +104,6 @@ public class TipoSalaResource implements Serializable {
     }
 
 
- */
+
 
 }
