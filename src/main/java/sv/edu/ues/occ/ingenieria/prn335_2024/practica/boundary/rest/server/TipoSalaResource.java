@@ -48,7 +48,7 @@ public class TipoSalaResource implements Serializable {
                 }
                 Long total = (long) tsBean.count();
                 Response.ResponseBuilder builder = Response.ok(encontrados)
-                        .header("Total_Records", total)
+                        .header("Total-Records", total)
                         .type(MediaType.APPLICATION_JSON);
                 return builder.build();
             } else {
