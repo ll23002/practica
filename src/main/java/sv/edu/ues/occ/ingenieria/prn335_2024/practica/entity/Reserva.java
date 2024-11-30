@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -16,10 +17,12 @@ public class Reserva {
     @Column(name = "id_reserva", nullable = false)
     private Integer idReserva;
 
+    @JsonbTransient
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_programacion")
     private Programacion idProgramacion;
 
+    @JsonbTransient
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_reserva")
     private TipoReserva idTipoReserva;
@@ -35,6 +38,7 @@ public class Reserva {
     @Column(name = "observaciones")
     private String observaciones;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idReserva")
     private Set<ReservaDetalle> reservaDetalles = new LinkedHashSet<>();
 
@@ -93,5 +97,4 @@ public class Reserva {
     public void setReservaDetalles(Set<ReservaDetalle> reservaDetalles) {
         this.reservaDetalles = reservaDetalles;
     }
-
 }

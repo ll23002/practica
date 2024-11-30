@@ -4,19 +4,19 @@ import jakarta.inject.Inject;
 import jakarta.validation.constraints.Max;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.SalaCaracteristicaBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.SalaCaracteristica;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.ReservaBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Reserva;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Path("salacaracteristica")
-public class SalaCaracteristicaResource implements Serializable {
+@Path("reserva")
+public class ReservaResource implements Serializable {
     @Inject
-    SalaCaracteristicaBean sBean;
-
+    ReservaBean rBean;
+//DA ERROR: No se puede serializar la propiedad 'reservaDetalles' de sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Reserva
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response findRange(
@@ -29,8 +29,8 @@ public class SalaCaracteristicaResource implements Serializable {
             int maxResults) {
         try {
             if (firstResult >= 0 && maxResults > 0 && maxResults <= 50) {
-                List<SalaCaracteristica> encontrados = sBean.findRange(firstResult, maxResults);
-                Long total = (long) sBean.count();
+                List<Reserva> encontrados = rBean.findRange(firstResult, maxResults);
+                Long total = (long) rBean.count();
                 Response.ResponseBuilder builder = Response.ok(encontrados)
                         .header("Total-Records", total)
                         .type(MediaType.APPLICATION_JSON);
@@ -49,12 +49,12 @@ public class SalaCaracteristicaResource implements Serializable {
     public Response findById(@PathParam("id") Integer id) {
         if (id != null) {
             try {
-                SalaCaracteristica encontrado = sBean.findById(id);
+                Reserva encontrado = rBean.findById(id);
                 if (encontrado != null) {
                     Response.ResponseBuilder builder = Response.ok(encontrado).type(MediaType.APPLICATION_JSON);
                     return builder.build();
                 }
-                return Response.status(404).header("Not-Found", "Sala con id: " + id).build();
+                return Response.status(404).header("Not-Found", "Reserva con id: " + id).build();
             } catch (Exception e) {
                 Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
             }
@@ -65,13 +65,13 @@ public class SalaCaracteristicaResource implements Serializable {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response create(SalaCaracteristica salaCaracteristica, @Context UriInfo uriInfo) {
-        if (salaCaracteristica != null && salaCaracteristica.getIdSalaCaracteristica() == null) {
+    public Response create(Reserva reserva, @Context UriInfo uriInfo) {
+        if (reserva != null && reserva.getIdReserva() == null) {
             try {
-                sBean.create(salaCaracteristica);
-                if (salaCaracteristica.getIdSalaCaracteristica() != null) {
+                rBean.create(reserva);
+                if (reserva.getIdReserva() != null) {
                     UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
-                    uriBuilder.path(String.valueOf(salaCaracteristica.getIdSalaCaracteristica()));
+                    uriBuilder.path(String.valueOf(reserva.getIdReserva()));
                     return Response.created(uriBuilder.build()).build();
                 }
                 return Response.status(500).header("Process-Error", "Record couldn't be created").build();
@@ -80,6 +80,6 @@ public class SalaCaracteristicaResource implements Serializable {
                 return Response.status(500).entity(e.getMessage()).build();
             }
         }
-        return Response.status(422).header("Wrong-Parameter", "salaCaracteristica: " + salaCaracteristica).build();
+        return Response.status(422).header("Wrong-Parameter", "reserva: " + reserva).build();
     }
 }

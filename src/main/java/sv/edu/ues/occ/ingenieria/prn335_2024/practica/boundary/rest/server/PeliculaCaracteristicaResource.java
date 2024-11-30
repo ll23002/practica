@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Path("pelicula-caracteristica")
+@Path("peliculacaracteristica")
 public class PeliculaCaracteristicaResource implements Serializable {
     @Inject
     PeliculaCaracteristicaBean pBean;

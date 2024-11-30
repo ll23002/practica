@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Path("asiento-caracteristica")
+@Path("asientocaracteristica")
 public class AsientoCaracteristicaResource implements Serializable {
     @Inject
     AsientoCaracteristicaBean aBean;
