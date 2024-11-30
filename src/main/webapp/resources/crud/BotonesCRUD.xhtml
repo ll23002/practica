@@ -30,19 +30,22 @@
         <h:panelGrid columns="#{cc.attrs.frm.estado!='NONE'?'2':'1'}">
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnGuardar}"
-                             value="#{abstractpffprm['abstractpffprm.create']} #{cc.attrs.frm.tituloPagina}"
+                             value="#{abstractpffprm['abstractpffprm.create']}"
                              process="@form" update="#{cc.attrs.actualizar}"
                              rendered="#{cc.attrs.frm.estado == 'CREATE'}"/>
+            <!-- #{cc.attrs.frm.tituloPagina}-->
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnEditar}"
-                             value="#{abstractpffprm['abstractpffprm.update']} #{cc.attrs.frm.tituloPagina}"
+                             value="#{abstractpffprm['abstractpffprm.update']}"
                              process="@form" update="#{cc.attrs.actualizar}"
                              rendered="#{cc.attrs.frm.estado == 'UPDATE'}"/>
+            <!-- #{cc.attrs.frm.tituloPagina}-->
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnEliminar}"
-                             value="#{abstractpffprm['abstractpffprm.delete']} #{cc.attrs.frm.tituloPagina}"
+                             value="#{abstractpffprm['abstractpffprm.delete']}"
                              process="@form" update="#{cc.attrs.actualizar}"
                              rendered="#{cc.attrs.frm.estado == 'UPDATE'}"/>
+            <!-- #{cc.attrs.frm.tituloPagina}-->
         </h:panelGrid>
     </cc:implementation>
 

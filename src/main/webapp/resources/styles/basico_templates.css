@@ -6,7 +6,7 @@ body{
     margin: auto;
 }
 h1{
-    color: #f0f0f0;
+    color: #f0f0f0 !important;
     text-align: center;
     font-size: 2em;
     font-family: 'Arial';

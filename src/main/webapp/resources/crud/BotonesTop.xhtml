@@ -30,14 +30,16 @@
         <h:panelGrid columns="#{cc.attrs.frm.estado!='NONE'?'2':'1'}">
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnNuevo}"
-                             value="#{abstractpffprm['abstractpffprm.new']} #{cc.attrs.frm.tituloPagina}"
+                             value="#{abstractpffprm['abstractpffprm.new']}"
                              process="@this" update="#{cc.attrs.actualizar}"
                              rendered="#{cc.attrs.frm.estado == 'NONE' or cc.attrs.frm.estado == 'UPDATE' or cc.attrs.frm.estado == 'CREATE'}"/>
+            <!-- #{cc.attrs.frm.tituloPagina} -->
             <p:commandButton ajax="true"
                              actionListener="#{cc.attrs.frm.btnCancelar}"
-                             value="#{abstractpffprm['abstractpffprm.cancel']} #{cc.attrs.frm.tituloPagina}"
+                             value="#{abstractpffprm['abstractpffprm.cancel']}"
                              process="@this" update="#{cc.attrs.actualizar}"
                              rendered="#{cc.attrs.frm.estado != 'NONE'}"/>
+            <!-- #{cc.attrs.frm.tituloPagina} -->
         </h:panelGrid>
     </cc:implementation>
 

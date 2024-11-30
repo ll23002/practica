@@ -46,6 +46,7 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
     LazyDataModel<Programacion> modelo;
     ScheduleModel eventModel;
     Integer idSala;
+    Integer idReserva;
     boolean mostrarSchedule = true;
     boolean mostrarDialogo = false;
     LocalDateTime localDesde;
@@ -135,6 +136,14 @@ public class FrmProgramacion extends FrmAbstractPersistence<Programacion> implem
 
     public void setRegistro(Programacion registro) {
         this.registro = registro;
+    }
+
+    public Integer getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(Integer idReserva) {
+        this.idReserva = idReserva;
     }
 
     public void btnNuevo(ActionEvent event) {

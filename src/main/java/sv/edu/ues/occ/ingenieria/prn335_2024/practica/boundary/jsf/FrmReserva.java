@@ -1,16 +1,24 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.jsf;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.*;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.*;
 
 import java.io.Serializable;
-import java.util.logging.Logger;
-//no olvidar agregar el @Named y @ViewScoped
+import java.util.List;
+
+import org.jboss.logging.Logger;
+
+@Named
+@ViewScoped
 public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Serializable {
     @Inject
     ReservaBean rBean;
@@ -37,16 +45,36 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     ProgramacionBean pgBean;
 
     @Inject
+    FrmProgramacion frmProgramacion;
+
+    @Inject
+    FrmTipoReserva frmTipoReserva;
+
+    @Inject
     FacesContext facesContext;
 
     Reserva registro;
+    List<TipoReserva> trList;
+    List<Programacion> funciones;
+
     LazyDataModel<Reserva> modelo;
 
     @PostConstruct
     public void inicializar() {
-        modelo = this;
-        estado = ESTADO_CRUD.NONE;
-        registro = new Reserva();
+        try {
+            modelo = this;
+            estado = ESTADO_CRUD.NONE;
+            registro = new Reserva();
+
+            this.trList = trBean.findRange(0, Integer.MAX_VALUE);
+
+            if (this.trList != null && !this.trList.isEmpty()) {
+                this.setIdTipoReservaSeleccionado(this.trList.get(0).getIdTipoReserva());
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).error(0);
+        }
     }
 
     @Override
@@ -65,7 +93,7 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
             registro = new Reserva();
             return registro;
         } catch (Exception e) {
-            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
+            Logger.getLogger(this.getClass().getName()).error(e);
             return null;
         }
     }
@@ -76,7 +104,7 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
             try {
                 return rBean.findById(Integer.parseInt(id));
             } catch (NumberFormatException e) {
-                Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
+                Logger.getLogger(this.getClass().getName()).error(e);
             }
         }
         return null;
@@ -126,7 +154,52 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         this.registro = registro;
     }
 
+    public List<TipoReserva> getTrList() {
+        System.out.println(this.trList.toString());
+
+        return trList;
+    }
+
+    public Integer getIdTipoReservaSeleccionado() {
+        if (this.registro != null && this.registro.getIdTipoReserva() != null) {
+            return this.registro.getIdTipoReserva().getIdTipoReserva();
+        }
+
+        return null;
+    }
+
+    public List<Programacion> getFunciones() {
+        return pgBean.findRange(0, Integer.MAX_VALUE);
+    }
+
+    public void setFunciones(List<Programacion> funciones) {
+        this.funciones = funciones;
+    }
+
+    public void setIdTipoReservaSeleccionado(Integer idTipoReserva) {
+        if (this.registro != null && this.trList != null && !this.trList.isEmpty()) {
+            this.registro.setIdTipoReserva(this.trList.stream().filter(tr -> tr.getIdTipoReserva().equals(idTipoReserva)).findFirst().orElse(null));
+        }
+    }
+
+    public FrmTipoReserva getFrmTipoReserva() {
+        return frmTipoReserva;
+    }
+
+    public void setFrmTipoReserva(FrmTipoReserva frmTipoReserva) {
+        this.frmTipoReserva = frmTipoReserva;
+    }
+
+    public FrmProgramacion getFrmProgramacion() {
+        return frmProgramacion;
+    }
+
+    public void setFrmProgramacion(FrmProgramacion frmProgramacion) {
+        this.frmProgramacion = frmProgramacion;
+    }
+
     public void btnNuevo(ActionEvent event) {
+
         super.btnNuevo(event);
 
         Integer newId = rBean.findLastId();
@@ -138,24 +211,61 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
                 registro.setIdReserva(1);
             }
         } catch (Exception e) {
-            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
+            Logger.getLogger(this.getClass().getName()).error(e);
+        }
+    }
+
+    public void cambiarTab(TabChangeEvent event) {
+        String value = event.getTab().getTitle();
+
+        switch (value) {
+            case "Fecha":
+                if (this.registro != null && this.registro.getIdTipoReserva() != null && this.registro.getFechaReserva() != null) {
+                    this.frmTipoReserva.setIdReserva(this.registro.getIdReserva());
+                }
+                break;
+
+            case "Funcion":
+                if (this.registro != null && this.registro.getIdProgramacion() != null) {
+                    this.frmProgramacion.setIdReserva(this.registro.getIdReserva());
+                }
+                break;
+
+            case "Asientos":
+                if (this.registro != null && this.registro.getIdReserva() != null) {
+
+                }
+                break;
+
+            case "Confirmar":
+                if (this.registro != null && this.registro.getIdReserva() != null) {
+
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
     public void btnGuardar(ActionEvent event, Reserva registro) {
-        super.btnGuardar(event, registro);
-    }
+        if (registro == null || registro.getIdTipoReserva() == null
+                || registro.getFechaReserva() == null
+                || registro.getIdProgramacion() == null
+                || registro.getObservaciones() == null) {
 
-    public void btnEditar(ActionEvent event, Reserva registro) {
-        super.btnEditar(event, registro);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Llene el formulario.", "Hay campos vacíos."));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Registro guardado con éxito.", "Reserva creada exitosamente."));
+
+            super.btnGuardar(event, registro);
+        }
     }
 
     public void btnCancelar(ActionEvent event, Reserva registro) {
         super.btnCancelar(event, registro);
-    }
-
-    public void btnEliminar(ActionEvent event, Reserva registro) {
-        super.btnEliminar(event, registro);
     }
 
 }

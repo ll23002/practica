@@ -22,6 +22,7 @@ public class FrmTipoReserva extends FrmAbstractPersistence<TipoReserva> implemen
     @Inject
     FacesContext facesContext;
     TipoReserva registro;
+    Integer idReserva;
     LazyDataModel<TipoReserva> modelo;
 
     @PostConstruct
@@ -95,6 +96,14 @@ public class FrmTipoReserva extends FrmAbstractPersistence<TipoReserva> implemen
 
     public void setRegistro(TipoReserva registro) {
         this.registro = registro;
+    }
+
+    public Integer getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(Integer idReserva) {
+        this.idReserva = idReserva;
     }
 
     public void btnNuevo(ActionEvent event) {
