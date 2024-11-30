@@ -20,7 +20,6 @@ public class SalaCaracteristica {
     @JoinColumn(name = "id_tipo_sala")
     private TipoSala idTipoSala;
 
-    //@JsonbTransient
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sala")
     private Sala idSala;
