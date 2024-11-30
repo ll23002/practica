@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,12 +16,14 @@ public class AsientoCaracteristica {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "asiento_caracteristica_id_gen")
     @SequenceGenerator(name = "asiento_caracteristica_id_gen", sequenceName = "asiento_caracteristica_id_asiento_caracteristica_seq", allocationSize = 1)
     @Column(name = "id_asiento_caracteristica", nullable = false)
-    private Long idAsientoCaracteristica;//estaba como long
+    private Long idAsientoCaracteristica;
 
+    @JsonbTransient
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_asiento")
     private Asiento idAsiento;
 
+    @JsonbTransient
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_asiento")
     private TipoAsiento idTipoAsiento;
@@ -60,5 +63,4 @@ public class AsientoCaracteristica {
     public void setValor(String valor) {
         this.valor = valor;
     }
-
 }

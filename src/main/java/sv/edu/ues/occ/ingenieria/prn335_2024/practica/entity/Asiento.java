@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -17,7 +18,7 @@ public class Asiento {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "asiento_id_gen")
     @SequenceGenerator(name = "asiento_id_gen", sequenceName = "asiento_id_asiento_seq", allocationSize = 1)
     @Column(name = "id_asiento", nullable = false)
-    private Integer idAsiento; //estaba como integer
+    private Integer idAsiento;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sala")
@@ -30,9 +31,11 @@ public class Asiento {
     @Column(name = "activo")
     private Boolean activo;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idAsiento")
     private Set<AsientoCaracteristica> asientoCaracteristicas = new LinkedHashSet<>();
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idAsiento")
     private Set<ReservaDetalle> reservaDetalles = new LinkedHashSet<>();
 
@@ -72,9 +75,7 @@ public class Asiento {
         return asientoCaracteristicas;
     }
 
-    public void setAsientoCaracteristicas(Set<AsientoCaracteristica> asientoCaracteristicas) {
-        this.asientoCaracteristicas = asientoCaracteristicas;
-    }
+    public void setAsientoCaracteristicas(Set<AsientoCaracteristica> asientoCaracteristicas) {this.asientoCaracteristicas = asientoCaracteristicas;}
 
     public Set<ReservaDetalle> getReservaDetalles() {
         return reservaDetalles;
