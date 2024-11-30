@@ -2,6 +2,7 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -32,7 +33,7 @@ public class TipoSala {
     @Column(name = "expresion_regular")
     private String expresionRegular;
 
-    @JsonIgnore
+    @JsonbTransient
     @OneToMany(mappedBy = "idTipoSala")
     private Set<SalaCaracteristica> salaCaracteristicas = new LinkedHashSet<>();
 

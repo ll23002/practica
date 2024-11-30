@@ -7,6 +7,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.Path;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSalaBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.SalaCaracteristica;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoSala;
 
 import java.io.Serializable;
@@ -36,7 +37,14 @@ public class TipoSalaResource implements Serializable {
             if (firstResult >= 0 && maxResults > 0 && maxResults <= 50) {
                 List<TipoSala> encontrados = tsBean.findRange(firstResult, maxResults);
                 for (TipoSala ts : encontrados) {
-                    ts.getSalaCaracteristicas().size(); // Forzar inicialización
+                    System.out.println("TipoSala: " + ts.getIdTipoSala() + ", Nombre: " + ts.getNombre());
+                    if (ts.getSalaCaracteristicas() != null) {
+                        for (SalaCaracteristica sc : ts.getSalaCaracteristicas()) {
+                            System.out.println("  SalaCaracteristica: " + sc.getIdSalaCaracteristica() + ", Descripción: " + sc.getValor());
+                        }
+                    } else {
+                        System.out.println("  SalaCaracteristicas no inicializadas.");
+                    }
                 }
                 Long total = (long) tsBean.count();
                 Response.ResponseBuilder builder = Response.ok(encontrados)

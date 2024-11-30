@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,11 +16,11 @@ public class SalaCaracteristica {
     @Column(name = "id_sala_caracteristica", nullable = false)
     private Integer idSalaCaracteristica;
 
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_sala")
     private TipoSala idTipoSala;
 
+    //@JsonbTransient
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sala")
     private Sala idSala;
