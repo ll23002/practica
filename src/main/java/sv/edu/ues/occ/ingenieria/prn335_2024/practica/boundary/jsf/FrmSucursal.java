@@ -8,7 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSucursalBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.SucursalBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sucursal;
 
 import java.io.Serializable;
@@ -16,9 +16,9 @@ import java.util.logging.Logger;
 
 @Named
 @ViewScoped
-public class FrmTipoSucursal extends FrmAbstractPersistence<Sucursal> implements Serializable {
+public class FrmSucursal extends FrmAbstractPersistence<Sucursal> implements Serializable {
  @Inject
-   TipoSucursalBean TSB;
+ SucursalBean TSB;
  @Inject
    FacesContext facesContext;
    Sucursal registro;

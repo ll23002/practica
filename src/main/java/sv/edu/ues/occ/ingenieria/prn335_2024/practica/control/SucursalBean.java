@@ -19,13 +19,13 @@ import java.util.logging.Logger;
 
 @Stateless
 @LocalBean
-public class TipoSucursalBean extends AbstractDataPersistence<Sucursal> implements Serializable {
+public class SucursalBean extends AbstractDataPersistence<Sucursal> implements Serializable {
    @PersistenceContext(unitName = "practicaPU")
    EntityManager em;
 
 
-   private static final Logger LOGGER = Logger.getLogger(TipoSucursalBean.class.getName());
-   public TipoSucursalBean() {super(Sucursal.class);}
+   private static final Logger LOGGER = Logger.getLogger(SucursalBean.class.getName());
+   public SucursalBean() {super(Sucursal.class);}
 
 
    @Override

@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -37,6 +38,7 @@ public class Sucursal {
     @Column(name = "activo")
     private Boolean activo;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idSucursal")
     private Set<Sala> salas = new LinkedHashSet<>();
 

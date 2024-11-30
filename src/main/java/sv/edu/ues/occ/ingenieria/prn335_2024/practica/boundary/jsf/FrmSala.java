@@ -12,7 +12,7 @@ import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.SalaBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSucursalBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.SucursalBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sala;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Sucursal;
 
@@ -35,7 +35,7 @@ public class FrmSala extends FrmAbstractPersistence<Sala> implements Serializabl
     Sala registro;
     LazyDataModel<Sala> modelo;
     @Inject
-    TipoSucursalBean TSB;
+    SucursalBean TSB;
     List<Sucursal> sucursalList;
     Integer idSucursal;
     Integer idAsiento;

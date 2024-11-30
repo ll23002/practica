@@ -9,7 +9,7 @@
 
     <h1>
         <f:define name="Titulo">
-            #{frmTipoSucursal.tituloPagina}
+            #{frmSucursal.tituloPagina}
         </f:define>
     </h1>
 
@@ -21,13 +21,13 @@
                         <p:dataTable id="tblTipoSucursal"
                                      rows="10"
                                      paginator="true"
-                                     value="#{frmTipoSucursal.modelo}"
+                                     value="#{frmSucursal.modelo}"
                                      var="r"
                                      lazy="true"
                                      selectionMode="single"
-                                     rendered="#{frmTipoSucursal.estado == 'NONE'}"
-                                     selection="#{frmTipoSucursal.registro}">
-                            <p:ajax event="rowSelect" update=":pnlDetalle :frmTabla" process="@this" listener="#{frmTipoSucursal.onRowSelect}"/>
+                                     rendered="#{frmSucursal.estado == 'NONE'}"
+                                     selection="#{frmSucursal.registro}">
+                            <p:ajax event="rowSelect" update=":pnlDetalle :frmTabla" process="@this" listener="#{frmSucursal.onRowSelect}"/>
                             <p:column headerText="ID">
                                 <h:outputText value="#{r.idSucursal}"/>
                             </p:column>
@@ -45,50 +45,50 @@
                             </p:column>
                         </p:dataTable>
                         <h:panelGrid>
-                            <crud:BotonesTop frm="#{frmTipoSucursal}"/>
+                            <crud:BotonesTop frm="#{frmSucursal}"/>
                         </h:panelGrid>
                     </h:panelGrid>
                 </h:form>
             </h:panelGroup>
             <h:panelGroup id="pnlDetalle">
                 <h:panelGrid>
-                    <h:form id="frmDetalle" rendered="#{frmTipoSucursal.estado != 'NONE' and not empty frmTipoSucursal.registro}">
+                    <h:form id="frmDetalle" rendered="#{frmSucursal.estado != 'NONE' and not empty frmSucursal.registro}">
                         <h:panelGrid columns="2">
                             <p:outputLabel value="ID:" for="txtId"/>
                             <h:inputText id="txtId"
-                                         value="#{frmTipoSucursal.registro.idSucursal}"
+                                         value="#{frmSucursal.registro.idSucursal}"
                                          readonly="true"
                                          required="true"/>
                             <p:outputLabel value="Nombre:" for="txtNombre"/>
                             <h:inputText id="txtNombre"
-                                         value="#{frmTipoSucursal.registro.nombre}"
+                                         value="#{frmSucursal.registro.nombre}"
                                          required="true"/>
                             <p:outputLabel value="Estado:" for="txtEstado"/>
                             <h:selectBooleanCheckbox id="txtEstado"
-                                                     value="#{frmTipoSucursal.registro.activo}"/>
+                                                     value="#{frmSucursal.registro.activo}"/>
                             <p:outputLabel value="Comentarios:" for="txtComentarios"/>
                              <h:inputText id="txtComentarios"
-                                        value="#{frmTipoSucursal.registro.comentarios}"
+                                        value="#{frmSucursal.registro.comentarios}"
                                          required="true"
                                           requiredMessage="La descripcion es requerida"/>
                             <p:outputLabel value="Latitud:" for="txtLatitud"/>
                             <h:inputText id="txtLatitud"
-                                         value="#{frmTipoSucursal.registro.latitud}"
+                                         value="#{frmSucursal.registro.latitud}"
                                          required="true"
                                          requiredMessage="La latitud es requerida"/>
                             <p:outputLabel value="Longitud:" for="txtLongitud"/>
                             <h:inputText id="txtLongitud"
-                                         value="#{frmTipoSucursal.registro.longitud}"
+                                         value="#{frmSucursal.registro.longitud}"
                                          required="true"
                                          requiredMessage="La longitud es requerida"/>
                         </h:panelGrid>
                         <h:panelGrid>
                             <!-- Botón Actualizar, visible solo si el estado es UPDATE -->
                             <p:commandButton value="Actualizar"
-                                             actionListener="#{frmTipoSucursal.btnEditar}"
-                                             rendered="#{frmTipoSucursal.estado == 'UPDATE'}"
+                                             actionListener="#{frmSucursal.btnEditar}"
+                                             rendered="#{frmSucursal.estado == 'UPDATE'}"
                                              update=":frmTabla :pnlDetalle"/>
-                            <crud:BotonesCRUD frm="#{frmTipoSucursal}"/>
+                            <crud:BotonesCRUD frm="#{frmSucursal}"/>
                         </h:panelGrid>
                     </h:form>
                 </h:panelGrid>

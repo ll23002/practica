@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -26,6 +27,7 @@ public class TipoReserva {
     @Column(name = "comentarios")
     private String comentarios;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "idTipoReserva")
     private Set<Reserva> reservas = new LinkedHashSet<>();
 
