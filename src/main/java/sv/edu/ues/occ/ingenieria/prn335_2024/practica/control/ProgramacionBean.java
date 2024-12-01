@@ -8,6 +8,7 @@ import jakarta.persistence.TypedQuery;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Programacion;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 @Stateless
@@ -53,4 +54,13 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
             return null;
         }
     }
+
+    public List<Programacion> findFuncionesPorFechaYNombre(LocalDate fecha, String nombre) {
+    String query = "SELECT p FROM Programacion p WHERE DATE(p.desde) = :fecha AND LOWER(p.idPelicula.nombre) LIKE :nombre";
+    return em.createQuery(query, Programacion.class)
+             .setParameter("fecha", fecha)
+             .setParameter("nombre", "%" + nombre.toLowerCase() + "%")
+             .getResultList();
+}
+
 }

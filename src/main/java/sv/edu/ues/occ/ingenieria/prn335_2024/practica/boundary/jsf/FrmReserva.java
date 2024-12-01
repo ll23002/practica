@@ -13,6 +13,8 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.*;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -58,6 +60,10 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     List<Programacion> funciones;
 
     LazyDataModel<Reserva> modelo;
+
+     LocalDate fechaSeleccionada;
+ Programacion funcionSeleccionada;
+
 
     @PostConstruct
     public void inicializar() {
@@ -225,24 +231,6 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
                 }
                 break;
 
-            case "Funcion":
-                if (this.registro != null && this.registro.getIdProgramacion() != null) {
-                    this.frmProgramacion.setIdReserva(this.registro.getIdReserva());
-                }
-                break;
-
-            case "Asientos":
-                if (this.registro != null && this.registro.getIdReserva() != null) {
-
-                }
-                break;
-
-            case "Confirmar":
-                if (this.registro != null && this.registro.getIdReserva() != null) {
-
-                }
-                break;
-
             default:
                 break;
         }
@@ -268,4 +256,40 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         super.btnCancelar(event, registro);
     }
 
+    public List<Programacion> completarFunciones(String query) {
+    if (fechaSeleccionada != null) {
+        return pgBean.findFuncionesPorFechaYNombre(fechaSeleccionada, query);
+    }
+    return new ArrayList<>();
+}
+
+public String continuar() {
+    if (funcionSeleccionada == null) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar una función."));
+        return null;
+    }
+    // Lógica para continuar con la reserva.
+    return "siguientePaso.xhtml";
+}
+
+
+    public Programacion getFuncionSeleccionada() {
+        return funcionSeleccionada;
+    }
+
+    public void setFuncionSeleccionada(Programacion funcionSeleccionada) {
+        this.funcionSeleccionada = funcionSeleccionada;
+    }
+
+    public LocalDate getFechaSeleccionada() {
+        return fechaSeleccionada;
+    }
+
+    public void setFechaSeleccionada(LocalDate fechaSeleccionada) {
+        this.fechaSeleccionada = fechaSeleccionada;
+    }
+
+    public void setTrList(List<TipoReserva> trList) {
+        this.trList = trList;
+    }
 }

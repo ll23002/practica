@@ -1,96 +1,69 @@
 <f:composition xmlns="http://www.w3.org/1999/xhtml"
-               xmlns:p="primefaces"
+               xmlns:p="http://primefaces.org/ui"
                xmlns:f="jakarta.faces.facelets"
-               xmlns:f2="jakarta.faces.core"
-               xmlns:crud="jakarta.faces.composite/crud"
-               template="WEB-INF/Templates/Principal.xhtml"
-               xmlns:h="jakarta.faces.html">
+               xmlns:h="jakarta.faces.html"
+               template="WEB-INF/Templates/Principal.xhtml">
 
-    <h1>
-        <f:define name="Titulo">
-            #{frmReserva.tituloPagina}
-        </f:define>
-    </h1>
+    <f:define name="Titulo">
+        #{frmReserva.tituloPagina}
+    </f:define>
 
     <f:define name="Cuerpo">
-        <h:panelGrid>
-            <h:panelGroup id="pnlSteps">
-                <p:tabView id="tabSteps" cache="false" dynamic="true" rendered="#{frmReserva.estado != NONE}">
-                    <p:ajax process="@this" event="tabChange" listener="#{frmReserva.cambiarTab}"/>
+        <h:form id="frmReserva">
+            <p:tabView id="tabViewReserva" cache="false">
 
-                    <!-- ######## Fecha de la reserva ######## -->
-                    <p:tab title="Fecha" closable="false">
-                        <h:panelGrid>
-                            <h:form id="frmFecha">
-                                <h:panelGrid>
-                                    <h:panelGrid columns="2">
-                                        <h:outputLabel value="Tipo de Reserva" for="trList"/>
-                                        <h:selectOneMenu id="trList" value="#{frmReserva.idTipoReservaSeleccionado}">
-                                            <f2:selectItem value="Seleccione un tipo" itemValue="i1"
-                                                           noSelectionOption="true"/>
+                <!-- Tab: Fecha -->
+                <p:tab title="Fecha">
+                    <h:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                        <!-- Seleccionar Fecha -->
+                        <h:outputLabel value="Seleccione una fecha:" for="fecha"/>
+                        <p:datePicker id="fecha" value="#{frmReserva.fechaSeleccionada}" pattern="yyyy-MM-dd" required="true">
+                            <p:ajax event="dateSelect" update="peliculaAutocomplete"/>
+                        </p:datePicker>
+                    </h:panelGrid>
+                </p:tab>
 
-                                            <f2:selectItems
-                                                    value="#{frmReserva.trList}"
-                                                    var="tr"
-                                                    itemLabel="#{tr.nombre}"
-                                                    itemValue="#{tr.idTipoReserva}"/>
-                                            <f2:ajax execute="@this" render="txtFecha"/>
-                                        </h:selectOneMenu>
+                <!-- Tab: Función -->
+                <p:tab title="Función">
+                    <h:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                        <!-- Autocompletado de Películas -->
+                        <h:outputLabel value="Seleccione una película y horario:" for="peliculaAutocomplete"/>
+                        <p:autoComplete id="peliculaAutocomplete"
+                                        value="#{frmReserva.funcionSeleccionada}"
+                                        completeMethod="#{frmReserva.completarFunciones}"
+                                        var="funcion"
+                                        itemLabel="#{funcion.idPelicula.nombre} - #{funcion.idSala.nombre} (#{funcion.desde} - #{funcion.hasta})"
+                                        itemValue="#{funcion}"
+                                        forceSelection="true"
+                                        required="true">
+                            <p:ajax event="itemSelect" update="detalleFuncion"/>
+                        </p:autoComplete>
+                    </h:panelGrid>
+                </p:tab>
 
-                                        <h:outputLabel value="Seleccione un día" for="txtFecha"/>
-                                        <p:datePicker id="txtFecha" value="#{frmReserva.frmProgramacion.localDesde}"
-                                                      pattern="yyyy-MM-dd HH:mm" showTime="true" required="true">
+                <!-- Tab: Detalle -->
+                <p:tab title="Asientos">
+                    <h:panelGrid id="detalleFuncion" columns="2" rendered="#{not empty frmReserva.funcionSeleccionada}">
+                        <h:outputLabel value="Película:"/>
+                        <h:outputText value="#{frmReserva.funcionSeleccionada.idPelicula.nombre}"/>
 
-                                            <p:ajax event="dateSelect" update="@this" process="@this"/>
-                                        </p:datePicker>
+                        <h:outputLabel value="Sala:"/>
+                        <h:outputText value="#{frmReserva.funcionSeleccionada.idSala.nombre}"/>
 
-                                    </h:panelGrid>
-                                </h:panelGrid>
+                        <h:outputLabel value="Horario:"/>
+                        <h:outputText value="#{frmReserva.funcionSeleccionada.desde} - #{frmReserva.funcionSeleccionada.hasta}"/>
+                    </h:panelGrid>
+                </p:tab>
 
-                                <p:commandButton ajax="true"
-                                                 actionListener="#{frmReserva.cambiarTab}"
-                                                 value="#{abstractpffprm['abstractpffprm.next']}"
-                                                 process="@this" update="#{cc.attrs.actualizar}"
-                                                 rendered="#{cc.attrs.frm.estado != 'NONE'}"/>
-                            </h:form>
-                        </h:panelGrid>
-                    </p:tab>
+                <!-- Tab: Confirmar -->
+                <p:tab title="Confirmar">
+                    <h:panelGrid columns="1" styleClass="ui-panelgrid-blank">
+                        <h:outputText value="¡Confirme los detalles de su reserva antes de continuar!"/>
+                        <p:commandButton value="Finalizar" action="#{frmReserva.finalizarReserva}" update="@form"/>
+                    </h:panelGrid>
+                </p:tab>
 
-                    <p:tab title="Función" closable="false">
-                        <h:panelGrid>
-                            <h:form id="frmFuncion">
-                                <h:panelGrid columns="2">
-                                    <h:outputLabel value="Seleccione una Película" for="txtPelicula"/>
-                                    <h:selectOneMenu id="txtPelicula" value="#{frmReserva.idTipoReservaSeleccionado}">
-                                        <f2:selectItem value="Seleccione una pelicula" itemValue="i1"
-                                                       noSelectionOption="true"/>
-
-                                        <f2:selectItems
-                                                value="#{frmReserva.funciones}"
-                                                var="fn"
-                                                itemLabel="#{fn.idPelicula.nombre} #{fn.idSala.nombre} - #{fn.idSala.idSucursal.nombre} (#{fn.desde}-#{fn.hasta})"
-                                                itemValue="#{fn.idProgramacion}"/>
-                                        <f2:ajax execute="@this" render=""/>
-                                    </h:selectOneMenu>
-                                </h:panelGrid>
-
-                                <p:commandButton ajax="true"
-                                                 actionListener="#{frmReserva.cambiarTab}"
-                                                 value="#{abstractpffprm['abstractpffprm.back']}"
-                                                 process="@this" update="#{cc.attrs.actualizar}"
-                                                 rendered="#{cc.attrs.frm.estado != 'NONE'}"/>
-
-
-                                <p:commandButton ajax="true"
-                                                 actionListener="#{frmReserva.cambiarTab}"
-                                                 value="#{abstractpffprm['abstractpffprm.next']}"
-                                                 process="@this" update="#{cc.attrs.actualizar}"
-                                                 rendered="#{cc.attrs.frm.estado != 'NONE'}"/>
-                            </h:form>
-                        </h:panelGrid>
-                    </p:tab>
-                </p:tabView>
-            </h:panelGroup>
-        </h:panelGrid>
+            </p:tabView>
+        </h:form>
     </f:define>
 </f:composition>
