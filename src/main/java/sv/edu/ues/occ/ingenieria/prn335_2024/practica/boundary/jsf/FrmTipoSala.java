@@ -7,6 +7,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.model.LazyDataModel;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.websocket.server.TipoSalaEndpoint;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.TipoSalaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.TipoSala;
@@ -23,6 +24,9 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
     FacesContext facesContext;
     TipoSala registro;
     LazyDataModel<TipoSala> modelo;
+
+    @Inject
+    TipoSalaEndpoint tipoSalaEndpoint;
 
     @PostConstruct
     public void inicializar() {
@@ -114,6 +118,9 @@ public class FrmTipoSala extends FrmAbstractPersistence<TipoSala> implements Ser
 
     public void btnGuardar(ActionEvent event) {//No ocupa @Override porque no lo estamos sobreescribiendo, crea una implementacion diferente.
         super.btnGuardar(event, this.registro);
+        if (this.estado == ESTADO_CRUD.NONE) {
+tipoSalaEndpoint.propagarMensaje(null,"Se ha creado un nuevo tipo de sala");
+        }
     }
 
     public void btnCancelar(ActionEvent event) {
