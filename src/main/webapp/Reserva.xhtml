@@ -33,7 +33,7 @@
                         <!-- Botón Next -->
                         <p:commandButton value="Next"
                                          actionListener="#{frmReserva.nextTab}"
-                                         update="tabViewReserva peliculaAutocomplete"
+                                         update="tabViewReserva:frmReservaFuncion"
                                          process="@this fecha tipoReserva"/>
                     </h:panelGrid>
                 </p:tab>
@@ -41,24 +41,28 @@
                 <!-- Tab: Función -->
                 <p:tab title="Función">
                     <h:panelGrid columns="1" styleClass="ui-panelgrid-blank">
-                        <!-- Autocompletado de Películas -->
-                        <h:outputLabel value="Seleccione una película y horario:" for="peliculaAutocomplete"/>
-                        <p:autoComplete id="peliculaAutocomplete"
-                                        value="#{frmReserva.funcionSeleccionada}"
-                                        completeMethod="#{frmReserva.completarFunciones}"
-                                        var="funcion"
-                                        itemLabel="#{funcion.idPelicula.nombre} - #{funcion.idSala.nombre} (#{funcion.desde} - #{funcion.hasta})"
-                                        itemValue="#{funcion}"
-                                        forceSelection="true"
-                                        required="true">
-                            <p:ajax event="itemSelect" listener="#{frmReserva.seleccionarFuncion}"
-                                    update="detalleFuncion"/>
-                        </p:autoComplete>
+                        <h:form id="frmReservaFuncion">
+                            <!-- Autocompletado de Películas -->
+                            <h:outputLabel value="Seleccione una película y horario:" for="peliculaAutocomplete"/>
+                            <p:autoComplete id="peliculaAutocomplete"
+                                            value="#{frmReserva.funcionSeleccionada}"
+                                            completeMethod="#{frmReserva.completarFunciones}"
+                                            var="funcion"
+                                            itemLabel="#{funcion.idPelicula.nombre} - #{funcion.idSala.nombre} (#{funcion.desde} - #{funcion.hasta})"
+                                            itemValue="#{funcion}"
+                                            forceSelection="true"
+                                            required="true">
+                                <p:ajax event="itemSelect" listener="#{frmReserva.seleccionarFuncion}"
+                                        update="detalleFuncion"/>
+                            </p:autoComplete>
 
 
-                        <!-- Botón Next -->
-                        <p:commandButton value="Next" actionListener="#{frmReserva.nextTab}" update="tabViewReserva"
-                                         process="@this peliculaAutocomplete"/>
+                            <!-- Botón Next -->
+                            <p:commandButton value="Next" actionListener="#{frmReserva.nextTab}" update="tabViewReserva"
+                                             process="@this peliculaAutocomplete"/>
+
+                        </h:form>
+
                     </h:panelGrid>
                 </p:tab>
 
