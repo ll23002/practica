@@ -16,7 +16,8 @@ import java.util.logging.Logger;
 public class ReservaResource implements Serializable {
     @Inject
     ReservaBean rBean;
-//DA ERROR: No se puede serializar la propiedad 'reservaDetalles' de sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Reserva
+
+    //aaa//
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response findRange(
