@@ -24,9 +24,9 @@ public class TipoSalaEndpoint implements Serializable {
     ManejadorSesionesWS manejadorSesiones;
 
     @OnOpen
-    public void abrir(Session session) {
+    public void abrir(Session sesion) {
         System.out.println("Abriendo sesion");
-        manejadorSesiones.agregarSesion(session);
+        manejadorSesiones.agregarSesion(sesion);
     }
 
 
@@ -44,8 +44,8 @@ public class TipoSalaEndpoint implements Serializable {
     }
 
     @OnClose
-    public void cerrar(Session session) {
-        manejadorSesiones.eliminarSesion(session);
+    public void cerrar(Session sesion) {
+        manejadorSesiones.eliminarSesion(sesion);
     }
 }
 

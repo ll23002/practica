@@ -9,6 +9,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Programacion;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Stateless
@@ -45,7 +46,8 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
             return null;
         }
     }
-     public List<Programacion> findAll() {
+
+    public List<Programacion> findAll() {
         try {
             TypedQuery<Programacion> query = em.createQuery("SELECT p FROM Programacion p", Programacion.class);
             return query.getResultList();
@@ -55,12 +57,15 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
         }
     }
 
-    public List<Programacion> findFuncionesPorFechaYNombre(LocalDate fecha, String nombre) {
-    String query = "SELECT p FROM Programacion p WHERE DATE(p.desde) = :fecha AND LOWER(p.idPelicula.nombre) LIKE :nombre";
-    return em.createQuery(query, Programacion.class)
-             .setParameter("fecha", fecha)
-             .setParameter("nombre", "%" + nombre.toLowerCase() + "%")
-             .getResultList();
+    public List<Programacion> findFuncionesPorFechaYNombre(OffsetDateTime inicioDia, OffsetDateTime finDia, String nombre) {
+    TypedQuery<Programacion> query = em.createQuery(
+        "SELECT p FROM Programacion p WHERE p.desde >= :inicioDia AND p.desde < :finDia AND LOWER(p.idPelicula.nombre) LIKE :nombre",
+        Programacion.class
+    );
+    query.setParameter("inicioDia", inicioDia);
+    query.setParameter("finDia", finDia);
+    query.setParameter("nombre", "%" + nombre.toLowerCase() + "%");
+    return query.getResultList();
 }
 
 }

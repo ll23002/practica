@@ -7,6 +7,7 @@ import jakarta.faces.event.ActionEvent;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.*;
@@ -14,6 +15,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,25 +31,7 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     TipoReservaBean trBean;
 
     @Inject
-    ReservaDetalleBean rdBean;
-
-    @Inject
-    PeliculaBean pBean;
-
-    @Inject
-    AsientoBean aBean;
-
-    @Inject
-    AsientoCaracteristicaBean acBean;
-
-    @Inject
-    SalaBean sBean;
-
-    @Inject
     ProgramacionBean pgBean;
-
-    @Inject
-    FrmProgramacion frmProgramacion;
 
     @Inject
     FrmTipoReserva frmTipoReserva;
@@ -61,9 +45,10 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
 
     LazyDataModel<Reserva> modelo;
 
-     LocalDate fechaSeleccionada;
- Programacion funcionSeleccionada;
+    LocalDate fechaSeleccionada;
+    Programacion funcionSeleccionada;
 
+    private int activeTabIndex = 0;
 
     @PostConstruct
     public void inicializar() {
@@ -79,7 +64,7 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
             }
 
         } catch (Exception e) {
-            Logger.getLogger(getClass().getName()).error(0);
+            Logger.getLogger(getClass().getName()).error(e);
         }
     }
 
@@ -161,9 +146,11 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     }
 
     public List<TipoReserva> getTrList() {
-        System.out.println(this.trList.toString());
-
         return trList;
+    }
+
+    public void setTrList(List<TipoReserva> trList) {
+        this.trList = trList;
     }
 
     public Integer getIdTipoReservaSeleccionado() {
@@ -174,6 +161,12 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         return null;
     }
 
+    public void setIdTipoReservaSeleccionado(Integer idTipoReserva) {
+        if (this.registro != null && this.trList != null && !this.trList.isEmpty()) {
+            this.registro.setIdTipoReserva(this.trList.stream().filter(tr -> tr.getIdTipoReserva().equals(idTipoReserva)).findFirst().orElse(null));
+        }
+    }
+
     public List<Programacion> getFunciones() {
         return pgBean.findRange(0, Integer.MAX_VALUE);
     }
@@ -182,30 +175,56 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         this.funciones = funciones;
     }
 
-    public void setIdTipoReservaSeleccionado(Integer idTipoReserva) {
-        if (this.registro != null && this.trList != null && !this.trList.isEmpty()) {
-            this.registro.setIdTipoReserva(this.trList.stream().filter(tr -> tr.getIdTipoReserva().equals(idTipoReserva)).findFirst().orElse(null));
+    public LocalDate getFechaSeleccionada() {
+        return fechaSeleccionada;
+    }
+
+    public void setFechaSeleccionada(LocalDate fechaSeleccionada) {
+        this.fechaSeleccionada = fechaSeleccionada;
+    }
+
+    public Programacion getFuncionSeleccionada() {
+        return funcionSeleccionada;
+    }
+
+    public void setFuncionSeleccionada(Programacion funcionSeleccionada) {
+        this.funcionSeleccionada = funcionSeleccionada;
+    }
+
+    public int getActiveTabIndex() {
+        return activeTabIndex;
+    }
+
+    public void setActiveTabIndex(int activeTabIndex) {
+        this.activeTabIndex = activeTabIndex;
+    }
+
+    public void nextTab() {
+        if (activeTabIndex < 3) {
+            activeTabIndex++;
         }
     }
 
-    public FrmTipoReserva getFrmTipoReserva() {
-        return frmTipoReserva;
-    }
+  public List<Programacion> completarFunciones(String query) {
+    if (fechaSeleccionada != null) {
+        // Convertir la fecha seleccionada a OffsetDateTime (inicio del día seleccionado)
+        OffsetDateTime inicioDia = fechaSeleccionada.atStartOfDay().atOffset(OffsetDateTime.now().getOffset());
+        OffsetDateTime finDia = inicioDia.plusDays(1); // Fin del día seleccionado
 
-    public void setFrmTipoReserva(FrmTipoReserva frmTipoReserva) {
-        this.frmTipoReserva = frmTipoReserva;
+        // Llamar al método en ProgramacionBean para obtener las funciones por rango de fecha y nombre
+        return pgBean.findFuncionesPorFechaYNombre(inicioDia, finDia, query);
     }
+    return new ArrayList<>();
+}
 
-    public FrmProgramacion getFrmProgramacion() {
-        return frmProgramacion;
-    }
 
-    public void setFrmProgramacion(FrmProgramacion frmProgramacion) {
-        this.frmProgramacion = frmProgramacion;
+    public void seleccionarFuncion(SelectEvent<Programacion> event) {
+        if (event.getObject() != null) {
+            this.funcionSeleccionada = event.getObject();
+        }
     }
 
     public void btnNuevo(ActionEvent event) {
-
         super.btnNuevo(event);
 
         Integer newId = rBean.findLastId();
@@ -256,40 +275,12 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         super.btnCancelar(event, registro);
     }
 
-    public List<Programacion> completarFunciones(String query) {
-    if (fechaSeleccionada != null) {
-        return pgBean.findFuncionesPorFechaYNombre(fechaSeleccionada, query);
-    }
-    return new ArrayList<>();
-}
-
-public String continuar() {
-    if (funcionSeleccionada == null) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar una función."));
-        return null;
-    }
-    // Lógica para continuar con la reserva.
-    return "siguientePaso.xhtml";
-}
-
-
-    public Programacion getFuncionSeleccionada() {
-        return funcionSeleccionada;
-    }
-
-    public void setFuncionSeleccionada(Programacion funcionSeleccionada) {
-        this.funcionSeleccionada = funcionSeleccionada;
-    }
-
-    public LocalDate getFechaSeleccionada() {
-        return fechaSeleccionada;
-    }
-
-    public void setFechaSeleccionada(LocalDate fechaSeleccionada) {
-        this.fechaSeleccionada = fechaSeleccionada;
-    }
-
-    public void setTrList(List<TipoReserva> trList) {
-        this.trList = trList;
+    public String continuar() {
+        if (funcionSeleccionada == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar una función."));
+            return null;
+        }
+        // Lógica para continuar con la reserva.
+        return "siguientePaso.xhtml";
     }
 }

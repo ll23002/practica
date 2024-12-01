@@ -1,6 +1,7 @@
 <f:composition xmlns="http://www.w3.org/1999/xhtml"
                xmlns:p="http://primefaces.org/ui"
                xmlns:f="jakarta.faces.facelets"
+               xmlns:f2="jakarta.faces.core"
                xmlns:h="jakarta.faces.html"
                template="WEB-INF/Templates/Principal.xhtml">
 
@@ -10,16 +11,30 @@
 
     <f:define name="Cuerpo">
         <h:form id="frmReserva">
-            <p:tabView id="tabViewReserva" cache="false">
+            <p:tabView id="tabViewReserva" cache="false" activeIndex="#{frmReserva.activeTabIndex}">
 
                 <!-- Tab: Fecha -->
                 <p:tab title="Fecha">
                     <h:panelGrid columns="1" styleClass="ui-panelgrid-blank">
                         <!-- Seleccionar Fecha -->
                         <h:outputLabel value="Seleccione una fecha:" for="fecha"/>
-                        <p:datePicker id="fecha" value="#{frmReserva.fechaSeleccionada}" pattern="yyyy-MM-dd" required="true">
+                        <p:datePicker id="fecha" value="#{frmReserva.fechaSeleccionada}" pattern="yyyy-MM-dd"
+                                      required="true">
                             <p:ajax event="dateSelect" update="peliculaAutocomplete"/>
                         </p:datePicker>
+
+                        <!-- Seleccionar Tipo de Reserva -->
+                        <h:outputLabel value="Seleccione un tipo de reserva:" for="tipoReserva"/>
+                        <p:selectOneMenu id="tipoReserva" value="#{frmReserva.registro.idTipoReserva}" required="true">
+                            <f2:selectItems value="#{frmReserva.trList}" var="tipoReserva"
+                                            itemLabel="#{tipoReserva.nombre}" itemValue="#{tipoReserva}"/>
+                        </p:selectOneMenu>
+
+                        <!-- Botón Next -->
+                        <p:commandButton value="Next"
+                                         actionListener="#{frmReserva.nextTab}"
+                                         update="tabViewReserva peliculaAutocomplete"
+                                         process="@this fecha tipoReserva"/>
                     </h:panelGrid>
                 </p:tab>
 
@@ -36,12 +51,18 @@
                                         itemValue="#{funcion}"
                                         forceSelection="true"
                                         required="true">
-                            <p:ajax event="itemSelect" update="detalleFuncion"/>
+                            <p:ajax event="itemSelect" listener="#{frmReserva.seleccionarFuncion}"
+                                    update="detalleFuncion"/>
                         </p:autoComplete>
+
+
+                        <!-- Botón Next -->
+                        <p:commandButton value="Next" actionListener="#{frmReserva.nextTab}" update="tabViewReserva"
+                                         process="@this peliculaAutocomplete"/>
                     </h:panelGrid>
                 </p:tab>
 
-                <!-- Tab: Detalle -->
+                <!-- Tab: Asientos -->
                 <p:tab title="Asientos">
                     <h:panelGrid id="detalleFuncion" columns="2" rendered="#{not empty frmReserva.funcionSeleccionada}">
                         <h:outputLabel value="Película:"/>
@@ -51,8 +72,12 @@
                         <h:outputText value="#{frmReserva.funcionSeleccionada.idSala.nombre}"/>
 
                         <h:outputLabel value="Horario:"/>
-                        <h:outputText value="#{frmReserva.funcionSeleccionada.desde} - #{frmReserva.funcionSeleccionada.hasta}"/>
+                        <h:outputText
+                                value="#{frmReserva.funcionSeleccionada.desde} - #{frmReserva.funcionSeleccionada.hasta}"/>
                     </h:panelGrid>
+
+                    <!-- Botón Next -->
+                    <p:commandButton value="Next" actionListener="#{frmReserva.nextTab}" update="tabViewReserva"/>
                 </p:tab>
 
                 <!-- Tab: Confirmar -->
