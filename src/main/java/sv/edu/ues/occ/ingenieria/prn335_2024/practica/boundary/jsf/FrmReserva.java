@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.DualListModel;
 import org.primefaces.model.LazyDataModel;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.*;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.*;
@@ -24,6 +25,7 @@ import org.jboss.logging.Logger;
 @Named
 @ViewScoped
 public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Serializable {
+    private DualListModel<String> asientos;
     @Inject
     ReservaBean rBean;
 
@@ -48,11 +50,25 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     LocalDate fechaSeleccionada;
     Programacion funcionSeleccionada;
 
+    private List<Asiento> asientosDisponibles;
+    private List<Asiento> asientosSeleccionados;
+
+
     private int activeTabIndex = 0;
 
     @PostConstruct
     public void inicializar() {
         try {
+            List<String> asientosSource = new ArrayList<>();
+            List<String> asientosTarget = new ArrayList<>();
+
+            asientosSource.add("Asiento 1");
+            asientosSource.add("Asiento 2");
+            asientosSource.add("Asiento 3");
+            asientosSource.add("Asiento 4");
+            asientosSource.add("Asiento 5");
+
+            asientos = new DualListModel<>(asientosSource, asientosTarget);
             modelo = this;
             estado = ESTADO_CRUD.NONE;
             registro = new Reserva();
@@ -66,6 +82,19 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).error(e);
         }
+    }
+
+    public DualListModel<String> getAsientos() {
+        return asientos;
+    }
+
+    public void setAsientos(DualListModel<String> asientos) {
+        this.asientos = asientos;
+    }
+
+    public void reservar() {
+        // Lógica para reservar los asientos seleccionados
+        System.out.println("Asientos reservados: " + asientos.getTarget());
     }
 
     @Override
@@ -347,4 +376,5 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     public void finalizarReserva() {
         // Lógica para finalizar la reserva
     }
+
 }

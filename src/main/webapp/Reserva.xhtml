@@ -91,10 +91,13 @@
                 <!-- Tab: Asientos -->
                 <p:tab title="Asientos">
                     <h:panelGrid id="detalleFuncion" columns="2" rendered="#{not empty frmReserva.funcionSeleccionada}">
-                        <p:selectOneMenu value="#{frmReserva.loadAvailableSeats}" required="true">
-                            <f2:selectItems value="#{frmReserva.availableSeats}" var="Asiento"
-                                            itemLabel="#{Asiento.idAsiento}" itemValue="#{Asiento}"/>
-                        </p:selectOneMenu>
+                        <p:pickList id="pickList" value="#{frmReserva.asientos}" var="asiento" itemLabel="#{asiento}"
+                                    itemValue="#{asiento}" showSourceFilter="true" showTargetFilter="true">
+                            <f2:facet name="sourceCaption">Asientos Disponibles</f2:facet>
+                            <f2:facet name="targetCaption">Asientos Seleccionados</f2:facet>
+                        </p:pickList>
+                        <p:commandButton
+                                value="Reservar" action="#{frmReserva.reservar}"/>
                     </h:panelGrid>
 
                     <!-- Botón Next -->
