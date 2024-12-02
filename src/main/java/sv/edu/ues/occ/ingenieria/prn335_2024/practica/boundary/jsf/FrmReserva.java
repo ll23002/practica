@@ -200,8 +200,11 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
     }
 
     public void nextTab() {
+        System.out.println("Entra a nextTab");
         if (activeTabIndex < 3) {
+            System.out.println(activeTabIndex);
             activeTabIndex++;
+            System.out.println(activeTabIndex);
         }
     }
 
