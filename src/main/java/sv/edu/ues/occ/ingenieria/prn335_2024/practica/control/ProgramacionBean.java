@@ -2,6 +2,7 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.practica.control;
 
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+@Named("pgBean")
 @Stateless
 @LocalBean
 public class ProgramacionBean extends AbstractDataPersistence<Programacion> implements Serializable {
@@ -58,14 +60,23 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
     }
 
     public List<Programacion> findFuncionesPorFechaYNombre(OffsetDateTime inicioDia, OffsetDateTime finDia, String nombre) {
-    TypedQuery<Programacion> query = em.createQuery(
-        "SELECT p FROM Programacion p WHERE p.desde >= :inicioDia AND p.desde < :finDia AND LOWER(p.idPelicula.nombre) LIKE :nombre",
-        Programacion.class
-    );
-    query.setParameter("inicioDia", inicioDia);
-    query.setParameter("finDia", finDia);
-    query.setParameter("nombre", "%" + nombre.toLowerCase() + "%");
-    return query.getResultList();
-}
+        TypedQuery<Programacion> query = em.createQuery(
+                "SELECT p FROM Programacion p WHERE p.desde >= :inicioDia AND p.desde < :finDia AND LOWER(p.idPelicula.nombre) LIKE :nombre",
+                Programacion.class
+        );
+        query.setParameter("inicioDia", inicioDia);
+        query.setParameter("finDia", finDia);
+        query.setParameter("nombre", "%" + nombre.toLowerCase() + "%");
+        return query.getResultList();
+    }
+
+    public Programacion findById(Object id) {
+        return em.createQuery(
+                        "SELECT p FROM Programacion p JOIN FETCH p.idPelicula WHERE p.idProgramacion = :id",
+                        Programacion.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
 
 }

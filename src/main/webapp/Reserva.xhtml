@@ -51,33 +51,55 @@
                                             itemLabel="#{funcion.idPelicula.nombre} - #{funcion.idSala.nombre} (#{funcion.desde} - #{funcion.hasta})"
                                             itemValue="#{funcion}"
                                             forceSelection="true"
+                                            converter="programacionConverter"
                                             required="true">
                                 <p:ajax event="itemSelect" listener="#{frmReserva.seleccionarFuncion}"
-                                        update="detalleFuncion"/>
+                                        update="@form"/>
                             </p:autoComplete>
+                            <h:panelGrid id="detalleCaracteristica" columns="1" styleClass="ui-panelgrid-blank"
+                                         rendered="#{not empty frmReserva.funcionSeleccionada}">
+                                <!-- Sinopsis -->
+                                <h:outputLabel value="Sinopsis:" for="sinopsisText"/>
+                                <h:outputText id="sinopsisText" value="#{frmReserva.sinopsisPeliculaSeleccionada}"
+                                              escape="true"/>
+
+                                <!-- Características -->
+                                <h:outputLabel value="Características:"/>
+                                <h:panelGroup layout="block" rendered="#{not empty frmReserva.peliculaCaracteristicas}">
+                                    <f:repeat value="#{frmReserva.peliculaCaracteristicas}" var="caracteristica">
+                                        <h:outputText
+                                                value="- #{caracteristica.idTipoPelicula.nombre}: #{caracteristica.valor}"
+                                                escape="true"/>
+                                        <br/>
+                                    </f:repeat>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" rendered="#{empty frmReserva.peliculaCaracteristicas}">
+                                    <h:outputText value="No hay características disponibles para esta película."/>
+                                </h:panelGroup>
+                            </h:panelGrid>
 
 
                             <!-- Botón Next -->
-                            <p:commandButton value="Next" actionListener="#{frmReserva.nextTab}" update="tabViewReserva"
-                                             process="@this peliculaAutocomplete"/>
-
+                            <p:commandButton value="Next"
+                                             actionListener="#{frmReserva.nextTab}"
+                                             update="tabViewReserva"
+                                             process="@this"/>
                         </h:form>
-
                     </h:panelGrid>
                 </p:tab>
 
                 <!-- Tab: Asientos -->
                 <p:tab title="Asientos">
                     <h:panelGrid id="detalleFuncion" columns="2" rendered="#{not empty frmReserva.funcionSeleccionada}">
-                        <h:outputLabel value="Película:"/>
-                        <h:outputText value="#{frmReserva.funcionSeleccionada.idPelicula.nombre}"/>
+                        <h:outputLabel value="Película:" for="peliculaOutput"/>
+                        <h:outputText id="peliculaOutput" value="#{frmReserva.funcionSeleccionada.idPelicula.nombre}"/>
 
-                        <h:outputLabel value="Sala:"/>
-                        <h:outputText value="#{frmReserva.funcionSeleccionada.idSala.nombre}"/>
+                        <h:outputLabel value="Sala:" for="salaOutput"/>
+                        <h:outputText id="salaOutput" value="#{frmReserva.funcionSeleccionada.idSala.nombre}"/>
 
-                        <h:outputLabel value="Horario:"/>
-                        <h:outputText
-                                value="#{frmReserva.funcionSeleccionada.desde} - #{frmReserva.funcionSeleccionada.hasta}"/>
+                        <h:outputLabel value="Horario:" for="horarioOutput"/>
+                        <h:outputText id="horarioOutput"
+                                      value="#{frmReserva.funcionSeleccionada.desde} - #{frmReserva.funcionSeleccionada.hasta}"/>
                     </h:panelGrid>
 
                     <!-- Botón Next -->

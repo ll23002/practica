@@ -39,6 +39,14 @@ public class Programacion {
     @OneToMany(mappedBy = "idProgramacion")
     private Set<Reserva> reservas = new LinkedHashSet<>();
 
+    public Programacion(Integer idProgramacion) {
+        this.idProgramacion = idProgramacion;
+    }
+
+    public Programacion() {
+    }
+
+
     public Integer getIdProgramacion() {
         return idProgramacion;
     }

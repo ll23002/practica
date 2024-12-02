@@ -208,24 +208,39 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         }
     }
 
-  public List<Programacion> completarFunciones(String query) {
-    if (fechaSeleccionada != null) {
-        // Convertir la fecha seleccionada a OffsetDateTime (inicio del día seleccionado)
-        OffsetDateTime inicioDia = fechaSeleccionada.atStartOfDay().atOffset(OffsetDateTime.now().getOffset());
-        OffsetDateTime finDia = inicioDia.plusDays(1); // Fin del día seleccionado
+    public List<Programacion> completarFunciones(String query) {
+        try {
+            if (fechaSeleccionada != null) {
 
-        // Llamar al método en ProgramacionBean para obtener las funciones por rango de fecha y nombre
-        return pgBean.findFuncionesPorFechaYNombre(inicioDia, finDia, query);
+                // Convertir la fecha seleccionada a OffsetDateTime (inicio del día seleccionado)
+                OffsetDateTime inicioDia = fechaSeleccionada.atStartOfDay().atOffset(OffsetDateTime.now().getOffset());
+                OffsetDateTime finDia = inicioDia.plusDays(1); // Fin del día seleccionado
+
+                // Llamar al método en ProgramacionBean para obtener las funciones por rango de fecha y nombre
+                System.out.println("retornando en completarFunciones: " + pgBean.findFuncionesPorFechaYNombre(inicioDia, finDia, query));
+                return pgBean.findFuncionesPorFechaYNombre(inicioDia, finDia, query);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(this.getClass().getName()).error(e);
+        }
+        return new ArrayList<>();
     }
-    return new ArrayList<>();
-}
 
 
     public void seleccionarFuncion(SelectEvent<Programacion> event) {
-        if (event.getObject() != null) {
-            this.funcionSeleccionada = event.getObject();
+        try {
+            if (event.getObject() != null) {
+                System.out.println("Selecciona función");
+                this.funcionSeleccionada = event.getObject();
+                System.out.println("Función seleccionada: " + this.funcionSeleccionada.getIdProgramacion());
+                cargarInformacionDePelicula(); // Cargar información de la película seleccionada
+            }
+        } catch (Exception e) {
+            Logger.getLogger(this.getClass().getName()).error(e);
         }
+
     }
+
 
     public void btnNuevo(ActionEvent event) {
         super.btnNuevo(event);
@@ -285,5 +300,51 @@ public class FrmReserva extends FrmAbstractPersistence<Reserva> implements Seria
         }
         // Lógica para continuar con la reserva.
         return "siguientePaso.xhtml";
+    }
+
+
+    // Nueva lista para almacenar características
+    private List<PeliculaCaracteristica> peliculaCaracteristicas;
+
+    // Método para obtener las características de la película seleccionada
+    public void cargarInformacionDePelicula() {
+        System.out.println("entra a cargar informacion de pelicula");
+        try {
+            if (funcionSeleccionada != null && funcionSeleccionada.getIdPelicula() != null) {
+                System.out.println("Cargando información de la película");
+                Pelicula pelicula = funcionSeleccionada.getIdPelicula();
+
+                // Cargar características de la película
+                this.peliculaCaracteristicas = rBean.findCaracteristicasByPelicula(pelicula.getIdPelicula());
+
+                // Esto es opcional, pero asegura que los datos se imprimen en los logs
+                System.out.println("Sinopsis: " + pelicula.getSinopsis());
+                System.out.println("Características: " + this.peliculaCaracteristicas.size());
+            } else {
+                this.peliculaCaracteristicas = new ArrayList<>(); // Limpia la lista si no hay película seleccionada
+                System.out.println("No hay película seleccionada");
+            }
+        } catch (Exception e) {
+            Logger.getLogger(this.getClass().getName()).error(e);
+        }
+
+    }
+
+
+    // Getter para la lista de características
+    public List<PeliculaCaracteristica> getPeliculaCaracteristicas() {
+        return peliculaCaracteristicas;
+    }
+
+    // Método para obtener la sinopsis
+    public String getSinopsisPeliculaSeleccionada() {
+        if (funcionSeleccionada != null && funcionSeleccionada.getIdPelicula() != null) {
+            return funcionSeleccionada.getIdPelicula().getSinopsis();
+        }
+        return null;
+    }
+
+    public void finalizarReserva() {
+        // Lógica para finalizar la reserva
     }
 }

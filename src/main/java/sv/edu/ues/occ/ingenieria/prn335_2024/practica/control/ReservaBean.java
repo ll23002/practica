@@ -4,9 +4,12 @@ import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.PeliculaCaracteristica;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Reserva;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.logging.Logger;
 
 @Stateless
 @LocalBean
@@ -37,5 +40,16 @@ public class ReservaBean extends AbstractDataPersistence<Reserva> implements Ser
             e.printStackTrace();
             return null;
         }
+    }
+
+    public List<PeliculaCaracteristica> findCaracteristicasByPelicula(Integer idPelicula) {
+        try {
+            return em.createNamedQuery("PeliculaCaracteristica.findByIdPelicula", PeliculaCaracteristica.class)
+                    .setParameter("idPelicula", idPelicula)
+                    .getResultList();
+        } catch (Exception e) {
+            Logger.getLogger(this.getClass().getName()).severe(e.getMessage());
+        }
+        return null;
     }
 }
