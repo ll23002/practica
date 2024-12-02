@@ -48,7 +48,7 @@
                                             value="#{frmReserva.funcionSeleccionada}"
                                             completeMethod="#{frmReserva.completarFunciones}"
                                             var="funcion"
-                                            itemLabel="#{funcion.idPelicula.nombre} - #{funcion.idSala.nombre} (#{funcion.desde} - #{funcion.hasta})"
+                                            itemLabel="#{funcion.idPelicula.nombre} - #{funcion.idSala.nombre} #{funcion.idSala.idSucursal.nombre} (#{funcion.desde} - #{funcion.hasta})"
                                             itemValue="#{funcion}"
                                             forceSelection="true"
                                             converter="programacionConverter"
@@ -91,15 +91,10 @@
                 <!-- Tab: Asientos -->
                 <p:tab title="Asientos">
                     <h:panelGrid id="detalleFuncion" columns="2" rendered="#{not empty frmReserva.funcionSeleccionada}">
-                        <h:outputLabel value="Película:" for="peliculaOutput"/>
-                        <h:outputText id="peliculaOutput" value="#{frmReserva.funcionSeleccionada.idPelicula.nombre}"/>
-
-                        <h:outputLabel value="Sala:" for="salaOutput"/>
-                        <h:outputText id="salaOutput" value="#{frmReserva.funcionSeleccionada.idSala.nombre}"/>
-
-                        <h:outputLabel value="Horario:" for="horarioOutput"/>
-                        <h:outputText id="horarioOutput"
-                                      value="#{frmReserva.funcionSeleccionada.desde} - #{frmReserva.funcionSeleccionada.hasta}"/>
+                        <p:selectOneMenu value="#{frmReserva.loadAvailableSeats}" required="true">
+                            <f2:selectItems value="#{frmReserva.availableSeats}" var="Asiento"
+                                            itemLabel="#{Asiento.idAsiento}" itemValue="#{Asiento}"/>
+                        </p:selectOneMenu>
                     </h:panelGrid>
 
                     <!-- Botón Next -->
