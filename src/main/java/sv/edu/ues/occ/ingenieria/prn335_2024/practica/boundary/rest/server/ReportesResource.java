@@ -42,6 +42,9 @@ public class ReportesResource implements Serializable {
             case "tipo_producto":
                 path = "/reportes/TipoProductoRPT.jasper";
                 break;
+            case "pelicula":
+                path = "/reportes/PeliculaRPT.jasper";
+                break;
             default:
                 return Response.status(Response.Status.NOT_FOUND)
                         .header("Report-NotFound", reporte)
@@ -50,7 +53,7 @@ public class ReportesResource implements Serializable {
         if (path != null) {
             try {
                 InputStream fuenteReporte = getClass().getResourceAsStream(path);
-                if (fuenteReporte != null){
+                if (fuenteReporte != null) {
                     JasperPrint impresor = JasperFillManager.fillReport(fuenteReporte, parametros, poolDeConexiones.getConnection());
                     StreamingOutput salida = new StreamingOutput() {
                         @Override
