@@ -39,6 +39,9 @@ public class ReportesResource implements Serializable {
             case "tipo_pelicula":
                 path = "/reportes/TipoPeliculaRPT.jasper";
                 break;
+            case "tipo_producto":
+                path = "/reportes/TipoProductoRPT.jasper";
+                break;
             default:
                 return Response.status(Response.Status.NOT_FOUND)
                         .header("Report-NotFound", reporte)
