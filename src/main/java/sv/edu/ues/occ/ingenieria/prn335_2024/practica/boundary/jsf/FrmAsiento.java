@@ -136,9 +136,18 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
 
     public void btnCancelar(ActionEvent event) {super.btnCancelar(event, this.registro);}
 
-    public void btnEditar(ActionEvent event) {super.btnEditar(event, this.registro);}
+    public void btnEditar(ActionEvent event) {
+        super.btnEditar(event, this.registro);
+            System.out.println("entro al boton editar");
+            tipoAsientoEndpoint.propagarMensaje(null,"Se ha creado un nuevo asiento");
+    }
 
-    public void btnEliminar(ActionEvent event) {super.btnEliminar(event, this.registro);}
+    public void btnEliminar(ActionEvent event) {
+        super.btnEliminar(event, this.registro);
+        if (this.estado == ESTADO_CRUD.NONE) {
+            tipoAsientoEndpoint.propagarMensaje(null,"Se ha eliminado un nuevo asiento");
+        }
+    }
 
     @Override
     public void onRowSelect() {
