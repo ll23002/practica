@@ -7,6 +7,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.model.LazyDataModel;
+import sv.edu.ues.occ.ingenieria.prn335_2024.practica.boundary.websocket.server.TipoAsientoEndpoint;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.control.AsientoBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.practica.entity.Asiento;
@@ -26,6 +27,8 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
     Integer idSala;
     @Inject
     FrmAsientoCaracteristica frmAsientoCaracteristica;
+    @Inject
+    TipoAsientoEndpoint tipoAsientoEndpoint;
 
     @PostConstruct
     public void inicializar() {
@@ -124,7 +127,12 @@ public class FrmAsiento extends FrmAbstractPersistence<Asiento> implements Seria
         }
     }
 
-    public void btnGuardar(ActionEvent event) {super.btnGuardar(event, this.registro);}
+    public void btnGuardar(ActionEvent event) {
+        super.btnGuardar(event, this.registro);
+        if (this.estado == ESTADO_CRUD.NONE) {
+            tipoAsientoEndpoint.propagarMensaje(null,"Se ha creado un nuevo asiento");
+        }
+    }
 
     public void btnCancelar(ActionEvent event) {super.btnCancelar(event, this.registro);}
 
